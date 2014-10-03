@@ -2,11 +2,11 @@
 
 Create isometric heightmaps from images using @jdan's excellent [Isomer library](http://jdan.github.io/isomer/). 
  
-![An example](./assets/kittenheightmap.jpg)
-
 ## Example ##
 
-**Check out the [demo](http://todo.stuff)**
+**[Check out the demo](http://robosparrow.github.io/IsomerHeightMap)**
+ 
+![An example](./assets/kittenheightmap.jpg)
 
 ## How to use ##
 
