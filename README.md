@@ -1,3 +1,0 @@
-coming soon...
-
-![Preview](assets/kittenheightmap.png)
