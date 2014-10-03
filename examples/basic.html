@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>My Kitten Heightmap</title>
+		<!-- load libraries -->
+		<script src="../vendor/isomer.min.js"></script>
+		<script src="../isomer-heigthmap.js"></script>
+		<!-- my Heightmap -->
+		<script>
+			var IHM;
+			document.addEventListener("DOMContentLoaded", function(event) {
+
+				// Init: image
+				var img = new Image();
+				img.src = './example.jpg';
+				
+				// Init: render
+				img.onload = function() {
+					// Init: IHM instance
+					// (!) define canvas and the relative path from your html document to the isomer library
+					IHM = new IsomerHeightMap('#IsomerHeightMap', '../');
+					// load image
+					IHM.image(this);
+					//render and display
+					IHM.render();
+				};
+			
+			});
+		</script>
+	</head>
+	
+	<body>
+		<!-- IsomerHeightMap canvas -->
+        <canvas id="IsomerHeightMap"></canvas>
+	</body>
+</html> 

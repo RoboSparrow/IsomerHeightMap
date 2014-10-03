@@ -1,0 +1,266 @@
+/*
+This is the parent `<div>` that contains the menu and the content area.
+*/
+
+#layout {
+    position: relative;
+    padding-left: 0;
+}
+#layout.active {
+    position: relative;
+    left: 275px;
+}
+#layout.active #menu {
+    left: 275px;
+    width: 275px;
+}
+#layout.active .menu-link {
+    left: 275px;
+}
+/*
+The content `<div>` is where all your content goes.
+*/
+
+.content {
+    margin: 0 auto;
+    padding: 0 2em;
+    line-height: 1.6em;
+}
+/*
+The `#menu` `<div>` is the parent `<div>` that contains the `.pure-menu` that
+appears on the left side of the page.
+*/
+
+#menu {
+    margin-left: -275px;
+    /* "#menu" width */
+    width: 275px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 999;
+    /* so the menu or its navicon stays above all content */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+/*
+    Remove all background/borders, since we are applying them to #menu.
+    */
+
+#menu .pure-menu,
+#menu .pure-menu ul {
+    border: none;
+    background: transparent;
+}
+/* -- Dynamic Button For Responsive Menu -------------------------------------*/
+
+/*
+The button to open/close the Menu is custom-made and not part of Pure. Here's
+how it works:
+*/
+
+/*
+`.menu-link` represents the responsive menu toggle that shows/hides on
+small screens.
+*/
+
+.menu-link {
+    position: fixed;
+    display: block;
+    /* show this only on small screens */
+    top: 0;
+    left: 0;
+    /* "#menu width" */
+    background: #000;
+    background: rgba(0, 0, 0, 0.7);
+    font-size: 10px;
+    /* change this value to increase/decrease button size */
+    z-index: 10;
+    width: 2em;
+    height: auto;
+    padding: 2.1em 1.6em;
+}
+.menu-link:hover,
+.menu-link:focus {
+    background: #000;
+}
+.menu-link span {
+    position: relative;
+    display: block;
+}
+.menu-link span,
+.menu-link span:before,
+.menu-link span:after {
+    background-color: #fff;
+    width: 100%;
+    height: 0.2em;
+}
+.menu-link span:before,
+.menu-link span:after {
+    position: absolute;
+    margin-top: -0.6em;
+    content: " ";
+}
+.menu-link span:after {
+    margin-top: 0.6em;
+}
+/* -- Responsive Styles (Media Queries) ------------------------------------- */
+
+/*
+Hides the menu at `48em`, but modify this based on your app's needs.
+*/
+
+@media (min-width: 48em) {
+    #layout {
+        padding-left: 275px;
+        /* left col width "#menu" */
+        left: 0;
+    }
+    #menu {
+        left: 275px;
+    }
+    .menu-link {
+        position: fixed;
+        left: 275px;
+        display: none;
+    }
+    #layout.active .menu-link {
+        left: 275px;
+    }
+}
+
+/**
+ * Custom styles
+ */
+body {
+    font-family: ‘Ubuntu’, Helvetica, Arial, serif;
+}
+.nav {
+    background-color: #191818;
+    color: white;
+    font-size: .75em;
+}
+#main {
+    height: 100%;
+}
+#main .content {
+    margin: 1em auto;
+}
+#ImageSourcePreview img {
+    display: block;
+    max-width: 155px;
+    max-height: 155px;
+    margin: 0 auto;
+}
+#IsomerHeightMap {
+    display: block;
+    border: 1px solid transparent;
+}
+#IsomerHeightMap:hover {
+    border: 1px dotted #aeaeae;
+}
+.nav a,
+nav a:visited {
+    color: white;
+}
+
+.nav .enhanced {
+    background-color: #262525;
+}
+.nav .section {
+    padding: .3em 1em;
+    margin: 0 0 .83em 0;
+}
+.nav .section.top {
+    margin-top: .83em;
+}
+.nav h1,
+.nav h2 {
+    margin: 0;
+}
+h1{
+    font-weight: normal;
+    text-align: center;
+    color: #0078e7;
+}
+.text-right {
+    text-align: right;
+}
+.text-center {
+    text-align: center;
+}
+
+/**
+ * Accordion (utils.js)
+ */
+.accordion-content {
+    display: none;
+}
+.accordion.active .accordion-content {
+    display: block;
+}
+.accordion-hl {
+    background-color: #262525;
+}
+.accordion-hl:hover {
+    cursor:pointer;
+    background-color: #363535;
+}
+.accordion.active .indicator,
+.accordion:hover .indicator{
+    color:#0078e7;
+}
+.accordion .indicator span::before {
+    content: '+';
+}
+.accordion.active .indicator span::before {
+    content: '-';
+}
+#ImageSourcePreview {
+    padding: .5em 1em;
+    background-color: #262525;
+}
+
+/**
+ * Graphics
+ */
+a.href-github{
+	padding: .5em 1em;
+	float: right;
+}
+a.href-github:after {
+    clear: both;
+}
+img.github-logo {
+    height:32px;
+    width: auto;
+    margin-right: .5em;
+}
+a.href-github *{
+vertical-align:middle;
+}
+
+/**
+ * Form
+ */
+.cta{
+    margin-top: 2em;
+    margin-bottom: 2em;
+    font-size: 2em;
+}
+label input[type="file"] {
+    position: fixed;
+    top: -1000px;
+}
+
+/*
+ * Code
+ */
+pre{
+	font-size: 10px;
+	background-color: #e6e6e6;
+	padding: 5px;
+    border: 0 none rgba(0, 0, 0, 0);
+    border-radius: 2px;
+}
