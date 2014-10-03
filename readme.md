@@ -17,10 +17,11 @@ Create isometric heightmaps from images using @jdan's excellent [Isomer library]
 <script src="./vendor/isomer.js"></script>
 <script src="./isomer-heigthmap.js"></script>
 ```
+
 3. create a **canvas** element
 4. Create IsomerHeightMap instance, load image and display.
 
-Here is a simple example.
+Here is a simple example. [See live.](http://robosparrow.github.io/IsomerHeightMap/examples/basic.html)
 
 ```
 <!DOCTYPE html>
