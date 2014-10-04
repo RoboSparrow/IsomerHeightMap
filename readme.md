@@ -79,7 +79,7 @@ Listed in order of execution. Note that `render` shortcuts to `heightmap`.
 var IHM = new IsomerHeightMap(<canvas selector>, <path to isomer-heightmap folder>);
 ```
 
-Constructor. Creates a new IsomerHeightMap instance and links it to a <canvas> element.
+Constructor. Creates a new IsomerHeightMap instance and links it to a `<canvas>` element.
 
 **[!]** The webworker requires a valid path to the library, seen from the html document *(e.g. './js/vendor/isomer-heightmap/')*
 
@@ -91,7 +91,7 @@ IHM.image(<Image object>, <options>);
 
 Reads image into an off canvas and stores ImageData.
 
-<options> (object):
+`<options>` (object):
 
  * `scaleTo` (object: width, height): down-scales larger images  to a certain width or height (performance!)
 
@@ -105,13 +105,13 @@ IHM.render(<grid options>, <isomer options>, <shape filters>);
 
 Rasterises the ImageData and stores a grid with average color values.
 
-<grid options> (object):
+`<grid options>` (object):
 
  * `scale` (number): The w/h size of a raster element (tile). The lower the size the more detailed the heightmap will be. (Performance penalty!).
 
 See also `defaults.grid`.
 
-<isomer options>, <shape filters>: See below, they are just passed on to IHM.heightMap()
+`<isomer options>`, `<shape filters>`: See below, they are just passed on to IHM.heightMap()
 
 ### this.heightMap ###
 
@@ -123,13 +123,13 @@ Renders and displays the IsomerHeightmap into the canvas. This is where the Isom
 
 You can **chain** the transformations by repeatedly calling heightmap(), see the example on the project page. Reset them to defaults via `IHM.reset()`
 
-<isomer options> (object):
+`<isomer options>` (object):
 
  * scale: scales the heightmap
  
 See also `defaults.isomer`.
  
-<shape filters> (object):
+`<shape filters>` (object):
 
  * `shape` (string): the Isomer shape to be rendered per tile ('Prism', 'Pyramid', 'Cylinder')
  * `greyscale` (bool)
