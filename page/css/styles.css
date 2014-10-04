@@ -156,6 +156,8 @@ body {
 #IsomerHeightMap {
     display: block;
     border: 1px solid transparent;
+    background: #000;
+    border:1px solid black;
 }
 #IsomerHeightMap:hover {
     border: 1px dotted #aeaeae;
