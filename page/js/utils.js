@@ -2,11 +2,12 @@
 // Copyright (c) 2014 Joerg Boeselt - https://github.com/RoboSparrow/IsomerHeightMap
 // License: MIT
 
-/**
- * Primitive accordion
- */
-(function() {
 
+(function (window, document) {
+	
+	/**
+	* Primitive accordion
+	*/
     function makeAccordion(accordions) {
         for (i = 0; i < accordions.length; i++) {
             var hl = accordions[i].querySelector('.accordion-hl');
@@ -29,14 +30,11 @@
     }
     var accordions = document.querySelectorAll('.accordion');
     makeAccordion(accordions);
-})();
 
-/**
- * Hamburger menu
- * @see http://purecss.io/layouts/side-menu/
- */
-(function (window, document) {
-
+	/**
+	* Hamburger menu
+	* @see http://purecss.io/layouts/side-menu/
+	*/
     var layout   = document.getElementById('layout'),
         menu     = document.getElementById('menu'),
         menuLink = document.getElementById('menuLink');
