@@ -142,3 +142,7 @@ See also `defaults.shape`.
 ### this.import, this.export ###
 
 A crude json import/export in case you want to save your heightmap. It doesn't saves the image data, so you can only apply `this.heightmap()` after importing.
+
+### Events ###
+
+`IHM-Render-Finished`: fired when *this.heightmap()* has finished with drawing to the canvas.

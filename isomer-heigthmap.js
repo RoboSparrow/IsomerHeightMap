@@ -1,29 +1,6 @@
 // IsomerHeightMap v0.1.0 - Create isometric heightmaps from images. Based on jdan's excellent Isomer library.
 // Copyright (c) 2014 Joerg Boeselt - https://github.com/RoboSparrow/IsomerHeightMap
 // License: MIT
-
-/*
- * Le Roadmap
- * ==========
- * 
- * v0.2.x
- * 
- * - minified
- * - examples
- * - bower/gulp install
- * x shape filters
- * - add support alpha channel
- * x unit size form option
- * - color form option
- * - preloader
- * x export/import isomer as json
- * - export/import canvas as png
- *
- * RC
- * - responsive canvas
- * - de-couple isomer from image & grid
- * - 3ds, three.js api's
- */
  
  /**
   * FileReader API
@@ -44,7 +21,7 @@ var IsomerHeightMap = function(canvasSelector, libPath, options) {
 	
     options = options || {};
     
-    // private base path (webworker)
+    // base path (webworker)
     var libPath = libPath || './';
         
     // private defaults
@@ -82,11 +59,11 @@ var IsomerHeightMap = function(canvasSelector, libPath, options) {
     //canvas
     this.canvas = document.querySelector(canvasSelector);
 
-    //offCanvas
+    // offCanvas
     this.offCanvas = document.createElement('canvas');
     this.offCanvas.id = 'IsomerHeightMapSource';
 
-    // Utility: Merge options into this.options.
+    // merge options into this.options.
     this.merge = function(thisOptions, merge) {
 		for (var property in merge) {
 			if(typeof thisOptions[property] === 'undefined'){
@@ -102,12 +79,12 @@ var IsomerHeightMap = function(canvasSelector, libPath, options) {
 		return thisOptions;
 	};
 
-    // Utility: Create this.options from defaults (init, reset)
+    // create this.options from defaults (init, reset)
     this.defaults = function() {
         this.options = JSON.parse(JSON.stringify(defaults));
     }
 
-    // minor helpers
+    // helpers
     this.utils = {};
     
     // normalise rgba to rgb, blend alpha as white background
@@ -128,7 +105,7 @@ var IsomerHeightMap = function(canvasSelector, libPath, options) {
 		return libPath;
 	}
 	
-    // Init
+    // init
     this.defaults();
     
 };
@@ -176,7 +153,7 @@ IsomerHeightMap.prototype.render = function(options, isomerOptions, shapeFilters
     var cols = Math.floor(this.imageData.width / options.unit);
     var rows = Math.floor(this.imageData.height / options.unit);
 
-    // Send data to our worker.
+    // send data to worker.
     var worker = new Worker(this.utils.libPath() + 'webworker.js');
     worker.postMessage({
         pixels: this.imageData.data,
@@ -227,7 +204,7 @@ IsomerHeightMap.prototype.heightMap = function(options, filters) {
     var filters = this.merge(this.options.shape, filters);
     var options = this.merge(this.options.isomer, options);
     
-    // Isomer instance
+    // isomer instance
     this.isomer = new Isomer(this.canvas, options);
     
     // compute canvas dimensions and inject into isomer options
