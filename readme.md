@@ -135,7 +135,8 @@ See also `defaults.isomer`.
  * `greyscale` (bool)
  * `invert` (bool): when *false* then the height of the shapes will be proportional to the darkness of the color, opposite when *true*
  * `size` (number): unit size of a shape
- * `yScale` (number): increase height of tiles
+ * `yScale` (number): scale height of tiles
+ * `gap` (number): size of the gaps between the tiles
 
 See also `defaults.shape`.
 

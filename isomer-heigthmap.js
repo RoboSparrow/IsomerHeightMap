@@ -1,7 +1,7 @@
-// IsomerHeightMap v0.1.0 - Create isometric heightmaps from images. Based on jdan's excellent Isomer library.
+// IsomerHeightMap v0.1.2 - Create isometric heightmaps from images. Based on jdan's excellent Isomer library.
 // Copyright (c) 2014 Joerg Boeselt - https://github.com/RoboSparrow/IsomerHeightMap
 // License: MIT
- 
+
  /**
   * FileReader API
   * canvas
@@ -18,12 +18,12 @@
  * @returns {void}
  */
 var IsomerHeightMap = function(canvasSelector, libPath, options) {
-	
+
     options = options || {};
-    
+
     // base path (webworker)
     var libPath = libPath || './';
-        
+
     // private defaults
     var defaults = {
         image: {
@@ -46,6 +46,7 @@ var IsomerHeightMap = function(canvasSelector, libPath, options) {
             greyscale: false,
             invert: false,
             size: 1,
+            gap: 0,
             yScale: 1.5
         }
     };
@@ -86,28 +87,28 @@ var IsomerHeightMap = function(canvasSelector, libPath, options) {
 
     // helpers
     this.utils = {};
-    
+
     // normalise rgba to rgb, blend alpha as white background
     // @param {array} channels rgba value array: [0 - 255, 0 - 255, 0 - 255, 0 - 255]
     this.utils.normalizeRGBAlpha = function(channels){
-		
+
         var rgb = [0, 0, 0];
         for(var i = 0; i < rgb.length; i++){
             var alpha = channels[3]/255;//imagedata alpha to rgb alpha
             rgb[i] = channels[i] * alpha + 255 * (1 - alpha);
         }
         return rgb;
-        
+
     }
-    
+
     // get libPath
 	this.utils.libPath= function (){
 		return libPath;
 	}
-	
+
     // init
     this.defaults();
-    
+
 };
 
 /**
@@ -117,7 +118,7 @@ var IsomerHeightMap = function(canvasSelector, libPath, options) {
  * @returns {void}
  */
 IsomerHeightMap.prototype.image = function(img, options) {
-	
+
     options = this.merge(this.options.image, options);
 
     // scaling the image within the boundaries of defaults.image.max
@@ -127,12 +128,12 @@ IsomerHeightMap.prototype.image = function(img, options) {
         return (scale < 1) ? scale : 1;
     }
     var factor = scale(img, options);
-    
+
     // prepare offCanvas
     this.offCanvas.width = img.width * factor;
     this.offCanvas.height = img.height * factor;
     var context = this.offCanvas.getContext('2d');
-    
+
     // draw and get imagedata
     context.drawImage(img, 0, 0, this.offCanvas.width, this.offCanvas.height);
     this.imageData = context.getImageData(0, 0, this.offCanvas.width, this.offCanvas.height);
@@ -196,22 +197,22 @@ IsomerHeightMap.prototype.render = function(options, isomerOptions, shapeFilters
  * @returns {void}
  */
 IsomerHeightMap.prototype.heightMap = function(options, filters) {
-	
+
 	// init event
 	var event = new CustomEvent("IHM-Render-Finished");
-	
+
     // options and filters
     var filters = this.merge(this.options.shape, filters);
     var options = this.merge(this.options.isomer, options);
-    
+
     // isomer instance
     this.isomer = new Isomer(this.canvas, options);
-    
+
     // compute canvas dimensions and inject into isomer options
     function canvas(grid, isomer, filters){
         var dim = {};
-        var elementBaseW = Math.cos(isomer.angle) * (isomer.scale * filters.size);
-        var elementBaseH = Math.sin(isomer.angle) * (isomer.scale * filters.size);
+        var elementBaseW = Math.cos(isomer.angle) * (isomer.scale * (filters.size + filters.gap));
+        var elementBaseH = Math.sin(isomer.angle) * (isomer.scale * (filters.size + filters.gap));
         dim = {};
         dim.origin = {
             left: elementBaseW * grid.length,    //rows
@@ -223,19 +224,19 @@ IsomerHeightMap.prototype.heightMap = function(options, filters) {
         }
         return dim;
     }
-    
+
     // canvas dimensions
     var dim = canvas(this.grid, this.isomer, filters);
     this.canvas.width = Math.ceil(dim.box.width);
     this.canvas.height = Math.ceil(dim.box.height + (3 * filters.yScale * options.scale));
-    
+
     // isomer origins
     this.isomer.originX = Math.ceil(dim.origin.left);//place left edge on 0
     this.isomer.originY = this.canvas.height;
-    
+
     // clear
     this.canvas.getContext('2d').clearRect(0, 0, this.canvas.width, this.canvas.height);
-    
+
     // render
     var row = this.grid.length;
     while (row--) {
@@ -243,8 +244,8 @@ IsomerHeightMap.prototype.heightMap = function(options, filters) {
         while (col--) {
             this.heightMapTile(col, row, this.grid[row][col], filters);
         }
-    }	
-    
+    }
+
 	// trigger event
 	this.canvas.dispatchEvent(event);
 }
@@ -260,7 +261,7 @@ IsomerHeightMap.prototype.heightMap = function(options, filters) {
 IsomerHeightMap.prototype.heightMapTile = function(x, y, average, filters) {
 
     average = this.utils.normalizeRGBAlpha(average);
-    
+
     // filter: greyscale
     if (filters.greyscale) {
         var brightness = 0.34 * average[0] + 0.5 * average[1] + 0.16 * average[2];
@@ -268,19 +269,19 @@ IsomerHeightMap.prototype.heightMapTile = function(x, y, average, filters) {
     } else {
         var colour = new Isomer.Color(average[0], average[1], average[2]);
     }
-    
+
     // filter: invert
     if (filters.invert) {
         var height = (average[0] + average[1] + average[2]) / 255;
     } else {
         var height = ((3 * 255) - (average[0] + average[1] + average[2])) / 255;
     }
-    
+
     // dimensions @TODO: move to parent (performance)
     height *= filters.yScale;
-    x *= filters.size;
-    y *= filters.size;
-    
+    x *= filters.size + filters.gap;
+    y *= filters.size + filters.gap;
+
     // filter: shape
     switch (filters.shape) {
         case 'Pyramid':
@@ -292,7 +293,7 @@ IsomerHeightMap.prototype.heightMapTile = function(x, y, average, filters) {
         default:
             this.isomer.add(Isomer.Shape.Prism(new Isomer.Point(x, y, 0), filters.size, filters.size , height), colour);
     }
-    
+
 };
 
 /**
@@ -300,13 +301,13 @@ IsomerHeightMap.prototype.heightMapTile = function(x, y, average, filters) {
  * @returns {string} json
  */
 IsomerHeightMap.prototype.export = function(){
-	
+
 	var ex = {};
 	ex.options = this.options || null;
 	ex.grid = this.grid || null;
 	ex.timestamp = new Date().toISOString()
 	return JSON.stringify(ex);
-	
+
 }
 
 /**
@@ -315,7 +316,7 @@ IsomerHeightMap.prototype.export = function(){
  * @returns {void}
  */
 IsomerHeightMap.prototype.import = function(json){
-	
+
 	try {
 		var imp = JSON.parse(json);
 	}catch(e) {
@@ -327,12 +328,12 @@ IsomerHeightMap.prototype.import = function(json){
 		alert('Invalid IsomerHeightMap data.');
 		return;
 	}
-	
+
 	if(imp.options){
 		this.options = imp.options;
 	}
 	if(imp.grid){
 		this.grid = imp.grid;
 	}
-	
+
 }

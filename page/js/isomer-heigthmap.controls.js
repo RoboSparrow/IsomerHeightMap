@@ -1,4 +1,4 @@
-// IsomerHeightMap v0.1.1 - Create isometric heightmaps from images. Based on jdan's excellent Isomer library: http://jdan.github.io/isomer/
+// IsomerHeightMap v0.1.2 - Create isometric heightmaps from images. Based on jdan's excellent Isomer library: http://jdan.github.io/isomer/
 // Copyright (c) 2014 Joerg Boeselt - https://github.com/RoboSparrow/IsomerHeightMap
 // License: MIT
 
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // Init: image
     var img = new Image();
     img.src = './page/images/cute-kitten.jpg';
-    
+
     // Init: render
     img.onload = function() {
         document.getElementById('ImageSourcePreview').innerHTML = '<img class="pure-img" src="' + this.src + '" alt="image source" />';
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var reader = new FileReader();
 			//var size = this.files[0].size;
             reader.onload = function(e) {
-				
+
                 image = new Image();
                 image.src = e.target.result;
                 image.onload = function() {
@@ -80,6 +80,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el.addEventListener("mouseup", function() {
         var filter = parseInt(this.value);
         IHM.heightMap({scale: filter}, null);
+    });
+
+    // Form: gap
+    var el = document.getElementById('IHM-Filter-gap');
+    el.value = IHM.options.shape.gap * 100;
+    el.addEventListener("mouseup", function() {
+        filter = this.value/100;
+        IHM.heightMap(null, {gap: filter}, null);
     });
 
     // Form: shape

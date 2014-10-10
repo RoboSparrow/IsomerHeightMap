@@ -1,4 +1,4 @@
-// IsomerHeightMap v0.1.0 - Create isometric heightmaps from images. Based on jdan's excellent Isomer library.
+// IsomerHeightMap v0.1.2 - Create isometric heightmaps from images. Based on jdan's excellent Isomer library.
 // Copyright (c) 2014 Joerg Boeselt - https://github.com/RoboSparrow/IsomerHeightMap
 // License: MIT
 
@@ -6,8 +6,8 @@
  * ImageData to row/tiles array, compute average color [r,g,b,a(0-255)]
  * @param {Uint8ClampedArray} pixels ImageData.data
  * @param {object} meta Settings
- * @return {array} 
- */ 
+ * @return {array}
+ */
 function pixelate(pixels, meta) {
 
     //line by line
@@ -17,7 +17,7 @@ function pixelate(pixels, meta) {
     for(var i = 0; i < pixels.length; i+=4){
         // map pixel to tile
         var index = getTile(i);
-     
+
         // Create tile entry if not exist already
         if(typeof max[index.row] === 'undefined'){
              max[index.row] = [];
@@ -34,10 +34,10 @@ function pixelate(pixels, meta) {
         tile[2] = averagePrimary(pixels[i + 2], tile[2]);
         tile[3] = averagePrimary(pixels[i + 3], tile[3]);
         max[index.row][index.col] = tile;
-        
+
         //console.log(max[index.row][index.col]);
     }
- 
+
     /**
      * result: compute average
      */
@@ -57,7 +57,7 @@ function pixelate(pixels, meta) {
     function getTile(index){
         var r = {};
         var pixel = (index * 0.25);//normalize
-        
+
         r.line = Math.floor(pixel/meta.width);
         r.row = Math.floor(r.line/(meta.height/meta.rows));
         lineX = pixel - (r.line * meta.width);
@@ -65,7 +65,7 @@ function pixelate(pixels, meta) {
 
         return r;
     }
-    
+
     function averagePrimary(col, range){
         if(col < range[0]){
             range[0] = col;

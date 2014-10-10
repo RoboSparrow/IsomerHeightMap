@@ -1,10 +1,10 @@
-// IsomerHeightMap v0.1.1 - Create isometric heightmaps from images. Based on jdan's excellent Isomer library.
+// IsomerHeightMap v0.1.2 - Create isometric heightmaps from images. Based on jdan's excellent Isomer library.
 // Copyright (c) 2014 Joerg Boeselt - https://github.com/RoboSparrow/IsomerHeightMap
 // License: MIT
 
 
 (function (window, document) {
-	
+
 	/**
 	* Primitive accordion
 	*/
