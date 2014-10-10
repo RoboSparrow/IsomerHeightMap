@@ -179,7 +179,7 @@ IsomerHeightMap.prototype.render = function(options, isomerOptions, shapeFilters
             // normalise for isomer rendering order
             self.grid.reverse();
             // render
-            self.heightMap(options, isomerOptions, shapeFilters);
+            self.heightMap(isomerOptions, shapeFilters);
             return;
         }
     }, false);
