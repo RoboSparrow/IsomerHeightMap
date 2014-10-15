@@ -117,9 +117,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el.addEventListener("mouseup", function() {
         filter = this.value/10;
         IHM.heightMap(null, {baseHeight: filter}, null);
-        console.log(filter);
     });
-
 
     // Reset all options to default
     var el = document.getElementById('IHM-Filter-reset');

@@ -209,7 +209,7 @@ IsomerHeightMap.prototype.heightMap = function(options, filters) {
     // isomer instance
     this.isomer = new Isomer(this.canvas, options);
 
-    // compute canvas dimensions and inject into isomer options
+    // compute canvas dimensions (normalise to [x,y,z] to [x,y]) and inject into isomer options
     function canvas(grid, isomer, filters){
         var dim = {};
         var elementBaseW = Math.cos(isomer.angle) * (isomer.scale * (filters.size + filters.gap));
@@ -229,7 +229,7 @@ IsomerHeightMap.prototype.heightMap = function(options, filters) {
     // canvas dimensions
     var dim = canvas(this.grid, this.isomer, filters);
     this.canvas.width = Math.ceil(dim.box.width);
-    this.canvas.height = Math.ceil(dim.box.height + (3 * filters.yScale * options.scale));
+    this.canvas.height = Math.ceil(dim.box.height + (3 * filters.yScale * options.scale) + (filters.baseHeight * this.isomer.scale));
 
     // isomer origins
     this.isomer.originX = Math.ceil(dim.origin.left);//place left edge on 0
