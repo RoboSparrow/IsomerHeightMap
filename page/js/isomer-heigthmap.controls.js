@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var el = document.getElementById('IHM-Filter-unit');
     el.value = IHM.options.grid.unit;
     el.addEventListener("mouseup", function() {
-        filter = this.value;
+        filter = parseInt(this.value);
         IHM.render({unit: filter});
     });
 
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     // Form: shape
     var els = document.querySelectorAll('#IHM-Filter-shape button');
-    var el =document.querySelector('button[value=' + IHM.options.shape.shape + ']');
+    var el = document.querySelector('button[value=' + IHM.options.shape.shape + ']');
     if(el){
         el.setAttribute('disabled', 'disabled');
     }
@@ -111,9 +111,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
     el.value = IHM.options.shape.shape;
 
+    // Form: baseHeight
+    var el = document.getElementById('IHM-Filter-baseHeight');
+    el.value = IHM.options.shape.baseHeight * 10;
+    el.addEventListener("mouseup", function() {
+        filter = this.value/10;
+        IHM.heightMap(null, {baseHeight: filter}, null);
+        console.log(filter);
+    });
+
+
     // Reset all options to default
     var el = document.getElementById('IHM-Filter-reset');
-    el.value = IHM.options.isomer.originY * 100;
     el.addEventListener("click", function(e) {
         e.preventDefault();
         IHM.defaults();

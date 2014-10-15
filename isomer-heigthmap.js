@@ -47,7 +47,8 @@ var IsomerHeightMap = function(canvasSelector, libPath, options) {
             invert: false,
             size: 1,
             gap: 0,
-            yScale: 1.5
+            yScale: 1.5,
+            baseHeight: 0.5
         }
     };
 
@@ -279,6 +280,7 @@ IsomerHeightMap.prototype.heightMapTile = function(x, y, average, filters) {
 
     // dimensions @TODO: move to parent (performance)
     height *= filters.yScale;
+    height += filters.baseHeight;
     x *= filters.size + filters.gap;
     y *= filters.size + filters.gap;
 
