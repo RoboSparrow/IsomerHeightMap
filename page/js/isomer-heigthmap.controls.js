@@ -126,5 +126,5 @@ document.addEventListener("DOMContentLoaded", function(event) {
         IHM.defaults();
         IHM.render();
     });
-
+	
 });

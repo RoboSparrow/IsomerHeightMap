@@ -17,7 +17,7 @@
  * @param {object} options Global options. Currently not used
  * @returns {void}
  */
-var IsomerHeightMap = function(canvasSelector, libPath, options) {
+var ImageHeightMap = function(canvasSelector, libPath, options) {
 
     options = options || {};
 
@@ -57,7 +57,8 @@ var IsomerHeightMap = function(canvasSelector, libPath, options) {
     this.imageData;
     this.grid;
     this.options;
-
+	this.onRender = function(){console.log(2)};
+	 
     //canvas
     this.canvas = document.querySelector(canvasSelector);
 
@@ -118,7 +119,7 @@ var IsomerHeightMap = function(canvasSelector, libPath, options) {
  * @param {object} options offCanvas options (this.options.image).
  * @returns {void}
  */
-IsomerHeightMap.prototype.image = function(img, options) {
+ImageHeightMap.prototype.image = function(img, options) {
 
     options = this.merge(this.options.image, options);
 
@@ -148,7 +149,7 @@ IsomerHeightMap.prototype.image = function(img, options) {
  * @param {object} shapeFilters Isomer shape options (this.options.shape). Passed on to the isomer renderer
  * @returns {void}
  */
-IsomerHeightMap.prototype.render = function(options, isomerOptions, shapeFilters) {
+ImageHeightMap.prototype.render = function(options, isomerOptions, shapeFilters) {
 
     options = this.merge(this.options.grid, options);
 
@@ -177,10 +178,7 @@ IsomerHeightMap.prototype.render = function(options, isomerOptions, shapeFilters
         if (e.data.complete) {
             console.log('All pixels processed. Rendering html');
             self.grid = e.data.response;
-            // normalise for isomer rendering order
-            self.grid.reverse();
-            // render
-            self.heightMap(isomerOptions, shapeFilters);
+			self.onRender(isomerOptions, shapeFilters);
             return;
         }
     }, false);
@@ -191,6 +189,24 @@ IsomerHeightMap.prototype.render = function(options, isomerOptions, shapeFilters
 
 };
 
+IsomerHeightMap.prototype = Object.create(ImageHeightMap.prototype);
+IsomerHeightMap.prototype.constructor = ImageHeightMap;
+
+function IsomerHeightMap(canvasSelector, libPath, options){
+	
+	ImageHeightMap.call(this, canvasSelector, libPath, options);
+	
+	// overwrite parent render callback
+	this.onRender = function(isomerOptions, shapeFilters){
+		// normalise for isomer rendering order
+		this.grid.reverse();
+		// render
+		this.heightMap(isomerOptions, shapeFilters);
+	};
+	
+}
+
+
 /**
  * Render heightmap row-by-row
  * @param {object} options Isomer instance options (this.options.isomer).
@@ -199,13 +215,14 @@ IsomerHeightMap.prototype.render = function(options, isomerOptions, shapeFilters
  */
 IsomerHeightMap.prototype.heightMap = function(options, filters) {
 
+	
 	// init event
 	var event = new CustomEvent("IHM-Render-Finished");
 
     // options and filters
     var filters = this.merge(this.options.shape, filters);
     var options = this.merge(this.options.isomer, options);
-
+console.log(this);
     // isomer instance
     this.isomer = new Isomer(this.canvas, options);
 

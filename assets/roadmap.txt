@@ -4,22 +4,23 @@
  * 
  * v0.2.x
  * 
- * - minified
+ * - [--]minified
  * - examples
  * - bower/gulp
  * x shape filters
  * - add support alpha channel
  * x unit size form option
- * - color form option
- * - preloader
- * x export/import isomer as json
- * - export/import canvas as png
- * - ui: fade in/out
+ * - [-] color form option
+ * - [-] preloader
+ * x [+] export/import isomer as json
+ * - [+] export/import canvas as png
+ * - [-] ui: fade in/out
  *
  * RC
  *
  * - more examples
  * - responsive canvas
  * - de-couple isomer from image & grid
+ * - options injection from sub class
  * - three.js
  */

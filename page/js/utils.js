@@ -66,5 +66,5 @@
         toggleClass(menu, active);
         toggleClass(menuLink, active);
     };
-
+	
 }(this, this.document));
