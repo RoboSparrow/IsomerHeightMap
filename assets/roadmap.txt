@@ -1,26 +1,35 @@
-/*
- * Le Roadmap
- * ==========
- * 
- * v0.2.x
- * 
- * - [--]minified
- * - examples
- * - bower/gulp
- * x shape filters
- * - add support alpha channel
- * x unit size form option
- * - [-] color form option
- * - [-] preloader
- * x [+] export/import isomer as json
- * - [+] export/import canvas as png
- * - [-] ui: fade in/out
- *
- * RC
- *
- * - more examples
- * - responsive canvas
- * - de-couple isomer from image & grid
- * - options injection from sub class
- * - three.js
- */
+
+ Le Roadmap
+ ==========
+ 
+ v0.2.x
+ ------
+ 
+ - [--]minified
+ - examples
+ - bower/gulp
+ x shape filters
+ - add support alpha channel
+ x unit size form option
+ - [-] color form option
+ - [-] preloader
+ x [+] export/import isomer as json
+ - [+] export/import canvas as png
+ - [-] ui: fade in/out
+ 
+ x separate Isomer
+ x Subclass (Module)
+ x Module assings display callback/observer to Super
+ - Module assings defaults to Super
+ - Straighten up code
+ - tests
+ 
+ RC
+ --
+ 
+ - more examples
+ - responsive canvas
+ - de-couple isomer from image & grid
+ - options injection from sub class
+ - three.js
+ 
