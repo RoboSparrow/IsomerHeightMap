@@ -10,7 +10,7 @@ Create isometric heightmaps from images using @jdan's excellent [Isomer library]
 
 ## How to use ##
 
-1. Head over to the [Isomer reposirory](https://github.com/jdan/isomer) and grab the isomer.min.js
+1. Head over to the [Isomer repository](https://github.com/jdan/isomer) and grab the isomer.min.js
 2. Include isomer.min.js & isomer-heightmap.js in your html
 
 ```
