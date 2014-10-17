@@ -9,6 +9,7 @@
   * webworker
   * querySelector
   */
+
 'use strict';
 
 /**
@@ -43,8 +44,8 @@ var ImageHeightMap = function(canvasSelector, libPath, options) {
     this.imageData;
     this.grid;
     this.options;
-	this.onRender = function(){console.log(2)};
-	 
+    this.onRender = function(){console.log(2)};
+     
     //canvas
     this.canvas = document.querySelector(canvasSelector);
 
@@ -59,26 +60,26 @@ var ImageHeightMap = function(canvasSelector, libPath, options) {
 
     // merge options into this.options.
     this.merge = function(thisOptions, merge) {
-		for (var property in merge) {
-			if(typeof thisOptions[property] === 'undefined'){
-				continue;
-			}
-			if (typeof merge[property] === "object" && merge[property] !== null ) {
-				thisOptions[property] = thisOptions[property] || {};
-				this.merge(thisOptions[property], merge[property]);
-			} else {
-				thisOptions[property] = merge[property];
-			}
-		}
-		return thisOptions;
-	};
-	
-	//extend defaults
-	this.extendDefaults = function(section, moduleDefaults){
-		defaults[section] = moduleDefaults;
-		this.defaults();
-	};
-	
+        for (var property in merge) {
+            if(typeof thisOptions[property] === 'undefined'){
+                continue;
+            }
+            if (typeof merge[property] === "object" && merge[property] !== null ) {
+                thisOptions[property] = thisOptions[property] || {};
+                this.merge(thisOptions[property], merge[property]);
+            } else {
+                thisOptions[property] = merge[property];
+            }
+        }
+        return thisOptions;
+    };
+    
+    //extend defaults
+    this.extendDefaults = function(section, moduleDefaults){
+        defaults[section] = moduleDefaults;
+        this.defaults();
+    };
+    
     // helpers
     this.utils = {};
 
@@ -96,9 +97,9 @@ var ImageHeightMap = function(canvasSelector, libPath, options) {
     }
 
     // get libPath
-	this.utils.libPath= function (){
-		return libPath;
-	}
+    this.utils.libPath= function (){
+        return libPath;
+    }
 
     // init
     this.defaults();
@@ -146,8 +147,8 @@ ImageHeightMap.prototype.render = function(options) {
     options = this.merge(this.options.grid, options);
     
     // prepare args for onRender call
-	var args = Array.prototype.slice.call(arguments);
-	args.shift();
+    var args = Array.prototype.slice.call(arguments);
+    args.shift();
 
     var cols = Math.floor(this.imageData.width / options.unit);
     var rows = Math.floor(this.imageData.height / options.unit);
@@ -174,7 +175,7 @@ ImageHeightMap.prototype.render = function(options) {
         if (e.data.complete) {
             console.log('All pixels processed. Rendering html');
             self.grid = e.data.response;
-			self.onRender.apply(self, args);
+            self.onRender.apply(self, args);
             return;
         }
     }, false);
@@ -189,33 +190,33 @@ IsomerHeightMap.prototype = Object.create(ImageHeightMap.prototype);
 IsomerHeightMap.prototype.constructor = ImageHeightMap;
 
 function IsomerHeightMap(canvasSelector, libPath, options){
-	
-	ImageHeightMap.call(this, canvasSelector, libPath, options);
-	
-	// overwrite parent render callback
-	this.onRender = function(isomerOptions, shapeFilters){
-		// normalise for isomer rendering order and display
-		this.grid.reverse();
-		this.heightMap(isomerOptions, shapeFilters);
-	};
-	
-	// module defaults, @see Isomer.js
-	this.extendDefaults('isomer', {
-		scale: 15,
-		originX: null,
-		originY: null
+    
+    ImageHeightMap.call(this, canvasSelector, libPath, options);
+    
+    // overwrite parent render callback
+    this.onRender = function(isomerOptions, shapeFilters){
+        // normalise for isomer rendering order and display
+        this.grid.reverse();
+        this.heightMap(isomerOptions, shapeFilters);
+    };
+    
+    // module defaults, @see Isomer.js
+    this.extendDefaults('isomer', {
+        scale: 15,
+        originX: null,
+        originY: null
     });
     
-	// module defaults, @see Shape.js
-	this.extendDefaults('shape', {
-		shape: 'Prism',
-		greyscale: false,
-		invert: false,
-		size: 1,
-		gap: 0,
-		yScale: 1.5,
-		baseHeight: 0.5
-	});
+    // module defaults, @see Shape.js
+    this.extendDefaults('shape', {
+        shape: 'Prism',
+        greyscale: false,
+        invert: false,
+        size: 1,
+        gap: 0,
+        yScale: 1.5,
+        baseHeight: 0.5
+    });
 
 }
 
@@ -228,8 +229,8 @@ function IsomerHeightMap(canvasSelector, libPath, options){
  */
 IsomerHeightMap.prototype.heightMap = function(options, filters) {
 
-	// init event
-	var event = new CustomEvent("IHM-Render-Finished");
+    // init event
+    var event = new CustomEvent("IHM-Render-Finished");
 
     // options and filters
     var filters = this.merge(this.options.shape, filters);
@@ -276,8 +277,8 @@ IsomerHeightMap.prototype.heightMap = function(options, filters) {
         }
     }
 
-	// trigger event
-	this.canvas.dispatchEvent(event);
+    // trigger event
+    this.canvas.dispatchEvent(event);
 }
 
 /**
@@ -333,11 +334,11 @@ IsomerHeightMap.prototype.heightMapTile = function(x, y, average, filters) {
  */
 IsomerHeightMap.prototype.export = function(){
 
-	var ex = {};
-	ex.options = this.options || null;
-	ex.grid = this.grid || null;
-	ex.timestamp = new Date().toISOString()
-	return JSON.stringify(ex);
+    var ex = {};
+    ex.options = this.options || null;
+    ex.grid = this.grid || null;
+    ex.timestamp = new Date().toISOString()
+    return JSON.stringify(ex);
 
 }
 
@@ -348,23 +349,23 @@ IsomerHeightMap.prototype.export = function(){
  */
 IsomerHeightMap.prototype.import = function(json){
 
-	try {
-		var imp = JSON.parse(json);
-	}catch(e) {
-		alert(e);
-		return;
-	}
+    try {
+        var imp = JSON.parse(json);
+    }catch(e) {
+        alert(e);
+        return;
+    }
 
-	if(typeof imp.options === 'undefined' || typeof imp.grid === 'undefined'){
-		alert('Invalid IsomerHeightMap data.');
-		return;
-	}
+    if(typeof imp.options === 'undefined' || typeof imp.grid === 'undefined'){
+        alert('Invalid IsomerHeightMap data.');
+        return;
+    }
 
-	if(imp.options){
-		this.options = imp.options;
-	}
-	if(imp.grid){
-		this.grid = imp.grid;
-	}
+    if(imp.options){
+        this.options = imp.options;
+    }
+    if(imp.grid){
+        this.grid = imp.grid;
+    }
 
 }

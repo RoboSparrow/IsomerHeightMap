@@ -5,9 +5,9 @@
 
 (function (window, document) {
 
-	/**
-	* Primitive accordion
-	*/
+    /**
+    * Primitive accordion
+    */
     function makeAccordion(accordions) {
         for (i = 0; i < accordions.length; i++) {
             var hl = accordions[i].querySelector('.accordion-hl');
@@ -31,10 +31,10 @@
     var accordions = document.querySelectorAll('.accordion');
     makeAccordion(accordions);
 
-	/**
-	* Hamburger menu
-	* @see http://purecss.io/layouts/side-menu/
-	*/
+    /**
+    * Hamburger menu
+    * @see http://purecss.io/layouts/side-menu/
+    */
     var layout   = document.getElementById('layout'),
         menu     = document.getElementById('menu'),
         menuLink = document.getElementById('menuLink');
@@ -66,5 +66,5 @@
         toggleClass(menu, active);
         toggleClass(menuLink, active);
     };
-	
+
 }(this, this.document));

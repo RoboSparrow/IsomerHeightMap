@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById('IHM-Controls-image').addEventListener("change", function() {
         if (this.files && this.files[0]) {
             var reader = new FileReader();
-			//var size = this.files[0].size;
+            //var size = this.files[0].size;
             reader.onload = function(e) {
 
                 image = new Image();
@@ -126,5 +126,5 @@ document.addEventListener("DOMContentLoaded", function(event) {
         IHM.defaults();
         IHM.render();
     });
-	
+    
 });
