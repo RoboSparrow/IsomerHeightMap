@@ -1,1 +1,9 @@
 _Dev/*
+vendor/
+*.log
+
+# vendors
+vendor/
+# test suite
+jasmine-*/
+SpecRunner*.html

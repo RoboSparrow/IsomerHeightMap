@@ -20,7 +20,8 @@
  x separate Isomer
  x Subclass (Module)
  x Module assings display callback/observer to Super
- - Module assings defaults to Super
+ x Module assings defaults to Super
+ - globalise webworker events
  - Straighten up code
  - tests
  

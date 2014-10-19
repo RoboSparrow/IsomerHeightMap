@@ -1,197 +1,10 @@
-// IsomerHeightMap v0.1.2 - Create isometric heightmaps from images. Based on jdan's excellent Isomer library.
-// Copyright (c) 2014 Joerg Boeselt - https://github.com/RoboSparrow/IsomerHeightMap
-// License: MIT
-
- /**
-  * Requirements
-  * FileReader API (ui only)
-  * canvas
-  * webworker
-  * querySelector
-  */
-
-'use strict';
-
-/**
- * Write Image to offCanvas and provide image data
- * @constructor
- * @param {string} canvasSelector Selecor for target canvas node.
- * @param {object} options Global options. Currently not used
- * @returns {void}
- */
-var ImageHeightMap = function(canvasSelector, libPath, options) {
-
-    options = options || {};
-
-    // base path (webworker)
-    var libPath = libPath || './';
-
-    // private defaults
-    var defaults = {
-        image: {
-            scaleTo: {
-                width: 600,
-                height: 400
-            }
-        },
-        grid: {
-            unit: 15
-        }
-    };
-
-    // declarations
-    this.isomer;
-    this.imageData;
-    this.grid;
-    this.options;
-    this.onRender = function(){console.log(2)};
-     
-    //canvas
-    this.canvas = document.querySelector(canvasSelector);
-
-    // offCanvas
-    this.offCanvas = document.createElement('canvas');
-    this.offCanvas.id = 'IsomerHeightMapSource';
-
-    // create this.options from defaults (init, reset)
-    this.defaults = function() {
-        this.options = JSON.parse(JSON.stringify(defaults));
-    }
-
-    // merge options into this.options.
-    this.merge = function(thisOptions, merge) {
-        for (var property in merge) {
-            if(typeof thisOptions[property] === 'undefined'){
-                continue;
-            }
-            if (typeof merge[property] === "object" && merge[property] !== null ) {
-                thisOptions[property] = thisOptions[property] || {};
-                this.merge(thisOptions[property], merge[property]);
-            } else {
-                thisOptions[property] = merge[property];
-            }
-        }
-        return thisOptions;
-    };
-    
-    //extend defaults
-    this.extendDefaults = function(section, moduleDefaults){
-        defaults[section] = moduleDefaults;
-        this.defaults();
-    };
-    
-    // helpers
-    this.utils = {};
-
-    // normalise rgba to rgb, blend alpha as white background
-    // @param {array} channels rgba value array: [0 - 255, 0 - 255, 0 - 255, 0 - 255]
-    this.utils.normalizeRGBAlpha = function(channels){
-
-        var rgb = [0, 0, 0];
-        for(var i = 0; i < rgb.length; i++){
-            var alpha = channels[3]/255;//imagedata alpha to rgb alpha
-            rgb[i] = channels[i] * alpha + 255 * (1 - alpha);
-        }
-        return rgb;
-
-    }
-
-    // get libPath
-    this.utils.libPath= function (){
-        return libPath;
-    }
-
-    // init
-    this.defaults();
-    
-};
-
-/**
- * Write Image to offCanvas and provide image data
- * @param {object} image JavaScript Image object.
- * @param {object} options offCanvas options (this.options.image).
- * @returns {void}
- */
-ImageHeightMap.prototype.image = function(img, options) {
-
-    options = this.merge(this.options.image, options);
-
-    // scaling the image within the boundaries of defaults.image.max
-    function scale(img, options) {
-        var prop = (img.width >= img.height) ? 'width' : 'height';
-        var scale = options.scaleTo[prop] / img[prop];
-        return (scale < 1) ? scale : 1;
-    }
-    var factor = scale(img, options);
-
-    // prepare offCanvas
-    this.offCanvas.width = img.width * factor;
-    this.offCanvas.height = img.height * factor;
-    var context = this.offCanvas.getContext('2d');
-
-    // draw and get imagedata
-    context.drawImage(img, 0, 0, this.offCanvas.width, this.offCanvas.height);
-    this.imageData = context.getImageData(0, 0, this.offCanvas.width, this.offCanvas.height);
-
-}
-
-/**
- * Compute grid from offCanvas and render isomer
- * @param {object} options Set grid options (this.options.grid)
- * @param {object} isomerOptions Isomer instance options (this.options.isomer). Passed on to the isomer renderer
- * @param {object} shapeFilters Isomer shape options (this.options.shape). Passed on to the isomer renderer
- * @returns {void}
- */
-ImageHeightMap.prototype.render = function(options) {
-
-    options = this.merge(this.options.grid, options);
-    
-    // prepare args for onRender call
-    var args = Array.prototype.slice.call(arguments);
-    args.shift();
-
-    var cols = Math.floor(this.imageData.width / options.unit);
-    var rows = Math.floor(this.imageData.height / options.unit);
-
-    // send data to worker.
-    var worker = new Worker(this.utils.libPath() + 'webworker.js');
-    worker.postMessage({
-        pixels: this.imageData.data,
-        meta: {
-            width: this.imageData.width,
-            height: this.imageData.height,
-            cols: cols,
-            rows: rows,
-            tile: {
-                width: options.unit,
-                height: options.unit
-            }
-        }
-    });
-
-    // retrieve and parse worker messages
-    var self = this;
-    worker.addEventListener('message', function(e) {
-        if (e.data.complete) {
-            console.log('All pixels processed. Rendering html');
-            self.grid = e.data.response;
-            self.onRender.apply(self, args);
-            return;
-        }
-    }, false);
-
-    worker.onerror = function(event) {
-        console.warn(event.message, event); // @TODO
-    };
-
-};
 
 IsomerHeightMap.prototype = Object.create(ImageHeightMap.prototype);
 IsomerHeightMap.prototype.constructor = ImageHeightMap;
 
-function IsomerHeightMap(canvasSelector, libPath, options){
+function IsomerHeightMap(element, libPath, options){
     
-    ImageHeightMap.call(this, canvasSelector, libPath, options);
+    ImageHeightMap.call(this, element, libPath, options);
     
     // overwrite parent render callback
     this.onRender = function(isomerOptions, shapeFilters){
@@ -201,14 +14,14 @@ function IsomerHeightMap(canvasSelector, libPath, options){
     };
     
     // module defaults, @see Isomer.js
-    this.extendDefaults('isomer', {
+    this.settings.extend('isomer', {
         scale: 15,
         originX: null,
         originY: null
     });
     
     // module defaults, @see Shape.js
-    this.extendDefaults('shape', {
+    this.settings.extend('shape', {
         shape: 'Prism',
         greyscale: false,
         invert: false,
@@ -279,7 +92,7 @@ IsomerHeightMap.prototype.heightMap = function(options, filters) {
 
     // trigger event
     this.canvas.dispatchEvent(event);
-}
+};
 
 /**
  * Render heightmap tile
@@ -327,45 +140,3 @@ IsomerHeightMap.prototype.heightMapTile = function(x, y, average, filters) {
     }
 
 };
-
-/**
- * Exports current grid and settings
- * @returns {string} json
- */
-IsomerHeightMap.prototype.export = function(){
-
-    var ex = {};
-    ex.options = this.options || null;
-    ex.grid = this.grid || null;
-    ex.timestamp = new Date().toISOString()
-    return JSON.stringify(ex);
-
-}
-
-/**
- * Import grid and settings fom json
- * @param {string} json
- * @returns {void}
- */
-IsomerHeightMap.prototype.import = function(json){
-
-    try {
-        var imp = JSON.parse(json);
-    }catch(e) {
-        alert(e);
-        return;
-    }
-
-    if(typeof imp.options === 'undefined' || typeof imp.grid === 'undefined'){
-        alert('Invalid IsomerHeightMap data.');
-        return;
-    }
-
-    if(imp.options){
-        this.options = imp.options;
-    }
-    if(imp.grid){
-        this.grid = imp.grid;
-    }
-
-}

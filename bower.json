@@ -1,0 +1,20 @@
+{
+  "name": "dev",
+  "version": "0.0.0",
+  "homepage": "https://github.com/RoboSparrow/IsomerHeightMap",
+  "authors": [
+    "Joerg Boeselt <net@boeselt.net>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "isomer": "jdan/isomer#~0.2.4"
+  }
+}
