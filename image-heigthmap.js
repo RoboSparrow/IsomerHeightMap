@@ -159,6 +159,7 @@ ImageHeightMap.prototype.image = function(img, options) {
  */
 ImageHeightMap.prototype.render = function(options) {
 
+    var event = new CustomEvent("IHM-Render-Finished");
     options = this.settings.merge(this.options.grid, options);
     
     // prepare args for onRender call
@@ -189,8 +190,12 @@ ImageHeightMap.prototype.render = function(options) {
     this.worker.addEventListener('message', function(e) {
         if (e.data.complete) {
             console.log('All pixels processed. Rendering html');
+            //event
             self.grid = e.data.response;
+            //callback
             self.onRender.apply(self, args);
+            // trigger event
+            self.canvas.dispatchEvent(event);
             return;
         }
     }, false);

@@ -146,4 +146,5 @@ A crude json import/export in case you want to save your heightmap. It doesn't s
 
 ### Events ###
 
-`IHM-Render-Finished`: fired when *this.heightmap()* has finished with drawing to the canvas.
+`IHM-Render-Finished`: fired when *this.render()* has finished rendering the grid from imagedata.
+`IHM-Display-Finished`: fired when *this.heightmap()* has finished with drawing to the canvas.

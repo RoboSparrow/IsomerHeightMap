@@ -1,5 +1,3 @@
-
-// specs code
 describe("DOM & canvas", function() {
 
     it("should accept a DOM <canvas> selector", function() {
@@ -99,7 +97,7 @@ describe("Image", function() {
         
         beforeEach(function(done) {
             image = new Image();
-            image.src = './image-1.png';
+            image.src = './image-1.png?cache=' + Date.now();
             image.onload = function(){
                 ihm.image(this);
                 done();
@@ -130,7 +128,7 @@ describe("Image", function() {
         
         beforeEach(function(done) {
             image = new Image();
-            image.src = './image-2.png';
+            image.src = './image-2.png?cache=' + Date.now();
             image.onload = function(){
                 ihm.image(this);
                 done();
@@ -155,7 +153,7 @@ describe("Image", function() {
         
         beforeEach(function(done) {
             image = new Image();
-            image.src = './image-2.png';
+            image.src = './image-2.png?cache=' + Date.now();
             image.onload = function(){
                 maxHeight = this.height/2;
                 ihm.image(this, {scaleTo: {height: maxHeight}});
@@ -197,6 +195,67 @@ describe("Image", function() {
 });
 
 describe("Grid", function() {
-    xit("should be tested.", function() {
+    
+    var unit;
+    
+    describe("Rendering a grid from image.", function() {
+        
+        var ihm = new ImageHeightMap('#Canvas', '../');
+        var image;
+        var completed = false;
+        
+        beforeEach(function(done) {
+            if(completed){
+                done();
+                return;
+            }
+            image = new Image();
+            image.src = './image-1.png?cache=' + Date.now();
+            image.onload = function(){
+                maxWidth = this.width/2;
+                ihm.image(this, {scaleTo: {width: maxWidth}});
+                ihm.render();
+                
+                var display = utils.appendDisplay('Image-2');
+                display.appendChild(ihm.offCanvas);
+
+                ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
+                    completed = true;
+                    done();
+                });
+            };
+        });
+
+        it("should have fired an event on completion.", function(done) {
+            expect(completed).toBe(true);
+            done();
+        });
+        it("should have created a two-dimensional grid array.", function(done) {
+            expect(Object.prototype.toString.call(ihm.grid)).toBe('[object Array]');
+            expect(ihm.grid.length).toBeGreaterThan(0);
+            done();
+        });
+        it("The grid array should contain an array of rows.", function(done) {
+            expect(Object.prototype.toString.call(ihm.grid[0])).toBe('[object Array]');
+            expect(ihm.grid[0].length).toBeGreaterThan(0);//r,g,b,a
+            done();
+        });
+        it("The rows should contain an array of rgba colour values.", function(done) {
+            expect(Object.prototype.toString.call(ihm.grid[0][0])).toBe('[object Array]');
+            expect(ihm.grid[0][0].length).toBe(4);//r,g,b,a
+            done();
+        });
+        //first color
+        //last color
+        //row num
+        //col num
+        //uni
+        //callback
+        
     });
+
+});
+
+describe("Module integration", function() {
+    xit("should be tested.");
 });

@@ -43,7 +43,7 @@ function IsomerHeightMap(element, libPath, options){
 IsomerHeightMap.prototype.heightMap = function(options, filters) {
 
     // init event
-    var event = new CustomEvent("IHM-Render-Finished");
+    var event = new CustomEvent("IHM-Display-Finished");
 
     // options and filters
     var filters = this.merge(this.options.shape, filters);
