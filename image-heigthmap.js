@@ -59,7 +59,8 @@ var ImageHeightMap = function(element, libPath, options) {
         element.appendChild(canvas);
         return canvas;
     }
- 
+    
+    // deep merge options
     function merge(src, options){
         for (var property in options) {
             if(typeof src[property] === 'undefined'){
@@ -90,7 +91,7 @@ var ImageHeightMap = function(element, libPath, options) {
             return merge(src, options);
         },
     };
-    
+
     // helpers
     this.utils = {};
 
@@ -116,6 +117,7 @@ var ImageHeightMap = function(element, libPath, options) {
     this.canvas = canvas(element);
     // offCanvas
     this.offCanvas = document.createElement('canvas');
+
 };
 
 /**
@@ -128,10 +130,11 @@ ImageHeightMap.prototype.image = function(img, options) {
 
     options = this.settings.merge(this.options.image, options);
 
-    // scaling the image within the boundaries of defaults.image.max
-    function scale(img, options) {
-        var prop = (img.width >= img.height) ? 'width' : 'height';
-        var scale = options.scaleTo[prop] / img[prop];
+    // scale the image within the boundaries of defaults.image.scaleTo
+    function scale(img, maxWidth, maxHeight) {
+        var wQ = options.scaleTo.width / img.width;
+        var hQ = options.scaleTo.height / img.height;
+        var scale = (wQ < hQ) ? wQ : hQ;
         return (scale < 1) ? scale : 1;
     }
     var factor = scale(img, options);
@@ -204,7 +207,7 @@ ImageHeightMap.prototype.render = function(options) {
  */
 ImageHeightMap.prototype.reset = function(){
     this.options = this.settings.defaults();
-}
+};
 
 /**
  * Exports current grid and settings
@@ -218,7 +221,7 @@ ImageHeightMap.prototype.export = function(){
     ex.timestamp = new Date().toISOString()
     return JSON.stringify(ex);
 
-}
+};
 
 /**
  * Import grid and settings fom json
@@ -246,4 +249,4 @@ ImageHeightMap.prototype.import = function(json){
         this.grid = imp.grid;
     }
 
-}
+};

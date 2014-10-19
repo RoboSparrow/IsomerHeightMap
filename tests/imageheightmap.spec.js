@@ -1,6 +1,6 @@
 
 // specs code
-describe("DOM canvas", function() {
+describe("DOM & canvas", function() {
 
     it("should accept a DOM <canvas> selector", function() {
         var ihm = new ImageHeightMap('#Canvas');
@@ -91,27 +91,112 @@ describe("Options and defaults", function() {
     
 });
 
-describe("Image and Grid", function() {
-    
-    var ihm = new ImageHeightMap('#Canvas', '../');
-    var img = new Image();
-    img.src = './image-1.png';
-    
-    beforeEach(function(done) {
-        img.onload = function(){
-            ihm.image(img);
-            done();
-        };
-    });
-    
-    it("should have created a canvas object with image data.", function(done) {
-        var display = utils.appendDisplay('Image-1');
-        display.appendChild(ihm.offCanvas);
-        console.log(img.width, ihm.imageData.width);
-        expect(ihm.imageData.width).toBe(img.width);
-        expect(ihm.imageData.height).toBe(img.height);
+describe("Image", function() {
+
+    describe("Load Image", function() {
+        var ihm = new ImageHeightMap('#Canvas', '../');
+        var image;
         
-        done();
+        beforeEach(function(done) {
+            image = new Image();
+            image.src = './image-1.png';
+            image.onload = function(){
+                ihm.image(this);
+                done();
+            };
+        });
+        
+        it("should have created a canvas object with image data.", function(done) {
+            var display = utils.appendDisplay('Image-1');
+            display.appendChild(ihm.offCanvas);
+            expect(ihm.imageData.width).toBe(image.width);
+            expect(ihm.imageData.height).toBe(image.height);
+            done();
+        });
+        
+        it("OffCanvas shold have the same dimensions as the image.", function(done) {
+            var display = utils.appendDisplay('Image-1');
+            display.appendChild(ihm.offCanvas);
+            expect(ihm.imageData.width).toBe(image.width);
+            expect(ihm.imageData.height).toBe(image.height);
+            done();
+        });
+        
     });
+
+    describe("Load a second Image", function() {
+        var ihm = new ImageHeightMap('#Canvas', '../');
+        var image;
+        
+        beforeEach(function(done) {
+            image = new Image();
+            image.src = './image-2.png';
+            image.onload = function(){
+                ihm.image(this);
+                done();
+            };
+        });
+        
+        it("OffCanvas should have the same dimensions as the image.", function(done) {
+            var display = utils.appendDisplay('Image-1');
+            display.appendChild(ihm.offCanvas);
+            expect(ihm.imageData.width).toBe(image.width);
+            expect(ihm.imageData.height).toBe(image.height);
+            done();
+        });
+        
+    });
+
+
+    describe("Load Image and scale offCanvas to maximum height.", function() {
+        var ihm = new ImageHeightMap('#Canvas', '../');
+        var image;
+        var maxHeight;
+        
+        beforeEach(function(done) {
+            image = new Image();
+            image.src = './image-2.png';
+            image.onload = function(){
+                maxHeight = this.height/2;
+                ihm.image(this, {scaleTo: {height: maxHeight}});
+                done();
+            };
+        });
+        
+        it("OffCanvas height should be half of image height.", function(done) {
+            var display = utils.appendDisplay('Image-1');
+            display.appendChild(ihm.offCanvas);
+            expect(ihm.imageData.height).toBe(maxHeight);
+            done();
+        });
+    });
+
+    describe("Load Image and scale offCanvas to maximum width.", function() {
+        var ihm = new ImageHeightMap('#Canvas', '../');
+        var image;
+        var maxWidth;
+        
+        beforeEach(function(done) {
+            image = new Image();
+            image.src = './image-2.png?cache=' + Date.now();
+            image.onload = function(){
+                maxWidth = this.width/2;
+                ihm.image(this, {scaleTo: {width: maxWidth}});
+                done();
+            };
+        });
+        
+        it("OffCanvas height should be half of image width.", function(done) {
+            var display = utils.appendDisplay('Image-1');
+            display.appendChild(ihm.offCanvas);
+            expect(ihm.imageData.width).toBe(maxWidth);
+            done();
+        });
+    });
+    
 });
 
+describe("Grid", function() {
+    xit("should be tested.", function() {
+    });
+});
