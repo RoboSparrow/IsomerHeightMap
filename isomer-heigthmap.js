@@ -91,7 +91,7 @@ IsomerHeightMap.prototype.heightMap = function(options, filters) {
     }
 
     // trigger event
-    this.canvas.dispatchEvent(event);
+    this.canvas.dispatchEvent(this.events.onDisplay);
 };
 
 /**

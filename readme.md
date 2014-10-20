@@ -26,40 +26,40 @@ Here is a simple example. [See live.](http://robosparrow.github.io/IsomerHeightM
 ```
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>My Kitten Heightmap</title>
-		<!-- load libraries -->
-		<script src="../vendor/isomer.js"></script>
-		<script src="../isomer-heigthmap.js"></script>
-		<!-- my Heightmap -->
-		<script>
-			var IHM;
-			document.addEventListener("DOMContentLoaded", function(event) {
+    <head>
+        <meta charset="UTF-8">
+        <title>My Kitten Heightmap</title>
+        <!-- load libraries -->
+        <script src="../vendor/isomer.js"></script>
+        <script src="../isomer-heigthmap.js"></script>
+        <!-- my Heightmap -->
+        <script>
+            var IHM;
+            document.addEventListener("DOMContentLoaded", function(event) {
 
-				// Init: image
-				var img = new Image();
-				img.src = './example.jpg';
-				
-				// Init: render
-				img.onload = function() {
-					// Init: IHM instance
+                // Init: image
+                var img = new Image();
+                img.src = './example.jpg';
+                
+                // Init: render
+                img.onload = function() {
+                    // Init: IHM instance
                     // (!) define canvas and the relative path from your html document to the isomer library
-					IHM = new IsomerHeightMap('#IsomerHeightMap', '../');
-					// load image
-					IHM.image(this);
-					//render and display
-					IHM.render();
-				};
-			
-			});
-		</script>
-	</head>
-	
-	<body>
-		<!-- IsomerHeightMap canvas -->
+                    IHM = new IsomerHeightMap('#IsomerHeightMap', '../');
+                    // load image
+                    IHM.image(this);
+                    //render and display
+                    IHM.render();
+                };
+            
+            });
+        </script>
+    </head>
+    
+    <body>
+        <!-- IsomerHeightMap canvas -->
         <canvas id="IsomerHeightMap"></canvas>
-	</body>
+    </body>
 </html> 
 ```
 
@@ -146,5 +146,7 @@ A crude json import/export in case you want to save your heightmap. It doesn't s
 
 ### Events ###
 
+On completion each main function fires a DOM event, attached to `this.canvas`.
+`IHM-Image-Finished`: fired when *this.image()* has finished loading the image data.
 `IHM-Render-Finished`: fired when *this.render()* has finished rendering the grid from imagedata.
 `IHM-Display-Finished`: fired when *this.heightmap()* has finished with drawing to the canvas.

@@ -94,16 +94,22 @@ describe("Image", function() {
     describe("Load Image", function() {
         var ihm = new ImageHeightMap('#Canvas', '../');
         var image;
-        
+        var completed = false;
+            
         beforeEach(function(done) {
+            if(completed){
+                done();
+                return;
+            }
             image = new Image();
             image.src = './image-1.png?cache=' + Date.now();
             image.onload = function(){
                 ihm.image(this);
+                completed = true;
                 done();
             };
         });
-        
+
         it("should have created a canvas object with image data.", function(done) {
             var display = utils.appendDisplay('Image-1');
             display.appendChild(ihm.offCanvas);
@@ -190,6 +196,34 @@ describe("Image", function() {
             expect(ihm.imageData.width).toBe(maxWidth);
             done();
         });
+    });
+    
+    describe("Fire Event", function() {
+        var ihm = new ImageHeightMap('#Canvas', '../');
+        var image;
+        ihm.canvas.addEventListener('IHM-Image-Finished', function(event) {
+            eventFired = true;
+        });
+        var count = 0;
+        beforeEach(function(done) {
+            count++;
+            console.log(count);
+            if(eventFired){
+                done();
+                return;
+            }
+            image = new Image();
+            image.src = './image-2.png?cache=' + Date.now();
+            image.onload = function(){
+                ihm.image(this);
+                done();
+            };
+        });
+        
+        it("should have fired an event on completion.", function(done) {
+            expect(eventFired).toBe(true);
+            done();
+        });        
     });
     
 });

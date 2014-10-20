@@ -46,6 +46,11 @@ var ImageHeightMap = function(element, libPath, options) {
     this.worker;
     this.grid;
     this.onRender = function(){};
+    this.events = {
+        onImage:    new CustomEvent("IHM-Image-Finished"),
+        onRender:   new CustomEvent("IHM-Render-Finished"),
+        onDisplay:  new CustomEvent("IHM-Display-Finished")
+    };
 
    //create canvas from node or selector
     function canvas(element){
@@ -75,7 +80,7 @@ var ImageHeightMap = function(element, libPath, options) {
         }
         return src;
     }
-
+    
     // create this.options from defaults (init, reset)
     this.settings = {
         // store defaults
@@ -127,7 +132,7 @@ var ImageHeightMap = function(element, libPath, options) {
  * @returns {void}
  */
 ImageHeightMap.prototype.image = function(img, options) {
-
+    
     options = this.settings.merge(this.options.image, options);
 
     // scale the image within the boundaries of defaults.image.scaleTo
@@ -147,7 +152,9 @@ ImageHeightMap.prototype.image = function(img, options) {
     // draw and get imagedata
     context.drawImage(img, 0, 0, this.offCanvas.width, this.offCanvas.height);
     this.imageData = context.getImageData(0, 0, this.offCanvas.width, this.offCanvas.height);
-
+    
+    // trigger event
+    this.canvas.dispatchEvent(this.events.onImage);
 };
 
 /**
@@ -159,7 +166,6 @@ ImageHeightMap.prototype.image = function(img, options) {
  */
 ImageHeightMap.prototype.render = function(options) {
 
-    var event = new CustomEvent("IHM-Render-Finished");
     options = this.settings.merge(this.options.grid, options);
     
     // prepare args for onRender call
@@ -195,7 +201,7 @@ ImageHeightMap.prototype.render = function(options) {
             //callback
             self.onRender.apply(self, args);
             // trigger event
-            self.canvas.dispatchEvent(event);
+            self.canvas.dispatchEvent(self.events.onRender);
             return;
         }
     }, false);
