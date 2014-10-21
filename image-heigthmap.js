@@ -45,7 +45,6 @@ var ImageHeightMap = function(element, libPath, options) {
     this.imageData;
     this.worker;
     this.grid;
-    this.onRender = function(){};
     this.events = {
         onImage:    new CustomEvent("IHM-Image-Finished"),
         onRender:   new CustomEvent("IHM-Render-Finished"),
@@ -64,33 +63,16 @@ var ImageHeightMap = function(element, libPath, options) {
         element.appendChild(canvas);
         return canvas;
     }
-    
-    // deep merge options
-    function merge(src, options){
-        for (var property in options) {
-            if(typeof src[property] === 'undefined'){
-                continue;
-            }
-            if (typeof options[property] === "object" && options[property] !== null ) {
-                src[property] = src[property] || {};
-                src[property] = merge(src[property], options[property]);
-            } else {
-                src[property] = options[property];
-            }
-        }
-        return src;
-    }
-    
+
     // create this.options from defaults (init, reset)
-    this.settings = {
+    this.defaults = {
         // store defaults
-        defaults: function() {
+        get: function() {
             return JSON.parse(defaults);
         },
-        // merge run-time-options into this.options
-        merge: function(src, options) {
-            return merge(src, options);
-        },
+        set: function(options) {
+            defaults = JSON.stringify(options);
+        }
     };
 
     // helpers
@@ -107,13 +89,35 @@ var ImageHeightMap = function(element, libPath, options) {
         return rgb;
     }
 
+    // deep merge options
+    this.utils.merge = function(src, options){
+        var self = this;
+        for (var property in options) {
+            if(typeof src[property] === 'undefined'){
+                continue;
+            }
+            if(options[property] instanceof Array){
+                src[property] = options[property];
+                continue;
+            }
+            if(typeof options[property] === "object" && options[property] !== null) {
+                src[property] = src[property] || {};
+                src[property] = self.merge(src[property], options[property]);
+                continue;
+            }
+            src[property] = options[property];
+        }
+        return src;
+    };
+    
     // get libPath
     this.utils.libPath = function (){
         return libPath;
     };
 
     // init
-    defaults = JSON.stringify(this.options);
+    this.defaults.set(this.options);
+
     //canvas
     this.canvas = canvas(element);
     // offCanvas
@@ -129,7 +133,7 @@ var ImageHeightMap = function(element, libPath, options) {
  */
 ImageHeightMap.prototype.image = function(img, options) {
     
-    options = this.settings.merge(this.options.image, options);
+    options = this.merge('image', options);
 
     // scale the image within the boundaries of defaults.image.scaleTo
     function scale(img, maxWidth, maxHeight) {
@@ -162,7 +166,7 @@ ImageHeightMap.prototype.image = function(img, options) {
  */
 ImageHeightMap.prototype.render = function(options) {
 
-    options = this.settings.merge(this.options.grid, options);
+    options = this.merge('grid', options);
     
     // prepare args for onRender call
     var args = Array.prototype.slice.call(arguments);
@@ -195,7 +199,10 @@ ImageHeightMap.prototype.render = function(options) {
             //event
             self.grid = e.data.response;
             //callback
-            self.onRender.apply(self, args);
+            console.log(self.onRender);
+            if(typeof self.display === 'function'){
+                self.display.apply(self, args);
+            }
             // trigger event
             self.canvas.dispatchEvent(self.events.onRender);
             return;
@@ -215,7 +222,22 @@ ImageHeightMap.prototype.render = function(options) {
  * @returns {void}
  */
 ImageHeightMap.prototype.extend = function(section, moduleDefaults) {
-            this.options[section] = moduleDefaults;
+    this.options[section] = moduleDefaults;
+    this.defaults.set(this.options);
+};
+
+/**
+ * Extends merge run-time options into this.options
+ * @param {string} section the key identifier for the merged defaults
+ * @param {object} moduleDefaults
+ * @returns {object} updated section of this.options
+ */
+ImageHeightMap.prototype.merge = function(section, options) {
+    options = options || {};
+    if(!this.options.hasOwnProperty(section)){
+        return options;
+    }
+    return this.utils.merge(this.options[section], options);
 };
 
 /**
@@ -223,7 +245,7 @@ ImageHeightMap.prototype.extend = function(section, moduleDefaults) {
  * @returns {void}
  */
 ImageHeightMap.prototype.reset = function(){
-    this.options = this.settings.defaults();
+    this.options = this.defaults.get();
 };
 
 /**

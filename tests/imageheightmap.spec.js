@@ -40,10 +40,10 @@ describe("Options and defaults", function() {
     
     describe("Merge options.", function() {
         
-        ihm.settings.merge(ihm.options.image, {scaleTo: {width: 123}});
-        ihm.settings.merge(ihm.options.grid, {unit: 12});
-        ihm.settings.merge(ihm.options, {illegal: 'illegal'});
-        ihm.settings.merge(ihm.options.grid, {illegal: 'illegal'});
+        ihm.merge('image', {scaleTo: {width: 123}});
+        ihm.merge('grid', {unit: 12});
+        ihm.merge('newProperty', {illegal: 'illegal'});
+        ihm.merge('grid', {illegal: 'illegal'});
 
         it("should have merged new values for existing options.", function() {
             expect(ihm.options.grid.unit).toBe(12);
@@ -58,13 +58,13 @@ describe("Options and defaults", function() {
             expect(typeof(ihm.options.illegal)).toBe('undefined');
         });
 
-        it("should not allow the creation of new properties in existin gsections.", function() {
+        it("should not allow the creation of new properties in existing sections.", function() {
             expect(typeof(ihm.options.grid.illegal)).toBe('undefined');
         });
         
         describe("Saving and getting of defaults.", function() {
-            var defaults = ihm.settings.defaults();
-            
+            var defaults = ihm.defaults.get();
+
             it("should have saved the initial options as JSON.", function() {
                 expect(typeof(defaults)).toBe('object');
                 expect(defaults.hasOwnProperty('image')).toBe(true);
@@ -201,13 +201,13 @@ describe("Image", function() {
     describe("Fire Event", function() {
         var ihm = new ImageHeightMap('#Canvas', '../');
         var image;
+        var eventFired = false;
+        
         ihm.canvas.addEventListener('IHM-Image-Finished', function(event) {
             eventFired = true;
         });
-        var count = 0;
+        
         beforeEach(function(done) {
-            count++;
-            console.log(count);
             if(eventFired){
                 done();
                 return;
@@ -230,8 +230,6 @@ describe("Image", function() {
 
 describe("Grid", function() {
     
-    var unit;
-    
     describe("Rendering a grid from image.", function() {
         
         var ihm = new ImageHeightMap('#Canvas', '../');
@@ -250,14 +248,14 @@ describe("Grid", function() {
                 ihm.image(this, {scaleTo: {width: maxWidth}});
                 ihm.render();
                 
-                var display = utils.appendDisplay('Image-2');
+                var display = utils.appendDisplay('Image-1');
                 display.appendChild(ihm.offCanvas);
-
-                ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
-                    completed = true;
-                    done();
-                });
             };
+            
+            ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
+                completed = true;
+                done();
+            });
         });
 
         it("should have fired an event on completion.", function(done) {
@@ -279,6 +277,7 @@ describe("Grid", function() {
             expect(ihm.grid[0][0].length).toBe(4);//r,g,b,a
             done();
         });
+        
         //first color
         //last color
         //row num
@@ -287,26 +286,45 @@ describe("Grid", function() {
         //callback
         
     });
-
-});
-
-describe("Module integration", function() {
     
-    var ex = new TemplateModule('#Canvas' , '../');
-    
-    it("The module should have extended the core with it's options.", function() {
-        expect(ex.options.hasOwnProperty('mDefaults1')).toBe(true);
-        expect(ex.options.hasOwnProperty('mDefaults2')).toBe(true);
+    describe("Testing the grid data and options.", function() {
+        
+        var ihm = new ImageHeightMap('#Canvas', '../');
+        var image;
+        var completed = false;
+        var unit = 5;
+
+        beforeEach(function(done) {
+            if(completed){
+                done();
+                return;
+            }
+            image = new Image();
+            image.src = './image-1.png?cache=' + Date.now();
+            image.onload = function(){
+                ihm.image(this);
+                var display = utils.appendDisplay('Image-2');
+                display.appendChild(ihm.offCanvas);
+                ihm.render({unit: unit});
+            };
+            
+            ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
+                completed = true;
+                var display = utils.appendDisplay('Image-2');
+                display.appendChild(utils.gridToHtml(ihm.grid));
+                done();
+            });
+
+        });
+          
+        it("The grid colors should match the image colours.", function(done) {
+            expect(2).toBe(2);//r,g,b,a
+            done();
+        });
+        
     });
     
-    it("The variable types of the extended defaults should have been preserved.", function() {
-        expect(typeof(ex.options.mDefaults1.aNumber)).toBe('number');
-        expect(ex.options.mDefaults1.isNull).toBe(null);
-        expect(ex.options.mDefaults1.isArray.length).toBe(3);
-        expect(typeof(ex.options.mDefaults2.isDeepObject)).toBe('object');
-        expect(ex.options.mDefaults2.isDeepObject.isBool).toBe(true);
-        expect(typeof(ex.options.mDefaults2.isDeepObject.isObject)).toBe('object');
-        expect(typeof(ex.options.mDefaults2.isDeepObject.isObject.saysHi)).toBe('string');
-    });
-    
 });
+
+//import,
+//export

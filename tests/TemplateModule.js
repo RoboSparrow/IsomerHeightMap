@@ -7,8 +7,8 @@ function TemplateModule(element, libPath, options){
     
     this.extend('mDefaults1', {
         aNumber: 15,
-        isNull: null,
-        isArray: [1, 2, 3]
+        isArray: [1, 2, 3],
+        isNull: null
     });
     
     this.extend('mDefaults2', {
@@ -20,11 +20,16 @@ function TemplateModule(element, libPath, options){
         }
     });
     
-    // overwrite parent render callback
-    this.onRender = function(options1, options2){
-        this.settings.merge(this.mDefaults1);
-        this.settings.merge(this.mDefaults2);
-    };
+
+};
+
+// overwrite parent render callback
+TemplateModule.prototype.display = function(options1, options2){
+    console.log('TemplateModule.prototype.onRender');
+    console.log(options1, options2);
+    options1 = this.merge('mDefaults1', options1);
+    options2 = this.merge('mDefaults2', options2);
+    console.log(this.options, options1, options2);
 };
 
 TemplateModule.prototype.hello = function(name){
