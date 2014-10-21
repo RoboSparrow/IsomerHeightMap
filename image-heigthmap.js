@@ -87,10 +87,6 @@ var ImageHeightMap = function(element, libPath, options) {
         defaults: function() {
             return JSON.parse(defaults);
         },
-        // extend this.options
-        extend: function(section, moduleDefaults) {
-            this.options[section] = moduleDefaults;
-        },
         // merge run-time-options into this.options
         merge: function(src, options) {
             return merge(src, options);
@@ -210,6 +206,16 @@ ImageHeightMap.prototype.render = function(options) {
         console.warn(event.message, event); // @TODO
     };
 
+};
+
+/**
+ * Extends defaults bu module defaults
+ * @param {string} section the key identifier for the merged defaults
+ * @param {object} moduleDefaults
+ * @returns {void}
+ */
+ImageHeightMap.prototype.extend = function(section, moduleDefaults) {
+            this.options[section] = moduleDefaults;
 };
 
 /**

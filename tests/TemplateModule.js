@@ -5,9 +5,28 @@ function TemplateModule(element, libPath, options){
     
     ImageHeightMap.call(this, element, libPath, options);
     
-    // overwrite parent render callback
-    this.onRender = function(isomerOptions, shapeFilters){
-        console.log('I\'m a template callback.');
-    };
+    this.extend('mDefaults1', {
+        aNumber: 15,
+        isNull: null,
+        isArray: [1, 2, 3]
+    });
     
+    this.extend('mDefaults2', {
+        isDeepObject: {
+            isBool: true,
+            isObject: {
+                saysHi: 'Hi!'
+            }
+        }
+    });
+    
+    // overwrite parent render callback
+    this.onRender = function(options1, options2){
+        this.settings.merge(this.mDefaults1);
+        this.settings.merge(this.mDefaults2);
+    };
+};
+
+TemplateModule.prototype.hello = function(name){
+    return 'Hello ' + name + '!';
 };

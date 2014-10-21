@@ -14,14 +14,14 @@ function IsomerHeightMap(element, libPath, options){
     };
     
     // module defaults, @see Isomer.js
-    this.settings.extend('isomer', {
+    this.extend('isomer', {
         scale: 15,
         originX: null,
         originY: null
     });
     
     // module defaults, @see Shape.js
-    this.settings.extend('shape', {
+    this.extend('shape', {
         shape: 'Prism',
         greyscale: false,
         invert: false,
