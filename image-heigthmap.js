@@ -41,10 +41,11 @@ var ImageHeightMap = function(element, libPath, options) {
 
     // declarations
     var defaults;
-    this.isomer;
     this.imageData;
     this.worker;
     this.grid;
+    this.canvas;
+    this.offCanvas;
     this.events = {
         onImage:    new CustomEvent("IHM-Image-Finished"),
         onRender:   new CustomEvent("IHM-Render-Finished"),
@@ -72,6 +73,9 @@ var ImageHeightMap = function(element, libPath, options) {
         },
         set: function(options) {
             defaults = JSON.stringify(options);
+        },
+        libPath: function(){
+            return libPath;
         }
     };
 
@@ -108,11 +112,6 @@ var ImageHeightMap = function(element, libPath, options) {
             src[property] = options[property];
         }
         return src;
-    };
-    
-    // get libPath
-    this.utils.libPath = function (){
-        return libPath;
     };
 
     // init
@@ -176,7 +175,7 @@ ImageHeightMap.prototype.render = function(options) {
     var rows = Math.floor(this.imageData.height / options.unit);
 
     // send data to worker.
-    this.worker = new Worker(this.utils.libPath() + 'webworker.js');
+    this.worker = new Worker(this.defaults.libPath() + 'webworker.js');
     this.worker.postMessage({
         pixels: this.imageData.data,
         meta: {
@@ -199,7 +198,6 @@ ImageHeightMap.prototype.render = function(options) {
             //event
             self.grid = e.data.response;
             //callback
-            console.log(self.onRender);
             if(typeof self.display === 'function'){
                 self.display.apply(self, args);
             }

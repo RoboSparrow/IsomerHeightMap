@@ -205,6 +205,8 @@ describe("Image", function() {
         
         ihm.canvas.addEventListener('IHM-Image-Finished', function(event) {
             eventFired = true;
+            // remove this handler
+            event.target.removeEventListener(event.type, arguments.callee);
         });
         
         beforeEach(function(done) {
@@ -212,6 +214,7 @@ describe("Image", function() {
                 done();
                 return;
             }
+
             image = new Image();
             image.src = './image-2.png?cache=' + Date.now();
             image.onload = function(){
@@ -241,6 +244,7 @@ describe("Grid", function() {
                 done();
                 return;
             }
+
             image = new Image();
             image.src = './image-1.png?cache=' + Date.now();
             image.onload = function(){
@@ -254,6 +258,8 @@ describe("Grid", function() {
             
             ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
                 completed = true;
+                // remove this handler
+                event.target.removeEventListener(event.type, arguments.callee);
                 done();
             });
         });
@@ -278,13 +284,6 @@ describe("Grid", function() {
             done();
         });
         
-        //first color
-        //last color
-        //row num
-        //col num
-        //uni
-        //callback
-        
     });
     
     describe("Testing the grid data and options.", function() {
@@ -299,6 +298,7 @@ describe("Grid", function() {
                 done();
                 return;
             }
+
             image = new Image();
             image.src = './image-1.png?cache=' + Date.now();
             image.onload = function(){
@@ -306,25 +306,160 @@ describe("Grid", function() {
                 var display = utils.appendDisplay('Image-2');
                 display.appendChild(ihm.offCanvas);
                 ihm.render({unit: unit});
-            };
-            
-            ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
                 completed = true;
+            };
+
+            ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
                 var display = utils.appendDisplay('Image-2');
                 display.appendChild(utils.gridToHtml(ihm.grid));
+                // remove this handler
+                event.target.removeEventListener(event.type, arguments.callee);
                 done();
             });
-
+            
         });
           
+        it("The grid size should be proportional to the unit size.", function(done) {
+            expect(ihm.grid.length).toBe(40/unit);//rows
+            expect(ihm.grid[0].length).toBe(40/unit);//cols
+            done();
+        });
+
         it("The grid colors should match the image colours.", function(done) {
-            expect(2).toBe(2);//r,g,b,a
+            expect(ihm.grid[0][0].toString()).toBe([0, 0 ,0, 255].toString());
+            expect(ihm.grid[ihm.grid.length - 1][ihm.grid[0].length - 1].toString()).toBe([255, 0 ,0, 255].toString());
+            done();
+        });
+
+    });
+    
+});
+
+describe("Import & Export", function() {
+     
+    describe("Export", function() {
+        
+        var ihm = new ImageHeightMap('#Canvas', '../');
+        var image;
+        var completed = false;
+        var exported;
+
+        beforeEach(function(done) {
+            if(completed){
+                done();
+                return;
+            }
+
+            image = new Image();
+            image.src = './image-2.png?cache=' + Date.now();
+            image.onload = function(){
+                ihm.image(this);
+                var display = utils.appendDisplay('Image-2');
+                display.appendChild(ihm.offCanvas);
+                ihm.render();
+                completed = true;
+            };
+        
+            ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
+                exported = ihm.export();
+                var display = utils.appendDisplay('Image-2');
+                display.appendChild(utils.gridToHtml(ihm.grid));
+                // remove this handler
+                event.target.removeEventListener(event.type, arguments.callee);
+                done();
+            });
+            
+        });
+
+        it("Should export all options as JSON.", function(done) {
+            var data = JSON.parse(exported);
+            expect(data.options.hasOwnProperty('image')).toBe(true);
+            expect(data.options.hasOwnProperty('grid')).toBe(true);
+            done();
+        });
+        
+        it("The exported data should match the default options.", function(done) {
+            var data = JSON.parse(exported);
+            expect(data.options.image.scaleTo.width).toBe(ihm.options.image.scaleTo.width);
+            expect(data.options.grid.unit).toBe(ihm.options.grid.unit);
+            done();
+        });
+
+        it("The exported grid data should be of the same size as this.grid.", function(done) {
+            var data = JSON.parse(exported);
+            expect(data.grid.length).toBe(ihm.grid.length);//rows
+            expect(data.grid[0].length).toBe(ihm.grid[0].length);//cols
             done();
         });
         
     });
     
-});
+    describe("Import", function() {
+        
+        var ihm = new ImageHeightMap('#Canvas', '../');
+        ihm.merge('grid', {unit: 20});
+        
+        var image;
+        var exported;
+        var completed = false;
 
+        beforeEach(function(done) {
+            if(completed){
+                done();
+                return;
+            }
+
+            image = new Image();
+            image.src = './image-2.png?cache=' + Date.now();
+            image.onload = function(){
+                ihm.image(this);
+                var display = utils.appendDisplay('Image-3');
+                display.appendChild(ihm.offCanvas);
+                ihm.render();
+                completed = true;
+            };
+
+            ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
+                //export data
+                exported = ihm.export();
+                
+                var display = utils.appendDisplay('Image-3');
+                display.appendChild(utils.gridToHtml(ihm.grid));
+                // remove this handler
+                event.target.removeEventListener(event.type, arguments.callee);
+                done();
+            });
+            
+        });
+
+        it("should have overwritten all options.", function(done) {
+            var newIhm = new ImageHeightMap('#Canvas', '../../');
+            newIhm.merge('grid', {unit: 20});
+            newIhm.extend('test', {test: 'value'});
+            
+            newIhm.import(exported);
+            
+            expect(newIhm.options.unit).toBe(ihm.options.unit);
+            expect(typeof(newIhm.options.test)).toBe('undefined');
+            expect(newIhm.defaults.libPath()).not.toBe(ihm.defaults.libPath());
+            done();
+        });
+        
+        it("should have grid data.", function(done) {
+            var newIhm = new ImageHeightMap('#Canvas', '../');
+            newIhm.import(exported);
+
+            var display = utils.appendDisplay('Image-3');
+            display.appendChild(utils.gridToHtml(newIhm.grid));
+            
+            expect(newIhm.grid.length).toBe(ihm.grid.length);//rows
+            expect(newIhm.grid[0].length).toBe(ihm.grid[0].length);//cols
+            done();
+        });
+        
+        
+    });
+    
+});
 //import,
 //export
