@@ -112,15 +112,15 @@ describe("Image", function() {
 
         it("should have created a canvas object with image data.", function(done) {
             var display = utils.appendDisplay('Image-1');
-            display.appendChild(ihm.offCanvas);
+            display.appendChild(ihm.buffer);
             expect(ihm.imageData.width).toBe(image.width);
             expect(ihm.imageData.height).toBe(image.height);
             done();
         });
         
-        it("OffCanvas shold have the same dimensions as the image.", function(done) {
+        it("buffer shold have the same dimensions as the image.", function(done) {
             var display = utils.appendDisplay('Image-1');
-            display.appendChild(ihm.offCanvas);
+            display.appendChild(ihm.buffer);
             expect(ihm.imageData.width).toBe(image.width);
             expect(ihm.imageData.height).toBe(image.height);
             done();
@@ -141,9 +141,9 @@ describe("Image", function() {
             };
         });
         
-        it("OffCanvas should have the same dimensions as the image.", function(done) {
+        it("buffer should have the same dimensions as the image.", function(done) {
             var display = utils.appendDisplay('Image-1');
-            display.appendChild(ihm.offCanvas);
+            display.appendChild(ihm.buffer);
             expect(ihm.imageData.width).toBe(image.width);
             expect(ihm.imageData.height).toBe(image.height);
             done();
@@ -152,7 +152,7 @@ describe("Image", function() {
     });
 
 
-    describe("Load Image and scale offCanvas to maximum height.", function() {
+    describe("Load Image and scale buffer to maximum height.", function() {
         var ihm = new ImageHeightMap('#Canvas', '../');
         var image;
         var maxHeight;
@@ -167,23 +167,23 @@ describe("Image", function() {
             };
         });
         
-        it("OffCanvas height should be half of image height.", function(done) {
+        it("buffer height should be half of image height.", function(done) {
             var display = utils.appendDisplay('Image-1');
-            display.appendChild(ihm.offCanvas);
+            display.appendChild(ihm.buffer);
             expect(ihm.imageData.height).toBe(maxHeight);
             done();
         });
         
         it("this.options.image.scaleTo should have been updated.", function(done) {
             var display = utils.appendDisplay('Image-1');
-            display.appendChild(ihm.offCanvas);
+            display.appendChild(ihm.buffer);
             expect(ihm.options.image.scaleTo.height).toBe(maxHeight);
             done();
         });
         
     });
 
-    describe("Load Image and scale offCanvas to maximum width.", function() {
+    describe("Load Image and scale buffer to maximum width.", function() {
         var ihm = new ImageHeightMap('#Canvas', '../');
         var image;
         var maxWidth;
@@ -198,9 +198,9 @@ describe("Image", function() {
             };
         });
         
-        it("OffCanvas width should be half of image width.", function(done) {
+        it("buffer width should be half of image width.", function(done) {
             var display = utils.appendDisplay('Image-1');
-            display.appendChild(ihm.offCanvas);
+            display.appendChild(ihm.buffer);
             expect(ihm.imageData.width).toBe(maxWidth);
             done();
         });
@@ -261,7 +261,7 @@ describe("Grid", function() {
                 ihm.render();
                 
                 var display = utils.appendDisplay('Image-1');
-                display.appendChild(ihm.offCanvas);
+                display.appendChild(ihm.buffer);
             };
             
             ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
@@ -312,7 +312,7 @@ describe("Grid", function() {
             image.onload = function(){
                 ihm.image(this);
                 var display = utils.appendDisplay('Image-2');
-                display.appendChild(ihm.offCanvas);
+                display.appendChild(ihm.buffer);
                 ihm.render({unit: unit});
                 completed = true;
             };
@@ -363,7 +363,7 @@ describe("Import & Export", function() {
             image.onload = function(){
                 ihm.image(this);
                 var display = utils.appendDisplay('Image-2');
-                display.appendChild(ihm.offCanvas);
+                display.appendChild(ihm.buffer);
                 ihm.render();
                 completed = true;
             };
@@ -422,7 +422,7 @@ describe("Import & Export", function() {
             image.onload = function(){
                 ihm.image(this);
                 var display = utils.appendDisplay('Image-3');
-                display.appendChild(ihm.offCanvas);
+                display.appendChild(ihm.buffer);
                 ihm.render();
                 completed = true;
             };

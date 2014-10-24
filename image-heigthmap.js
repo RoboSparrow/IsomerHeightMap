@@ -13,7 +13,7 @@
 'use strict';
 
 /**
- * Write Image to offCanvas and provide image data
+ * Write Image to buffer and provide image data
  * @constructor
  * @param {string} canvasSelector Selecor for target canvas node.
  * @param {object} options Global options. Currently not used
@@ -44,7 +44,7 @@ var ImageHeightMap = function(element, libPath, options) {
     this.worker;
     this.grid;
     this.canvas;
-    this.offCanvas;
+    this.buffer;
     this.events = {
         onImage:    new CustomEvent("IHM-Image-Finished"),
         onRender:   new CustomEvent("IHM-Render-Finished"),
@@ -118,14 +118,14 @@ var ImageHeightMap = function(element, libPath, options) {
 
     //canvas
     this.canvas = canvas(element);
-    // offCanvas
-    this.offCanvas = document.createElement('canvas');
+    // buffer
+    this.buffer = document.createElement('canvas');
 };
 
 /**
- * Write Image to offCanvas and provide image data
+ * Write Image to buffer and provide image data
  * @param {object} image JavaScript Image object.
- * @param {object} options offCanvas options (this.options.image).
+ * @param {object} options buffer options (this.options.image).
  * @returns {void}
  */
 ImageHeightMap.prototype.image = function(img, options) {
@@ -140,21 +140,21 @@ ImageHeightMap.prototype.image = function(img, options) {
     }
     var factor = scale(img, options);
 
-    // prepare offCanvas
-    this.offCanvas.width = img.width * factor;
-    this.offCanvas.height = img.height * factor;
-    var context = this.offCanvas.getContext('2d');
+    // prepare buffer
+    this.buffer.width = img.width * factor;
+    this.buffer.height = img.height * factor;
+    var context = this.buffer.getContext('2d');
 
     // draw and get imagedata
-    context.drawImage(img, 0, 0, this.offCanvas.width, this.offCanvas.height);
-    this.imageData = context.getImageData(0, 0, this.offCanvas.width, this.offCanvas.height);
+    context.drawImage(img, 0, 0, this.buffer.width, this.buffer.height);
+    this.imageData = context.getImageData(0, 0, this.buffer.width, this.buffer.height);
     
     // trigger event
     this.canvas.dispatchEvent(this.events.onImage);
 };
 
 /**
- * Compute grid from offCanvas and render isomer
+ * Compute grid from buffer and render isomer
  * @param {object} options Set grid options (this.options.grid)
  * @param {object} isomerOptions Isomer instance options (this.options.isomer). Passed on to the isomer renderer
  * @param {object} shapeFilters Isomer shape options (this.options.shape). Passed on to the isomer renderer
