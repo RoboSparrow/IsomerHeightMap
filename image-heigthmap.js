@@ -150,7 +150,7 @@ ImageHeightMap.prototype.image = function(img, options) {
     this.imageData = context.getImageData(0, 0, this.buffer.width, this.buffer.height);
     
     // trigger event
-    this.canvas.dispatchEvent(this.events.onImage);
+    this.fire(this.events.onImage);
 };
 
 /**
@@ -194,7 +194,7 @@ ImageHeightMap.prototype.render = function(options) {
             // data
             self.grid = e.data.response;
             // trigger event
-            self.canvas.dispatchEvent(self.events.onRender);
+            self.fire(self.events.onRender);
             // callback
             if(typeof self.display === 'function'){
                 self.display.apply(self, args);
@@ -240,6 +240,15 @@ ImageHeightMap.prototype.merge = function(section, options) {
  */
 ImageHeightMap.prototype.reset = function(){
     this.options = this.defaults.get();
+};
+
+/**
+ * Dispatches an Event at the buffer canvas
+ * @param {string} eventName
+ * @returns {void}
+ */
+ImageHeightMap.prototype.fire = function(eventName){
+    this.buffer.dispatchEvent(eventName);
 };
 
 /**

@@ -20,7 +20,6 @@ function MockModule(element, libPath, options){
         }
     });
 
-
 };
 
 // overwrite parent render callback
@@ -29,5 +28,5 @@ MockModule.prototype.display = function(options1, options2){
     options2 = this.merge('mock2', options2);
 
     // trigger event
-    this.canvas.dispatchEvent(this.events.onDisplay);
+    this.fire(this.events.onDisplay);
 };

@@ -47,8 +47,8 @@ describe("Load Image and call module display.", function() {
                 }
             });
         }; 
-          
-        mock.canvas.addEventListener('IHM-Display-Finished', function(event) {
+
+        mock.buffer.addEventListener('IHM-Display-Finished', function(event) {
             completed = true;
             event.target.removeEventListener(event.type, arguments.callee);
             
@@ -105,7 +105,7 @@ describe("Reset to module defaults.", function() {
                 });
             }; 
             
-            mock.canvas.addEventListener('IHM-Display-Finished', function(event) {
+            mock.buffer.addEventListener('IHM-Display-Finished', function(event) {
                 completed = true;
                 event.target.removeEventListener(event.type, arguments.callee);
                 
@@ -156,7 +156,7 @@ describe("Reset to module defaults.", function() {
                 var ex = JSON.parse(exported);
                 
                 mock.render();
-                mock.canvas.addEventListener('IHM-Display-Finished', function(event) {
+                mock.buffer.addEventListener('IHM-Display-Finished', function(event) {
                     event.target.removeEventListener(event.type, arguments.callee);
                     var display = utils.appendDisplay('Image-1');
                     display.appendChild(utils.gridToHtml(mock.grid));

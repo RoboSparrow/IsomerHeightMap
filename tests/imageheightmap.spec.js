@@ -211,7 +211,7 @@ describe("Image", function() {
         var image;
         var eventFired = false;
         
-        ihm.canvas.addEventListener('IHM-Image-Finished', function(event) {
+        ihm.buffer.addEventListener('IHM-Image-Finished', function(event) {
             eventFired = true;
             // remove this handler
             event.target.removeEventListener(event.type, arguments.callee);
@@ -264,7 +264,7 @@ describe("Grid", function() {
                 display.appendChild(ihm.buffer);
             };
             
-            ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
+            ihm.buffer.addEventListener('IHM-Render-Finished', function(event) {
                 completed = true;
                 // remove this handler
                 event.target.removeEventListener(event.type, arguments.callee);
@@ -317,7 +317,7 @@ describe("Grid", function() {
                 completed = true;
             };
 
-            ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
+            ihm.buffer.addEventListener('IHM-Render-Finished', function(event) {
                 var display = utils.appendDisplay('Image-2');
                 display.appendChild(utils.gridToHtml(ihm.grid));
                 // remove this handler
@@ -368,7 +368,7 @@ describe("Import & Export", function() {
                 completed = true;
             };
         
-            ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
+            ihm.buffer.addEventListener('IHM-Render-Finished', function(event) {
                 exported = ihm.export();
                 var display = utils.appendDisplay('Image-2');
                 display.appendChild(utils.gridToHtml(ihm.grid));
@@ -427,7 +427,7 @@ describe("Import & Export", function() {
                 completed = true;
             };
 
-            ihm.canvas.addEventListener('IHM-Render-Finished', function(event) {
+            ihm.buffer.addEventListener('IHM-Render-Finished', function(event) {
                 //export data
                 exported = ihm.export();
                 
