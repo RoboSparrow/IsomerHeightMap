@@ -71,6 +71,120 @@ describe("Load Image and call module display.", function() {
     });
     
 });
-//reset
-//import,
-//export
+
+
+describe("Reset to module defaults.", function() {
+    var mock = new MockModule('#Canvas', '../');
+    var exported;
+    
+    describe("Change options, render and export.", function() {
+        var completed = false;
+        
+        beforeEach(function(done) {
+            if(completed){
+                done();
+                return;
+            }
+            var image = new Image();
+            image.src = './image-2.png?cache=' + Date.now(); 
+            image.onload = function(){
+                mock.image(this);
+                mock.render({
+                    unit: 5
+                }, 
+                {
+                    isArray: [1], 
+                    isNull: 'value'
+                }, 
+                {
+                    isDeepObject:{
+                        isObject:{
+                            saysHi: 'Hi again!'
+                        }
+                    }
+                });
+            }; 
+            
+            mock.canvas.addEventListener('IHM-Display-Finished', function(event) {
+                completed = true;
+                event.target.removeEventListener(event.type, arguments.callee);
+                
+                exported = mock.export();
+
+                var display = utils.appendDisplay('Image-1');
+                display.appendChild(utils.gridToHtml(mock.grid));
+                done();
+            });
+        });
+        
+        it("Core and module options shauld have been modified", function(done) {
+            expect(mock.options.grid.unit).toBe(5);
+            expect(mock.options.mock1.isArray.length).toBe(1);
+            expect(mock.options.mock1.isNull).toBe('value');
+            expect(mock.options.mock2.isDeepObject.isObject.saysHi).toBe('Hi again!');
+            done();
+        });
+
+        it("The exported json should hold the grid data, core options and module options", function(done) {
+            var modifieds = JSON.parse(exported);
+            
+            expect(modifieds.hasOwnProperty('grid')).toBe(true);
+            expect(modifieds.hasOwnProperty('options')).toBe(true);
+            expect(modifieds.options.hasOwnProperty('image')).toBe(true);
+            expect(modifieds.options.hasOwnProperty('grid')).toBe(true);
+            expect(modifieds.options.hasOwnProperty('mock1')).toBe(true);
+            expect(modifieds.options.hasOwnProperty('mock2')).toBe(true);
+            done();
+        });
+
+        it("The values of the exported grid data, core options and module options should match", function(done) {
+            var ex = JSON.parse(exported);
+            
+            expect(ex.options.grid.unit).toBe(mock.options.grid.unit);
+            expect(ex.options.mock1.isArray.length).toBe(mock.options.mock1.isArray.length);
+            expect(ex.options.mock1.isNull).toBe(mock.options.mock1.isNull);
+            expect(ex.options.mock2.isDeepObject.isObject.saysHi).toBe(mock.options.mock2.isDeepObject.isObject.saysHi);
+            
+            expect(ex.grid.length).toBe(mock.grid.length);
+            expect(ex.grid[0].length).toBe(mock.grid[0].length);
+            done();
+        });
+        
+        describe("Resetting options to defaults.", function() {
+            it("The values of the core options and module options should have been reset.", function(done) {
+                mock.reset();
+                var ex = JSON.parse(exported);
+                
+                mock.render();
+                mock.canvas.addEventListener('IHM-Display-Finished', function(event) {
+                    event.target.removeEventListener(event.type, arguments.callee);
+                    var display = utils.appendDisplay('Image-1');
+                    display.appendChild(utils.gridToHtml(mock.grid));
+                });
+                
+                expect(ex.options.grid.unit).not.toBe(mock.options.grid.unit);
+                expect(ex.options.mock1.isArray.length).not.toBe(mock.options.mock1.isArray.length);
+                expect(ex.options.mock1.isNull).not.toBe(mock.options.mock1.isNull);
+                expect(ex.options.mock2.isDeepObject.isObject.saysHi).not.toBe(mock.options.mock2.isDeepObject.isObject.saysHi);
+    
+                done();
+            });
+            
+            it("On importing the exported data grid and options should have been modified again.", function(done) {
+                mock.import(exported);
+                
+                var display = utils.appendDisplay('Image-1');
+                display.appendChild(utils.gridToHtml(mock.grid)); 
+                
+                expect(mock.options.grid.unit).toBe(5);
+                expect(mock.options.mock1.isArray.length).toBe(1);
+                expect(mock.options.mock1.isNull).toBe('value');
+                expect(mock.options.mock2.isDeepObject.isObject.saysHi).toBe('Hi again!');
+                done();
+            });
+        });
+        
+    });
+    
+});
+
