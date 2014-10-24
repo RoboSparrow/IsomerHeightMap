@@ -20,7 +20,6 @@
  * @returns {void}
  */
 var ImageHeightMap = function(element, libPath, options) {
-
     options = options || {};
 
     // base path (webworker)
@@ -121,7 +120,6 @@ var ImageHeightMap = function(element, libPath, options) {
     this.canvas = canvas(element);
     // offCanvas
     this.offCanvas = document.createElement('canvas');
-
 };
 
 /**
@@ -131,7 +129,6 @@ var ImageHeightMap = function(element, libPath, options) {
  * @returns {void}
  */
 ImageHeightMap.prototype.image = function(img, options) {
-    
     options = this.merge('image', options);
 
     // scale the image within the boundaries of defaults.image.scaleTo
@@ -164,7 +161,6 @@ ImageHeightMap.prototype.image = function(img, options) {
  * @returns {void}
  */
 ImageHeightMap.prototype.render = function(options) {
-
     options = this.merge('grid', options);
     
     // prepare args for onRender call
@@ -195,14 +191,15 @@ ImageHeightMap.prototype.render = function(options) {
     this.worker.addEventListener('message', function(e) {
         if (e.data.complete) {
             console.log('All pixels processed. Rendering html');
-            //event
+            // data
             self.grid = e.data.response;
-            //callback
+            // trigger event
+            self.canvas.dispatchEvent(self.events.onRender);
+            // callback
             if(typeof self.display === 'function'){
                 self.display.apply(self, args);
             }
-            // trigger event
-            self.canvas.dispatchEvent(self.events.onRender);
+
             return;
         }
     }, false);
@@ -210,7 +207,6 @@ ImageHeightMap.prototype.render = function(options) {
     this.worker.onerror = function(event) {
         console.warn(event.message, event); // @TODO
     };
-
 };
 
 /**
@@ -251,13 +247,11 @@ ImageHeightMap.prototype.reset = function(){
  * @returns {string} json
  */
 ImageHeightMap.prototype.export = function(){
-
     var ex = {};
     ex.options = this.options || null;
     ex.grid = this.grid || null;
     ex.timestamp = new Date().toISOString()
     return JSON.stringify(ex);
-
 };
 
 /**
@@ -266,7 +260,6 @@ ImageHeightMap.prototype.export = function(){
  * @returns {void}
  */
 ImageHeightMap.prototype.import = function(json){
-
     try {
         var imp = JSON.parse(json);
     }catch(e) {
@@ -285,5 +278,4 @@ ImageHeightMap.prototype.import = function(json){
     if(imp.grid){
         this.grid = imp.grid;
     }
-
 };

@@ -173,6 +173,14 @@ describe("Image", function() {
             expect(ihm.imageData.height).toBe(maxHeight);
             done();
         });
+        
+        it("this.options.image.scaleTo should have been updated.", function(done) {
+            var display = utils.appendDisplay('Image-1');
+            display.appendChild(ihm.offCanvas);
+            expect(ihm.options.image.scaleTo.height).toBe(maxHeight);
+            done();
+        });
+        
     });
 
     describe("Load Image and scale offCanvas to maximum width.", function() {
@@ -190,7 +198,7 @@ describe("Image", function() {
             };
         });
         
-        it("OffCanvas height should be half of image width.", function(done) {
+        it("OffCanvas width should be half of image width.", function(done) {
             var display = utils.appendDisplay('Image-1');
             display.appendChild(ihm.offCanvas);
             expect(ihm.imageData.width).toBe(maxWidth);
@@ -393,9 +401,9 @@ describe("Import & Export", function() {
         });
         
     });
-    
+
     describe("Import", function() {
-        
+
         var ihm = new ImageHeightMap('#Canvas', '../');
         ihm.merge('grid', {unit: 20});
         
@@ -429,7 +437,7 @@ describe("Import & Export", function() {
                 event.target.removeEventListener(event.type, arguments.callee);
                 done();
             });
-            
+
         });
 
         it("should have overwritten all options.", function(done) {
@@ -456,10 +464,7 @@ describe("Import & Export", function() {
             expect(newIhm.grid[0].length).toBe(ihm.grid[0].length);//cols
             done();
         });
-        
-        
+ 
     });
     
 });
-//import,
-//export

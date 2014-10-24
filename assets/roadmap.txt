@@ -5,26 +5,39 @@
  v0.2.x
  ------
  
- - [--]minified
+ [--]minified
  - examples
  - bower/gulp
  x shape filters
  - add support alpha channel
  x unit size form option
- - [-] color form option
- - [-] preloader
+[-] color form option
+[-] preloader
  x [+] export/import isomer as json
- - [+] export/import canvas as png
- - [-] ui: fade in/out
+[+] export/import canvas as png
+[-] ui: fade in/out
  
  x separate Isomer
  x Subclass (Module)
  x Module assings display callback/observer to Super
  x Module assings defaults to Super
- - globalise webworker events
+ x globalise webworker events
  - Straighten up code
  - tests
  
+ - canvas to module
+ - upate isomer
+ - upate isomer page
+ - update readme
+ - straighten up code
+ - comments mockmodule
+ - fire()
+ - bind events to offcanvs
+ - filter.grey to image
+ - mockmodule - simple display
+ 
+  - new repo?
+  -redirect 
  RC
  --
  
