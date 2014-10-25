@@ -192,7 +192,11 @@ ImageHeightMap.prototype.render = function(options) {
             self.grid = e.data.response;
             // trigger event
             self.fire(self.events.onRender);
-            // callback
+            // render callback
+            if(typeof self.onRender === 'function'){
+                self.onRender.apply(self, args);
+            }
+            // display callback
             if(typeof self.display === 'function'){
                 self.display.apply(self, args);
             }

@@ -36,10 +36,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     IHM.render();
                 };
             };
-
             reader.readAsDataURL(this.files[0]);
         }
-
     });
 
     // Form: Greyscale
@@ -47,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el.checked = IHM.options.shape.greyscale;
     el.addEventListener("change", function() {
         var filter = (this.checked) ? true : false;
-        IHM.heightMap(null, {greyscale: filter});
+        IHM.display(null, {greyscale: filter});
     });
 
     // Form: Invert Mapping
@@ -55,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el.checked = IHM.options.shape.invert;
     el.addEventListener("change", function() {
         var filter = (this.checked) ? true : false;
-        IHM.heightMap(null, {invert: filter}, null);
+        IHM.display(null, {invert: filter}, null);
     });
 
     // Form: grid unit size
@@ -71,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el.value = IHM.options.shape.yScale * 100;
     el.addEventListener("mouseup", function() {
         filter = this.value/100;
-        IHM.heightMap(null, {yScale: filter}, null);
+        IHM.display(null, {yScale: filter}, null);
     });
 
     // Form: scale isomer
@@ -79,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el.value = IHM.options.isomer.scale;
     el.addEventListener("mouseup", function() {
         var filter = parseInt(this.value);
-        IHM.heightMap({scale: filter}, null);
+        IHM.display({scale: filter}, null);
     });
 
     // Form: gap
@@ -87,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el.value = IHM.options.shape.gap * 100;
     el.addEventListener("mouseup", function() {
         filter = this.value/100;
-        IHM.heightMap(null, {gap: filter}, null);
+        IHM.display(null, {gap: filter}, null);
     });
 
     // Form: shape
@@ -106,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
             this.setAttribute('disabled', 'disabled');
             var filter = this.value;
-            IHM.heightMap(null, {shape: filter});
+            IHM.display(null, {shape: filter});
         });
     }
     el.value = IHM.options.shape.shape;
@@ -116,15 +114,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el.value = IHM.options.shape.baseHeight * 10;
     el.addEventListener("mouseup", function() {
         filter = this.value/10;
-        IHM.heightMap(null, {baseHeight: filter}, null);
+        IHM.display(null, {baseHeight: filter}, null);
     });
 
     // Reset all options to default
     var el = document.getElementById('IHM-Filter-reset');
     el.addEventListener("click", function(e) {
         e.preventDefault();
-        IHM.defaults();
-        IHM.render();
+        IHM.reset();
+        IHM.display();
     });
     
 });

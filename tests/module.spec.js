@@ -158,7 +158,6 @@ describe("Reset to module defaults.", function() {
                 expect(ex.options.mock1.isNull).not.toBe(mock.options.mock1.isNull);
                 expect(ex.options.mock2.isDeepObject.isObject.saysHi).not.toBe(mock.options.mock2.isDeepObject.isObject.saysHi);
                 expect(ex.options.mock2.char).not.toBe(mock.options.mock2.char);
-    
                 done();
             });
             
