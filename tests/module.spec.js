@@ -20,7 +20,7 @@ describe("Module integration", function() {
 });
 
 describe("Load Image and call module display.", function() {
-    var mock = new MockModule('#Canvas', '../');
+    var mock = new MockModule('#Test', '../');
     var completed = false;
     
     beforeEach(function(done) {
@@ -51,9 +51,6 @@ describe("Load Image and call module display.", function() {
         mock.buffer.addEventListener('IHM-Display-Finished', function(event) {
             completed = true;
             event.target.removeEventListener(event.type, arguments.callee);
-            
-            var display = utils.appendDisplay('Image-1');
-            display.appendChild(utils.gridToHtml(mock.grid));
             done();
         });
     });
@@ -74,7 +71,7 @@ describe("Load Image and call module display.", function() {
 
 
 describe("Reset to module defaults.", function() {
-    var mock = new MockModule('#Canvas', '../');
+    var mock = new MockModule('#Test', '../');
     var exported;
     
     describe("Change options, render and export.", function() {
@@ -97,6 +94,7 @@ describe("Reset to module defaults.", function() {
                     isNull: 'value'
                 }, 
                 {
+                    char: '#',
                     isDeepObject:{
                         isObject:{
                             saysHi: 'Hi again!'
@@ -110,9 +108,6 @@ describe("Reset to module defaults.", function() {
                 event.target.removeEventListener(event.type, arguments.callee);
                 
                 exported = mock.export();
-
-                var display = utils.appendDisplay('Image-1');
-                display.appendChild(utils.gridToHtml(mock.grid));
                 done();
             });
         });
@@ -122,6 +117,7 @@ describe("Reset to module defaults.", function() {
             expect(mock.options.mock1.isArray.length).toBe(1);
             expect(mock.options.mock1.isNull).toBe('value');
             expect(mock.options.mock2.isDeepObject.isObject.saysHi).toBe('Hi again!');
+            expect(mock.options.mock2.char).toBe('#');
             done();
         });
 
@@ -153,28 +149,22 @@ describe("Reset to module defaults.", function() {
         describe("Resetting options to defaults.", function() {
             it("The values of the core options and module options should have been reset.", function(done) {
                 mock.reset();
-                var ex = JSON.parse(exported);
-                
-                mock.render();
-                mock.buffer.addEventListener('IHM-Display-Finished', function(event) {
-                    event.target.removeEventListener(event.type, arguments.callee);
-                    var display = utils.appendDisplay('Image-1');
-                    display.appendChild(utils.gridToHtml(mock.grid));
-                });
-                
+                mock.display(); 
+                var ex = JSON.parse(exported); 
+               
+                console.log(mock.options,ex);
                 expect(ex.options.grid.unit).not.toBe(mock.options.grid.unit);
                 expect(ex.options.mock1.isArray.length).not.toBe(mock.options.mock1.isArray.length);
                 expect(ex.options.mock1.isNull).not.toBe(mock.options.mock1.isNull);
                 expect(ex.options.mock2.isDeepObject.isObject.saysHi).not.toBe(mock.options.mock2.isDeepObject.isObject.saysHi);
+                expect(ex.options.mock2.char).not.toBe(mock.options.mock2.char);
     
                 done();
             });
             
             it("On importing the exported data grid and options should have been modified again.", function(done) {
                 mock.import(exported);
-                
-                var display = utils.appendDisplay('Image-1');
-                display.appendChild(utils.gridToHtml(mock.grid)); 
+                mock.display();
                 
                 expect(mock.options.grid.unit).toBe(5);
                 expect(mock.options.mock1.isArray.length).toBe(1);

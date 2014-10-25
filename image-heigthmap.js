@@ -15,11 +15,10 @@
 /**
  * Write Image to buffer and provide image data
  * @constructor
- * @param {string} canvasSelector Selecor for target canvas node.
  * @param {object} options Global options. Currently not used
  * @returns {void}
  */
-var ImageHeightMap = function(element, libPath, options) {
+var ImageHeightMap = function(libPath, options) {
     options = options || {};
 
     // base path (webworker)
@@ -43,26 +42,12 @@ var ImageHeightMap = function(element, libPath, options) {
     this.imageData;
     this.worker;
     this.grid;
-    this.canvas;
     this.buffer;
     this.events = {
-        onImage:    new CustomEvent("IHM-Image-Finished"),
-        onRender:   new CustomEvent("IHM-Render-Finished"),
-        onDisplay:  new CustomEvent("IHM-Display-Finished")
+        onImage: 'IHM-Image-Finished',
+        onRender: 'IHM-Render-Finished',
+        onDisplay: 'IHM-Display-Finished'
     };
-
-   //create canvas from node or selector
-    function canvas(element){
-        if(typeof element === 'string'){
-            element = document.querySelector(element);
-        }
-        if(element instanceof HTMLCanvasElement){
-            return element;
-        }
-        var canvas = document.createElement('canvas');
-        element.appendChild(canvas);
-        return canvas;
-    }
 
     // create this.options from defaults (init, reset)
     this.defaults = {
@@ -113,12 +98,24 @@ var ImageHeightMap = function(element, libPath, options) {
         return src;
     };
 
+    // Create element from node or selector
+    // Helper for display functions of modules.
+    this.utils.createElement = function (element, tagName){
+        tagName = tagName || 'canvas';
+        
+        if(typeof element === 'string'){
+            element = document.querySelector(element);
+        }
+        if(element.tagName.toLowerCase() === tagName.toLowerCase()){
+            return element;
+        }
+        var node = document.createElement(tagName.toLowerCase());
+        element.appendChild(node);
+        return node;
+    };
+
     // init
     this.defaults.set(this.options);
-
-    //canvas
-    this.canvas = canvas(element);
-    // buffer
     this.buffer = document.createElement('canvas');
 };
 
@@ -248,7 +245,7 @@ ImageHeightMap.prototype.reset = function(){
  * @returns {void}
  */
 ImageHeightMap.prototype.fire = function(eventName){
-    this.buffer.dispatchEvent(eventName);
+    this.buffer.dispatchEvent(new CustomEvent(eventName));
 };
 
 /**

@@ -21,7 +21,7 @@ utils.gridToHtml = function(grid){
             var color = grid[row][col].toString();
             var colorStyle = 'background-color: rgba(' + color + ');';
             html.push('<div style="width: 1em;height: 1em;border: 1px solid black;' + colorStyle + '"></div>');
-            html.push('<td>');
+            html.push('</td>');
         }
         html.push('</tr>');
     }

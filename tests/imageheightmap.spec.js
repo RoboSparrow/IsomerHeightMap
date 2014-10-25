@@ -1,32 +1,52 @@
-describe("DOM & canvas", function() {
+describe("DOM - create target elements.", function() {
 
-    it("should accept a DOM <canvas> selector", function() {
-        var ihm = new ImageHeightMap('#Canvas');
-        expect(ihm.canvas.tagName).toBe('canvas'.toUpperCase());
+    it("should accept a DOM <canvas> selector.", function() {
+        var ihm = new ImageHeightMap();
+        var target = ihm.utils.createElement('#Canvas');
+        expect(target.tagName).toBe('canvas'.toUpperCase());
     });
 
-    it("should accept a DOM <canvas> element", function() {
+    it("should accept a DOM <canvas> element.", function() {
         var canvas = document.getElementById('Canvas');
-        var ihm = new ImageHeightMap(canvas);
-        expect(ihm.canvas.tagName).toBe('canvas'.toUpperCase());
+        var ihm = new ImageHeightMap();
+        var target = ihm.utils.createElement(canvas);
+        expect(target.tagName).toBe(canvas.tagName);
     });
 
-    it("should accept a wrapper selector element and create a <canvas> element", function() {
-        var element = document.querySelector('.init .wrapper');
-        var ihm = new ImageHeightMap(element);
-        expect(ihm.canvas.tagName).toBe('canvas'.toUpperCase());
+    it("should accept a wrapper selector element and create a <canvas> element.", function() {
+        var ihm = new ImageHeightMap();
+        var target = ihm.utils.createElement('.init .wrapper');
+        expect(target.tagName).toBe('canvas'.toUpperCase());
     });
     
-    document.querySelector('.wrapper').innerHTML = '';
+    document.querySelector('.init .wrapper').innerHTML = '';//reset
     
-    it("should accept a DOM wrapper element and create a <canvas> element", function() {
-        var ihm = new ImageHeightMap('.init .wrapper');
-        expect(ihm.canvas.tagName).toBe('canvas'.toUpperCase());
+    it("should accept a DOM wrapper element and create a <canvas> element.", function() {
+        var wrapper = document.querySelector('.init .wrapper');
+        var ihm = new ImageHeightMap();
+        var target = ihm.utils.createElement(wrapper);
+        expect(target.tagName).toBe('canvas'.toUpperCase());
     });
+    
+    //
+    it("should accept a DOM element selector and create <div> element.", function() {
+        var ihm = new ImageHeightMap();
+        var target = ihm.utils.createElement('.init .wrapper', 'div');
+        expect(target.tagName).toBe('div'.toUpperCase());
+    });
+
+    it("should accept a DOM <div> element.", function() {
+        var div = document.querySelector('.init .wrapper');
+        var ihm = new ImageHeightMap();
+        var target = ihm.utils.createElement(div, 'div');
+        expect(target.tagName).toBe(div.tagName);
+    });
+    
+    document.querySelector('.init .wrapper').innerHTML = '';//reset
 });
 
 describe("Options and defaults", function() {
-    var ihm = new ImageHeightMap('#Canvas');
+    var ihm = new ImageHeightMap();
     
     it("should have a default set of options.", function() {
         expect(typeof(ihm.options)).toBe('object');
@@ -92,7 +112,7 @@ describe("Options and defaults", function() {
 describe("Image", function() {
 
     describe("Load Image", function() {
-        var ihm = new ImageHeightMap('#Canvas', '../');
+        var ihm = new ImageHeightMap('../');
         var image;
         var completed = false;
             
@@ -129,7 +149,7 @@ describe("Image", function() {
     });
 
     describe("Load a second Image", function() {
-        var ihm = new ImageHeightMap('#Canvas', '../');
+        var ihm = new ImageHeightMap('../');
         var image;
         
         beforeEach(function(done) {
@@ -153,7 +173,7 @@ describe("Image", function() {
 
 
     describe("Load Image and scale buffer to maximum height.", function() {
-        var ihm = new ImageHeightMap('#Canvas', '../');
+        var ihm = new ImageHeightMap('../');
         var image;
         var maxHeight;
         
@@ -184,7 +204,7 @@ describe("Image", function() {
     });
 
     describe("Load Image and scale buffer to maximum width.", function() {
-        var ihm = new ImageHeightMap('#Canvas', '../');
+        var ihm = new ImageHeightMap('../');
         var image;
         var maxWidth;
         
@@ -207,7 +227,7 @@ describe("Image", function() {
     });
     
     describe("Fire Event", function() {
-        var ihm = new ImageHeightMap('#Canvas', '../');
+        var ihm = new ImageHeightMap('../');
         var image;
         var eventFired = false;
         
@@ -243,7 +263,7 @@ describe("Grid", function() {
     
     describe("Rendering a grid from image.", function() {
         
-        var ihm = new ImageHeightMap('#Canvas', '../');
+        var ihm = new ImageHeightMap('../');
         var image;
         var completed = false;
         
@@ -296,7 +316,7 @@ describe("Grid", function() {
     
     describe("Testing the grid data and options.", function() {
         
-        var ihm = new ImageHeightMap('#Canvas', '../');
+        var ihm = new ImageHeightMap('../');
         var image;
         var completed = false;
         var unit = 5;
@@ -347,7 +367,7 @@ describe("Import & Export", function() {
      
     describe("Export", function() {
         
-        var ihm = new ImageHeightMap('#Canvas', '../');
+        var ihm = new ImageHeightMap('../');
         var image;
         var completed = false;
         var exported;
@@ -404,7 +424,7 @@ describe("Import & Export", function() {
 
     describe("Import", function() {
 
-        var ihm = new ImageHeightMap('#Canvas', '../');
+        var ihm = new ImageHeightMap('../');
         ihm.merge('grid', {unit: 20});
         
         var image;
@@ -441,7 +461,7 @@ describe("Import & Export", function() {
         });
 
         it("should have overwritten all options.", function(done) {
-            var newIhm = new ImageHeightMap('#Canvas', '../../');
+            var newIhm = new ImageHeightMap('../TEST/');
             newIhm.merge('grid', {unit: 20});
             newIhm.extend('test', {test: 'value'});
             
@@ -454,7 +474,7 @@ describe("Import & Export", function() {
         });
         
         it("should have grid data.", function(done) {
-            var newIhm = new ImageHeightMap('#Canvas', '../');
+            var newIhm = new ImageHeightMap('../');
             newIhm.import(exported);
 
             var display = utils.appendDisplay('Image-3');
@@ -468,3 +488,4 @@ describe("Import & Export", function() {
     });
     
 });
+

@@ -35,6 +35,7 @@
  - bind events to offcanvs
  - filter.grey to image
  - mockmodule - simple display
+ - readme - requirements
  
   - new repo?
   -redirect 
