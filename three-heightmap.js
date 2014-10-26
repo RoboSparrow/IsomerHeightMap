@@ -27,9 +27,10 @@ function ThreeHeightMap(element, libPath, options){
 };
 
 ThreeHeightMap.prototype.onRender = function() {
-         // world
-        this.scene = new THREE.Scene();
-        this.scene.fog = new THREE.FogExp2( 0x000000, 0.002 );
+    this.grid.reverse();
+    // world
+    this.scene = new THREE.Scene();
+    this.scene.fog = new THREE.FogExp2( 0x000000, 0.002 );
 };
 
 // overwrite parent render callback
@@ -49,7 +50,7 @@ ThreeHeightMap.prototype.display = function(options){
     
     // dom
     this.target.appendChild( this.renderer.domElement );
-    window.addEventListener( 'resize', this.resize, false );
+    window.addEventListener( 'resize', this.resize.bind(this), false );
     
     this.renderScene();
     this.animateScene();
@@ -130,7 +131,7 @@ ThreeHeightMap.prototype.setControls = function(options){
     this.controls.dynamicDampingFactor = 0.3;
     // keys
     this.controls.keys = [65, 83, 68];
-    this.controls.addEventListener('change', this.renderScene);
+    this.controls.addEventListener('change', this.renderScene.bind(this));
 };
 
 
@@ -154,6 +155,6 @@ ThreeHeightMap.prototype.resize = function() {
 }
 
 ThreeHeightMap.prototype.animateScene = function() {
-    requestAnimationFrame(this.animateScene);
+    requestAnimationFrame(this.animateScene.bind(this));
     this.controls.update();
 };
