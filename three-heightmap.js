@@ -97,7 +97,7 @@ ThreeHeightMap.prototype.setObjects = function(filters){
             var height = this.filters.rgba2Height(rgba, filters.invert);
             height *= filters.yScale;
             // geometry
-            var geometry = new THREE.BoxGeometry( 1, height + filters.baseHeight, 1 );
+            var geometry = new THREE.BoxGeometry(1, height + filters.baseHeight, 1);
             // material
             var material = new THREE.MeshLambertMaterial({ color: color });
             // mesh
@@ -131,7 +131,7 @@ ThreeHeightMap.prototype.setLights = function(options){
 };
 
 ThreeHeightMap.prototype.setControls = function(){
-    this.controls = new THREE.TrackballControls(this.camera);
+    this.controls = new THREE.TrackballControls(this.camera, this.target);
     // speed
     this.controls.rotateSpeed = 1.0;
     this.controls.zoomSpeed = 2;

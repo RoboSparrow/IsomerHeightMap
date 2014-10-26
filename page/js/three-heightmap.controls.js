@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var filter = (this.checked) ? true : false;
         IHM.display(null, {invert: filter});
     });
-/*
+
     // Form: grid unit size
     var el = document.getElementById('IHM-Filter-unit');
     el.value = IHM.options.grid.unit;
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         IHM.render({unit: filter});
     });
 
-    // Form: yScale tile shapes
+/*    // Form: yScale tile shapes
     var el = document.getElementById('IHM-Filter-yScale');
     el.value = IHM.options.shape.yScale * 100;
     el.addEventListener("mouseup", function() {
