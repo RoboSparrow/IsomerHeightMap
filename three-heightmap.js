@@ -10,15 +10,16 @@ function ThreeHeightMap(element, libPath, options){
         scene: {
             width: 800,
             height: 600
-        },
-        objects: {
-            unit: 1,
-            gap: 1.3,
-            baseHeight: .5,
-            yScale: 1
         }
     });
-    
+    this.extend('objects', {
+        size: 1,
+        gap: 1.3,
+        invert: false,
+        baseHeight: .5,
+        yScale: 1,
+        greyscale: false
+    });
    this.camera;
    this.controls;
    this.scene;
@@ -28,29 +29,35 @@ function ThreeHeightMap(element, libPath, options){
 
 ThreeHeightMap.prototype.onRender = function() {
     this.grid.reverse();
-    // world
-    this.scene = new THREE.Scene();
-    this.scene.fog = new THREE.FogExp2( 0x000000, 0.002 );
 };
 
 // overwrite parent render callback
-ThreeHeightMap.prototype.display = function(options){
+ThreeHeightMap.prototype.display = function(options, filters){
     var options = this.merge('three', options);
+    var filters = this.merge('objects', filters);
     
+    // world
+    this.scene = new THREE.Scene();
+    this.scene.fog = new THREE.FogExp2( 0x000000, 0.002 );
     // objects
-    this.setObjects(options);
+    this.setObjects(filters);
     // camera
     this.setCamera(options);
     // lights
-    this.setLights(options);
+    this.setLights();
     // controls
-    this.setControls(options);
+    this.setControls();
     // renderer
     this.setRenderer(options);
     
     // dom
-    this.target.appendChild( this.renderer.domElement );
-    window.addEventListener( 'resize', this.resize.bind(this), false );
+    if(this.target.firstChild){
+        this.target.replaceChild(this.renderer.domElement, this.target.firstChild);
+    }else{
+        this.target.appendChild(this.renderer.domElement);
+    }
+    
+    window.addEventListener('resize', this.resize.bind(this), false );
     
     this.renderScene();
     this.animateScene();
@@ -58,45 +65,50 @@ ThreeHeightMap.prototype.display = function(options){
     this.fire(this.events.onDisplay);
 };
 
-ThreeHeightMap.prototype.setObjects = function(options){
+ThreeHeightMap.prototype.setObjects = function(filters){
 
-    function centre(grid, objects) {
+    function centre(grid, filters) {
         return {
-            x: (grid.length * options.objects.unit) * options.objects.gap/2,
+            x: (grid.length * filters.size) * filters.gap/2,
             y: 0,
-            z: (grid[0].length * options.objects.unit) * options.objects.gap/2,
+            z: (grid[0].length * filters.size) * filters.gap/2,
         };
     };
     
-    var centre = centre(this.grid, options.objects);
-    
+    var centre = centre(this.grid, filters);
+    console.log(filters);
     var row = this.grid.length;
     while (row--) {
         var col = this.grid[row].length;
         
         while (col--) {
-            // height    
-            var height = ((3 * 255) - (this.grid[row][col][0] + this.grid[row][col][1] + this.grid[row][col][2])) / 255;
-            height *= options.objects.yScale;
-            // geometry
-            var geometry = new THREE.BoxGeometry( 1, height + options.objects.baseHeight, 1 );
             // color
+            var rgba = this.filters.normalizeRGBAlpha(this.grid[row][col]);
+            
+            if(filters.greyscale){
+                rgba = this.filters.greyscale(rgba);
+            }
             var color = new THREE.Color(
-                this.grid[row][col][0]/255,
-                this.grid[row][col][1]/255,
-                this.grid[row][col][2]/255
+                rgba[0]/255,
+                rgba[1]/255,
+                rgba[2]/255
             );
+            // height    
+            var height = this.filters.rgba2Height(rgba, filters.invert);
+            height *= filters.yScale;
+            // geometry
+            var geometry = new THREE.BoxGeometry( 1, height + filters.baseHeight, 1 );
             // material
-            var material = new THREE.MeshLambertMaterial( { color: color } );
+            var material = new THREE.MeshLambertMaterial({ color: color });
             // mesh
-            var mesh = new THREE.Mesh( geometry, material );
+            var mesh = new THREE.Mesh(geometry, material);
             mesh.position.set(
-                -centre.x + ((col * options.objects.unit) * options.objects.gap),
+                -centre.x + ((col * filters.size) * filters.gap),
                 height/2, 
-                -centre.z + ((row * options.objects.unit) * options.objects.gap)
+                -centre.z + ((row * filters.size) * filters.gap)
             );
             // scene
-            this.scene.add( mesh );
+            this.scene.add(mesh);
         }
     }
  
@@ -112,13 +124,13 @@ ThreeHeightMap.prototype.setCamera = function(options){
 ThreeHeightMap.prototype.setLights = function(options){
     light = new THREE.DirectionalLight( 0xffffff, 0.5 );
     light.position.set( 1, 1, 1 );
-    this.scene.add( light );
+    this.scene.add(light);
     
     light = new THREE.HemisphereLight( 0xffffff, 0x333333, 0.6 );   // sky color ground color intensity
-    this.scene.add( light );
+    this.scene.add(light);
 };
 
-ThreeHeightMap.prototype.setControls = function(options){
+ThreeHeightMap.prototype.setControls = function(){
     this.controls = new THREE.TrackballControls(this.camera);
     // speed
     this.controls.rotateSpeed = 1.0;
@@ -136,8 +148,8 @@ ThreeHeightMap.prototype.setControls = function(options){
 
 
 ThreeHeightMap.prototype.setRenderer = function(options){
-    this.renderer = new THREE.WebGLRenderer( { antialias: false } );
-    this.renderer.setClearColor( this.scene.fog.color, 1 );
+    this.renderer = new THREE.WebGLRenderer({ antialias: false });
+    this.renderer.setClearColor(this.scene.fog.color, 1);
     this.renderer.setSize(options.scene.width, options.scene.height);
 };
 

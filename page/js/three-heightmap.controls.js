@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         IHM.image(this);
         IHM.render();
     };
-/*
+
     // Form: Select new img
     document.getElementById('IHM-Controls-image').addEventListener("change", function() {
         if (this.files && this.files[0]) {
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     // Form: Greyscale
     var el = document.getElementById('IHM-Filter-greyscale');
-    el.checked = IHM.options.shape.greyscale;
+    el.checked = IHM.options.objects.greyscale;
     el.addEventListener("change", function() {
         var filter = (this.checked) ? true : false;
         IHM.display(null, {greyscale: filter});
@@ -50,12 +50,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     // Form: Invert Mapping
     var el = document.getElementById('IHM-Filter-invert');
-    el.checked = IHM.options.shape.invert;
+    el.checked = IHM.options.objects.invert;
     el.addEventListener("change", function() {
         var filter = (this.checked) ? true : false;
-        IHM.display(null, {invert: filter}, null);
+        IHM.display(null, {invert: filter});
     });
-
+/*
     // Form: grid unit size
     var el = document.getElementById('IHM-Filter-unit');
     el.value = IHM.options.grid.unit;
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el.value = IHM.options.shape.yScale * 100;
     el.addEventListener("mouseup", function() {
         filter = this.value/100;
-        IHM.display(null, {yScale: filter}, null);
+        IHM.display(null, {yScale: filter});
     });
 
     // Form: scale isomer
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el.value = IHM.options.isomer.scale;
     el.addEventListener("mouseup", function() {
         var filter = parseInt(this.value);
-        IHM.display({scale: filter}, null);
+        IHM.display({scale: filter});
     });
 
     // Form: gap
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el.value = IHM.options.shape.gap * 100;
     el.addEventListener("mouseup", function() {
         filter = this.value/100;
-        IHM.display(null, {gap: filter}, null);
+        IHM.display(null, {gap: filter});
     });
 
     // Form: shape
@@ -114,9 +114,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el.value = IHM.options.shape.baseHeight * 10;
     el.addEventListener("mouseup", function() {
         filter = this.value/10;
-        IHM.display(null, {baseHeight: filter}, null);
+        IHM.display(null, {baseHeight: filter});
     });
-
+*/
     // Reset all options to default
     var el = document.getElementById('IHM-Filter-reset');
     el.addEventListener("click", function(e) {
@@ -124,5 +124,5 @@ document.addEventListener("DOMContentLoaded", function(event) {
         IHM.reset();
         IHM.display();
     });
-*/
+
 });

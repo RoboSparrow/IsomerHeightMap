@@ -66,17 +66,6 @@ var ImageHeightMap = function(libPath, options) {
     // helpers
     this.utils = {};
 
-    // normalise rgba to rgb, blend alpha as white background
-    // @param {array} channels rgba value array: [0 - 255, 0 - 255, 0 - 255, 0 - 255]
-    this.utils.normalizeRGBAlpha = function(channels){
-        var rgb = [0, 0, 0];
-        for(var i = 0; i < rgb.length; i++){
-            var alpha = channels[3]/255;//imagedata alpha to rgb alpha
-            rgb[i] = channels[i] * alpha + 255 * (1 - alpha);
-        }
-        return rgb;
-    }
-
     // deep merge options
     this.utils.merge = function(src, options){
         var self = this;
@@ -114,6 +103,32 @@ var ImageHeightMap = function(libPath, options) {
         return node;
     };
 
+    this.filters = {};
+    
+    // normalise rgba to rgb, blend alpha as white background
+    // @param {array} channels rgba value array: [0 - 255, 0 - 255, 0 - 255, 0 - 255]
+    this.filters.normalizeRGBAlpha = function(channels){
+        var rgb = [0, 0, 0, 255];
+        for(var i = 0; i < rgb.length; i++){
+            var alpha = channels[3]/255;//imagedata alpha to rgb alpha
+            rgb[i] = channels[i] * alpha + 255 * (1 - alpha);
+        }
+        return rgb;
+    };
+    
+    this.filters.greyscale = function(rgba){
+        var brightness = 0.34 * rgba[0] + 0.5 * rgba[1] + 0.16 * rgba[2];
+        return [brightness, brightness, brightness, rgba[3]];
+    };
+
+    this.filters.rgba2Height = function(rgba, invert){
+        invert = invert || false;
+        if (invert) {
+            return (rgba[0] + rgba[1] + rgba[2]) / 255;
+        }
+        return ((3 * 255) - (rgba[0] + rgba[1] + rgba[2])) / 255;
+    };
+    
     // init
     this.defaults.set(this.options);
     this.buffer = document.createElement('canvas');

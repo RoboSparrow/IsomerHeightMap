@@ -15,7 +15,7 @@ function IsomerHeightMap(element, libPath, options){
     });
     
     // module defaults, @see Shape.js
-    this.extend('shape', {
+    this.extend('objects', {
         shape: 'Prism',
         greyscale: false,
         invert: false,
@@ -33,12 +33,12 @@ IsomerHeightMap.prototype.onRender = function() {
 /**
  * Render heightmap row-by-row
  * @param {object} options Isomer instance options (this.options.isomer).
- * @param {object} filters Isomer shape options (this.options.shape). Passed on to the isomer renderer
+ * @param {object} filters Isomer objects options (this.options.objects). Passed on to the isomer renderer
  * @returns {void}
  */
 IsomerHeightMap.prototype.display = function(options, filters) {
     // options and filters
-    var filters = this.merge('shape', filters);
+    var filters = this.merge('objects', filters);
     var options = this.merge('isomer', options);
 
     // isomer instance
@@ -91,26 +91,20 @@ IsomerHeightMap.prototype.display = function(options, filters) {
  * @param {number} x Tile x pos (this.grid > column)
  * @param {number} y Tile y pos (this.grid > row)
  * @param {array} average Average color for this tile: [r, g, b, a].
- * @param {object} filters Isomer shape options (this.options.shape).
+ * @param {object} filters Isomer objects options (this.options.objects).
  * @returns {void}
  */
-IsomerHeightMap.prototype.heightMapTile = function(x, y, average, filters) {
-    average = this.utils.normalizeRGBAlpha(average);
+IsomerHeightMap.prototype.heightMapTile = function(x, y, rgba, filters) {
+    rgba = this.filters.normalizeRGBAlpha(rgba);
 
     // filter: greyscale
     if (filters.greyscale) {
-        var brightness = 0.34 * average[0] + 0.5 * average[1] + 0.16 * average[2];
-        var colour = new Isomer.Color(brightness, brightness, brightness);
-    } else {
-        var colour = new Isomer.Color(average[0], average[1], average[2]);
-    }
+        rgba = this.filters.greyscale(rgba);
+    } 
+    var colour = new Isomer.Color(rgba[0], rgba[1], rgba[2]);
 
     // filter: invert
-    if (filters.invert) {
-        var height = (average[0] + average[1] + average[2]) / 255;
-    } else {
-        var height = ((3 * 255) - (average[0] + average[1] + average[2])) / 255;
-    }
+    var height = this.filters.rgba2Height(rgba, filters.invert);
 
     // dimensions @TODO: move to parent (performance)
     height *= filters.yScale;

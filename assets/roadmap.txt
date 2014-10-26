@@ -36,6 +36,7 @@
  - filter.grey to image
  - mockmodule - simple display
  - readme - requirements
+ - tests filters
  
   - new repo?
   -redirect 
