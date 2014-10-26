@@ -14,7 +14,7 @@ function ThreeHeightMap(element, libPath, options){
     });
     this.extend('objects', {
         size: 1,
-        gap: 1.3,
+        gap: 0.3,
         invert: false,
         baseHeight: .5,
         yScale: 1,
@@ -66,17 +66,16 @@ ThreeHeightMap.prototype.display = function(options, filters){
 };
 
 ThreeHeightMap.prototype.setObjects = function(filters){
-
+    
     function centre(grid, filters) {
         return {
-            x: (grid.length * filters.size) * filters.gap/2,
+            x: (grid.length * (filters.size + filters.gap))/2,
             y: 0,
-            z: (grid[0].length * filters.size) * filters.gap/2,
+            z: (grid[0].length * (filters.size + filters.gap))/2,
         };
     };
-    
     var centre = centre(this.grid, filters);
-    console.log(filters);
+    
     var row = this.grid.length;
     while (row--) {
         var col = this.grid[row].length;
@@ -103,9 +102,9 @@ ThreeHeightMap.prototype.setObjects = function(filters){
             // mesh
             var mesh = new THREE.Mesh(geometry, material);
             mesh.position.set(
-                -centre.x + ((col * filters.size) * filters.gap),
+                -centre.x + (col * (filters.size + filters.gap)),
                 height/2, 
-                -centre.z + ((row * filters.size) * filters.gap)
+                -centre.z + (row * (filters.size + filters.gap))
             );
             // scene
             this.scene.add(mesh);
