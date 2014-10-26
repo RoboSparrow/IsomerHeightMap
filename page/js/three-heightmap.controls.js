@@ -71,15 +71,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         filter = this.value/100;
         IHM.display(null, {yScale: filter});
     });
-/*
-    // Form: scale isomer
-    var el = document.getElementById('IHM-Filter-scale');
-    el.value = IHM.options.isomer.scale;
-    el.addEventListener("mouseup", function() {
-        var filter = parseInt(this.value);
-        IHM.display({scale: filter});
-    });
-*/
+
     // Form: gap
     var el = document.getElementById('IHM-Filter-gap');
     el.value = IHM.options.objects.gap * 100;
@@ -108,15 +100,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });
     }
     el.value = IHM.options.shape.shape;
-
+*/
     // Form: baseHeight
     var el = document.getElementById('IHM-Filter-baseHeight');
-    el.value = IHM.options.shape.baseHeight * 10;
+    el.value = IHM.options.objects.baseHeight * 10;
     el.addEventListener("mouseup", function() {
         filter = this.value/10;
         IHM.display(null, {baseHeight: filter});
     });
-*/
+
     // Reset all options to default
     var el = document.getElementById('IHM-Filter-reset');
     el.addEventListener("click", function(e) {
