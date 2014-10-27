@@ -99,7 +99,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             IHM.display(null, {geometry: filter});
         });
     }
-    el.value = IHM.options.objects.geometry;
 
     // Form: baseHeight
     var el = document.getElementById('IHM-Filter-baseHeight');

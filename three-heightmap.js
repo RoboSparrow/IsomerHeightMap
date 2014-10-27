@@ -19,7 +19,7 @@ function ThreeHeightMap(element, libPath, options){
         baseHeight: .5,
         yScale: 1,
         greyscale: false,
-        geometry: 'PRISM'
+        geometry: 'Prism'
     });
    this.camera;
    this.controls;
@@ -121,7 +121,7 @@ ThreeHeightMap.prototype.setObjects = function(filters){
             this.scene.add(mesh);
         }
     }
- 
+
 };
 
 ThreeHeightMap.prototype.setCamera = function(options){

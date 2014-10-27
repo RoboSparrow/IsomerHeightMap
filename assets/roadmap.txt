@@ -23,18 +23,18 @@
  x Module assings defaults to Super
  x globalise webworker events
  - Straighten up code
- - tests
+ x tests
  
- - canvas to module
- - upate isomer
+ x canvas to module
+ x upate isomer
  - upate isomer page
  - update readme
  - straighten up code
  - comments mockmodule
- - fire()
- - bind events to offcanvs
- - filter.grey to image
- - mockmodule - simple display
+ x fire()
+ x bind events to offcanvs
+ x filter.grey to image
+ x mockmodule - simple display
  - readme - requirements
  - tests filters
  
