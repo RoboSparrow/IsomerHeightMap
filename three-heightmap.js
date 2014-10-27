@@ -18,7 +18,8 @@ function ThreeHeightMap(element, libPath, options){
         invert: false,
         baseHeight: .5,
         yScale: 1,
-        greyscale: false
+        greyscale: false,
+        geometry: 'PRISM'
     });
    this.camera;
    this.controls;
@@ -96,7 +97,17 @@ ThreeHeightMap.prototype.setObjects = function(filters){
             var height = this.filters.rgba2Height(rgba, filters.invert);
             height *= filters.yScale;
             // geometry
-            var geometry = new THREE.BoxGeometry(1, height + filters.baseHeight, 1);
+            switch(filters.geometry){
+                case 'Cylinder':
+                    var geometry = new THREE.CylinderGeometry(.5, .5, height + filters.baseHeight, 20);
+                break;
+                case 'Pyramid':
+                    var geometry = new THREE.CylinderGeometry(0, .5, height + filters.baseHeight, 4);
+                break;
+                case 'Prism':
+                default:
+                    var geometry = new THREE.BoxGeometry(1, height + filters.baseHeight, 1);
+            }
             // material
             var material = new THREE.MeshLambertMaterial({ color: color });
             // mesh

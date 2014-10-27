@@ -88,9 +88,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
         IHM.display(null, {gap: filter});
     });
 
-    // Form: shape
+    // Form: geometry
     var els = document.querySelectorAll('#IHM-Filter-shape button');
-    var el = document.querySelector('button[value=' + IHM.options.objects.shape + ']');
+    var el = document.querySelector('button[value=' + IHM.options.objects.geometry + ']');
     if(el){
         el.setAttribute('disabled', 'disabled');
     }
@@ -104,10 +104,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
             this.setAttribute('disabled', 'disabled');
             var filter = this.value;
-            IHM.display(null, {shape: filter});
+            IHM.display(null, {geometry: filter});
         });
     }
-    el.value = IHM.options.objects.shape;
+    el.value = IHM.options.objects.geometry;
 
     // Form: baseHeight
     var el = document.getElementById('IHM-Filter-baseHeight');

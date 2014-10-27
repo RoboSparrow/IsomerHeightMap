@@ -16,7 +16,7 @@ function IsomerHeightMap(element, libPath, options){
     
     // module defaults, @see Shape.js
     this.extend('objects', {
-        shape: 'Prism',
+        geometry: 'Prism',
         greyscale: false,
         invert: false,
         size: 1,
@@ -112,8 +112,8 @@ IsomerHeightMap.prototype.heightMapTile = function(x, y, rgba, filters) {
     x *= filters.size + filters.gap;
     y *= filters.size + filters.gap;
 
-    // filter: shape
-    switch (filters.shape) {
+    // filter: geometry
+    switch (filters.geometry) {
         case 'Pyramid':
             this.isomer.add(Isomer.Shape.Pyramid(new Isomer.Point(x, y, 0), filters.size, filters.size, height), colour);
             break;
