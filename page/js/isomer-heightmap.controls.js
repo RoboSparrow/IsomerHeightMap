@@ -42,51 +42,63 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     // Form: Greyscale
     var el = document.getElementById('IHM-Filter-greyscale');
-    el.checked = IHM.options.objects.greyscale;
-    el.addEventListener("change", function() {
-        var filter = (this.checked) ? true : false;
-        IHM.display(null, {greyscale: filter});
-    });
-
+    if(el){
+        el.checked = IHM.options.objects.greyscale;
+        el.addEventListener("change", function() {
+            var filter = (this.checked) ? true : false;
+            IHM.display(null, {greyscale: filter});
+        });
+    }
+    
     // Form: Invert Mapping
     var el = document.getElementById('IHM-Filter-invert');
-    el.checked = IHM.options.objects.invert;
-    el.addEventListener("change", function() {
-        var filter = (this.checked) ? true : false;
-        IHM.display(null, {invert: filter});
-    });
+    if(el){
+        el.checked = IHM.options.objects.invert;
+        el.addEventListener("change", function() {
+            var filter = (this.checked) ? true : false;
+            IHM.display(null, {invert: filter});
+        });
+    }
 
     // Form: grid unit size
     var el = document.getElementById('IHM-Filter-unit');
-    el.value = IHM.options.grid.unit;
-    el.addEventListener("mouseup", function() {
-        filter = parseInt(this.value);
-        IHM.render({unit: filter});
-    });
-
+    if(el){
+        el.value = IHM.options.grid.unit;
+        el.addEventListener("mouseup", function() {
+            filter = parseInt(this.value);
+            IHM.render({unit: filter});
+        });
+    }
+    
     // Form: yScale tile objects
     var el = document.getElementById('IHM-Filter-yScale');
-    el.value = IHM.options.objects.yScale * 100;
-    el.addEventListener("mouseup", function() {
-        filter = this.value/100;
-        IHM.display(null, {yScale: filter});
-    });
+    if(el){
+        el.value = IHM.options.objects.yScale * 100;
+        el.addEventListener("mouseup", function() {
+            filter = this.value/100;
+            IHM.display(null, {yScale: filter});
+        });
+    }
 
     // Form: scale isomer
     var el = document.getElementById('IHM-Filter-scale');
-    el.value = IHM.options.isomer.scale;
-    el.addEventListener("mouseup", function() {
-        var filter = parseInt(this.value);
-        IHM.display({scale: filter});
-    });
+    if(el){
+        el.value = IHM.options.isomer.scale;
+        el.addEventListener("mouseup", function() {
+            var filter = parseInt(this.value);
+            IHM.display({scale: filter});
+        });
+    }
 
     // Form: gap
     var el = document.getElementById('IHM-Filter-gap');
-    el.value = IHM.options.objects.gap * 100;
-    el.addEventListener("mouseup", function() {
-        filter = this.value/100;
-        IHM.display(null, {gap: filter});
-    });
+    if(el){
+        el.value = IHM.options.objects.gap * 100;
+        el.addEventListener("mouseup", function() {
+            filter = this.value/100;
+            IHM.display(null, {gap: filter});
+        });
+    }
 
     // Form: geometry
     var els = document.querySelectorAll('#IHM-Filter-shape button');
@@ -110,18 +122,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     // Form: baseHeight
     var el = document.getElementById('IHM-Filter-baseHeight');
-    el.value = IHM.options.objects.baseHeight * 10;
-    el.addEventListener("mouseup", function() {
-        filter = this.value/10;
-        IHM.display(null, {baseHeight: filter});
-    });
-
-    // Reset all options to default
-    var el = document.getElementById('IHM-Filter-reset');
-    el.addEventListener("click", function(e) {
-        e.preventDefault();
-        IHM.reset();
-        IHM.display();
-    });
+    if(el){
+        el.value = IHM.options.objects.baseHeight * 10;
+        el.addEventListener("mouseup", function() {
+            filter = this.value/10;
+            IHM.display(null, {baseHeight: filter});
+        });
+    }
     
+    // Reset all options to default
+    if(el){
+        var el = document.getElementById('IHM-Filter-reset');
+        el.addEventListener("click", function(e) {
+            e.preventDefault();
+            IHM.reset();
+            IHM.display();
+        });
+    }
+   
 });

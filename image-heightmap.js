@@ -143,7 +143,7 @@ var ImageHeightMap = function(libPath, options) {
 ImageHeightMap.prototype.image = function(img, options) {
     options = this.merge('image', options);
 
-    // scale the image within the boundaries of defaults.image.scaleTo
+    // scale the buffer image within the boundaries of defaults.image.scaleTo
     function scale(img, maxWidth, maxHeight) {
         var wQ = options.scaleTo.width / img.width;
         var hQ = options.scaleTo.height / img.height;

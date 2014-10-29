@@ -5,9 +5,9 @@
 
 (function (window, document) {
 
-    /**
-    * Primitive accordion
-    */
+     /**
+      * Primitive accordion
+     */
     function makeAccordion(accordions) {
         for (i = 0; i < accordions.length; i++) {
             var hl = accordions[i].querySelector('.accordion-hl');
@@ -31,40 +31,78 @@
     var accordions = document.querySelectorAll('.accordion');
     makeAccordion(accordions);
 
-    /**
-    * Hamburger menu
-    * @see http://purecss.io/layouts/side-menu/
-    */
-    var layout   = document.getElementById('layout'),
-        menu     = document.getElementById('menu'),
-        menuLink = document.getElementById('menuLink');
 
-    function toggleClass(element, className) {
-        var classes = element.className.split(/\s+/),
-            length = classes.length,
-            i = 0;
-
-        for(; i < length; i++) {
-          if (classes[i] === className) {
-            classes.splice(i, 1);
-            break;
-          }
-        }
-        // The className is not found
-        if (length === classes.length) {
-            classes.push(className);
-        }
-
-        element.className = classes.join(' ');
+    var IHMUtils = {
+            toggleClass: function(element, name) {
+                var classes = element.className.split(/\s+/);
+                var length = classes.length;
+                for(var i = 0; i < length; i++) {
+                if (classes[i] === name) {
+                    classes.splice(i, 1);
+                    break;
+                }
+                }
+                if (length === classes.length) {
+                    classes.push(name);
+                }
+                element.className = classes.join(' ').trim();
+            },
+            
+            addClass:  function(element, name) {
+                var classes = element.className.split(/\s+/);
+                if(classes.indexOf(name) < 0){
+                    classes.push(name);
+                    element.className = classes.join(' ').trim();
+                }
+            },
+            
+            removeClass: function(element, name) {
+                var classes = element.className.split(/\s+/); 
+                if(classes.indexOf(name) >= 0){
+                    for(var i = 0; i < classes.length; i++) {
+                        if (classes[i] === name) {
+                            classes.splice(i, 1);
+                            break;
+                        }
+                    }
+                    element.className = classes.join(' ').trim();
+                }
+            },
+            
+            hasClass: function(element, name){
+                name = " " + name + " ";
+                if ((" " + element.className + " ").replace(/[\t\r\n\f]/g, " ").indexOf(name) > -1){
+                    return true;
+                }
+                return false;
+            }
+        
+        };
+ document.addEventListener("DOMContentLoaded", function(event) {
+    var toggleLinks = document.querySelectorAll('.offcanvas-toggle');
+    for (var i = 0; i < toggleLinks.length; i++){
+        toggleLinks[i].addEventListener("click", function(e){
+            e.preventDefault();
+            if(e.target.hasAttribute('href')){
+                var targ = document.getElementById(e.target.getAttribute('href').substring(1));
+            }else{
+                var targ  = document.querySelector(e.target.dataset.target);
+            }console.log(targ);
+            if(targ){
+                IHMUtils.toggleClass(targ, 'active');
+            }
+        });
     }
-
-    menuLink.onclick = function (e) {
-        var active = 'active';
-
-        e.preventDefault();
-        toggleClass(layout, active);
-        toggleClass(menu, active);
-        toggleClass(menuLink, active);
-    };
-
+    
+    var closeLinks = document.querySelectorAll('.offcanvas-close-parent');
+    for (var i = 0; i < closeLinks.length; i++){
+        closeLinks[i].addEventListener("click", function(e){
+            e.preventDefault();
+            var targ = e.target.parentNode;
+            if(targ){
+                IHMUtils.removeClass(targ, 'active');
+            }
+        });
+    }
+});
 }(this, this.document));
