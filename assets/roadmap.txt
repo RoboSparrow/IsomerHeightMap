@@ -38,6 +38,11 @@
  - readme - requirements
  - tests filters
  
+ - canvas resizing
+ - preloader
+ - respnsive viewports
+ - text about
+ 
   - new repo?
   -redirect 
   
