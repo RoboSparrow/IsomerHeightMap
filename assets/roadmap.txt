@@ -4,6 +4,7 @@
  
  v0.2.x
  ------
+ - new name
  
  [--]minified
  - examples
@@ -42,6 +43,9 @@
  - preloader
  - respnsive viewports
  - text about
+ - offscreen mask
+ - utils namespace
+ - form adapt to multi modules
  
   - new repo?
   -redirect 

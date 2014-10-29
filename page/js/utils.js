@@ -78,7 +78,11 @@
             }
         
         };
+        
  document.addEventListener("DOMContentLoaded", function(event) {
+    var mask = document.createElement('dv');
+    mask.className = 'offcanvas-mask';
+    
     var toggleLinks = document.querySelectorAll('.offcanvas-toggle');
     for (var i = 0; i < toggleLinks.length; i++){
         toggleLinks[i].addEventListener("click", function(e){
@@ -87,22 +91,17 @@
                 var targ = document.getElementById(e.target.getAttribute('href').substring(1));
             }else{
                 var targ  = document.querySelector(e.target.dataset.target);
-            }console.log(targ);
+            }
             if(targ){
                 IHMUtils.toggleClass(targ, 'active');
+                if(IHMUtils.hasClass(targ, 'active')){
+                    targ.parentNode.appendChild(mask);
+                }else{
+                    targ.parentNode.removeChild(mask);
+                }
             }
         });
     }
     
-    var closeLinks = document.querySelectorAll('.offcanvas-close-parent');
-    for (var i = 0; i < closeLinks.length; i++){
-        closeLinks[i].addEventListener("click", function(e){
-            e.preventDefault();
-            var targ = e.target.parentNode;
-            if(targ){
-                IHMUtils.removeClass(targ, 'active');
-            }
-        });
-    }
 });
 }(this, this.document));
