@@ -176,12 +176,25 @@ body {
 /**
  * Form
  */
+.pure-button.small {
+    font-size: 80%;
+}
 
 label input[type="file"] {
     position: fixed;
     top: -1000px;
 }
 
+label .watch{
+    color: #999999;
+    float:right;
+}
+
+label:after {
+    content:'';
+    display:block;
+    clear: both;
+}
 /**
  * Menus
  */

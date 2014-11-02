@@ -41,25 +41,93 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     // Form: Greyscale
-    var el = document.getElementById('IHM-Filter-greyscale');
-    if(el){
-        el.checked = IHM.options.objects.greyscale;
-        el.addEventListener("change", function() {
-            var filter = (this.checked) ? true : false;
+    var el = 'Isomer-objects-greyscale';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.checked = IHM.options.objects.greyscale;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            var filter = (el.checked) ? true : false;
             IHM.display(null, {greyscale: filter});
-        });
-    }
-    
-    // Form: Invert Mapping
-    var el = document.getElementById('IHM-Filter-invert');
-    if(el){
-        el.checked = IHM.options.objects.invert;
-        el.addEventListener("change", function() {
-            var filter = (this.checked) ? true : false;
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.checked;
+        }
+    );
+    // Form: Invert
+    var el = 'Isomer-objects-invert';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.checked = IHM.options.objects.invert;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            var filter = (el.checked) ? true : false;
             IHM.display(null, {invert: filter});
-        });
-    }
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.checked;
+        }
+    );
 
+    // Form: Geometry
+    var btns = document.querySelectorAll('button.isomer-geometry');
+
+    for(var i = 0; i < btns .length; i++){
+        var el = btns[i].id;
+        IHMui.controls[el] = new IHMui.controlElement(el);
+        IHMui.controls[el].init(
+            function(el){
+                if(el.value == IHM.options.objects.geometry){
+                    el.setAttribute('disabled', 'disabled');
+                }
+            }
+        );
+        IHMui.controls[el].trigger(
+            function(el, e){
+                e.preventDefault();
+                var btns = document.querySelectorAll('button.isomer-geometry');
+                for (var k = 0; k < btns.length; k++) {
+                    if(btns[k].hasAttribute('disabled')){
+                        btns[k].removeAttribute("disabled");
+                    }
+                }
+                el.setAttribute('disabled', 'disabled');
+                var filter =  el.value;
+                IHM.display(null, {geometry: filter});
+            }
+        );
+    }
+    // Form: units
+    var el = 'Isomer-grid-unit';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.value = IHM.options.grid.unit;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            filter = parseInt(el.value);
+            IHM.render({unit: filter});
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.value;
+        }
+    );
+    console.log(IHMui.controls[el]);
+ //----------old
     // Form: grid unit size
     var el = document.getElementById('IHM-Filter-unit');
     if(el){
@@ -100,25 +168,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });
     }
 
-    // Form: geometry
-    var els = document.querySelectorAll('#IHM-Filter-shape button');
-    var el = document.querySelector('button[value=' + IHM.options.objects.geometry + ']');
-    if(el){
-        el.setAttribute('disabled', 'disabled');
-    }
-    for (var i = 0; i < els.length; i++) {
-        els[i].addEventListener("click", function(e) {
-            e.preventDefault();
-            for (var k = 0; k < els.length; k++) {
-                if(els[k].hasAttribute('disabled')){
-                    els[k].removeAttribute("disabled");
-                }
-            }
-            this.setAttribute('disabled', 'disabled');
-            var filter = this.value;
-            IHM.display(null, {geometry: filter});
-        });
-    }
+
 
     // Form: baseHeight
     var el = document.getElementById('IHM-Filter-baseHeight');

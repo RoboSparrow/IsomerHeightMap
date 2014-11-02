@@ -4,7 +4,6 @@
  
  v0.2.x
  ------
- - new name
  
  [--]minified
  - examples
@@ -30,7 +29,6 @@
  x upate isomer
  - upate isomer page
  - update readme
- - straighten up code
  - comments mockmodule
  x fire()
  x bind events to offcanvs
@@ -41,15 +39,16 @@
  
  - canvas resizing
  - preloader
- - respnsive viewports
+ - responsive viewports
  - text about
- - offscreen mask
+ x offcanvas mask
  - utils namespace
  - form adapt to multi modules
  
   - new repo?
   -redirect 
-  
+- new name
+   
  RC
  --
  

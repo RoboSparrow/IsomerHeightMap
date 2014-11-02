@@ -60,17 +60,45 @@
                     <section class="text-right">
                         <a class="offcanvas-toggle pure-button pure-button-primary small" href="#IHM-Form"><i class="fa fa-times-circle"></i> Close</a>
                     </section>
+                    
+                    <section>
+                        <div class="accordion active">
+                            <legend class="accordion-hl enhanced">Shapes</legend>
+                            <div class="accordion-content">
+                                <p>
+                                    <button id="Isomer-objects-geometry-Prism" class="pure-button small isomer-geometry" value="Prism">Prism</button>
+                                    <button id="Isomer-objects-geometry-Cylinder" class="pure-button small isomer-geometry" value="Cylinder">Cylinder</button>
+                                    <button id="Isomer-objects-geometry-Pyramid" class="pure-button  small isomer-geometry" value="Pyramid">Pyramid</button>
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                    
                     <section>
                         <div class="accordion">
                             <legend class="accordion-hl enhanced">Effects</legend>
                             <div class="accordion-content">
                                 <p>
-                                    <input type="checkbox" id="IHM-Filter-invert" value="" />
-                                    &nbsp;&nbsp;<label for="IHM-Filter-invert">Invert Mapping</label>
+                                    <input type="checkbox" id="Isomer-objects-invert" value="" />
+                                    &nbsp;&nbsp;<label for="Isomer-objects-invert">Invert Mapping <small class="watch"></small></label>
                                 </p>
                                 <p>
-                                    <input type="checkbox" id="IHM-Filter-greyscale" value="" />
-                                    &nbsp;&nbsp;<label for="IHM-Filter-greyscale">Greyscale</label>
+                                    <input type="checkbox" id="Isomer-objects-greyscale" value="" />
+                                    &nbsp;&nbsp;<label for="Isomer-objects-greyscale">Greyscale <small class="watch"></small></label>
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section>
+                        <div class="accordion">
+                            <legend class="accordion-hl enhanced">Tiles</legend>
+                            <div class="accordion-content">
+
+                                <p>
+                                    <label for="Isomer-grid-unit">Density <small class="watch"></small></label>
+                                    <br>
+                                    <input id="Isomer-grid-unit" min="5" max="35" type="range">
                                 </p>
                             </div>
                         </div>
