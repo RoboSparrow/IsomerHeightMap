@@ -126,17 +126,28 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return el.value;
         }
     );
-    console.log(IHMui.controls[el]);
+    // Form: yScale
+    var el = 'Isomer-objects-yScale';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.value = IHM.options.objects.yScale * 100;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            filter = el.value/100;
+            IHM.display(null, {yScale: filter});
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.value/100;
+        }
+    );
+    
  //----------old
-    // Form: grid unit size
-    var el = document.getElementById('IHM-Filter-unit');
-    if(el){
-        el.value = IHM.options.grid.unit;
-        el.addEventListener("mouseup", function() {
-            filter = parseInt(this.value);
-            IHM.render({unit: filter});
-        });
-    }
+
     
     // Form: yScale tile objects
     var el = document.getElementById('IHM-Filter-yScale');

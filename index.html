@@ -65,7 +65,7 @@
                         <div class="accordion active">
                             <legend class="accordion-hl enhanced">Shapes</legend>
                             <div class="accordion-content">
-                                <p>
+                                <p class="text-center">
                                     <button id="Isomer-objects-geometry-Prism" class="pure-button small isomer-geometry" value="Prism">Prism</button>
                                     <button id="Isomer-objects-geometry-Cylinder" class="pure-button small isomer-geometry" value="Cylinder">Cylinder</button>
                                     <button id="Isomer-objects-geometry-Pyramid" class="pure-button  small isomer-geometry" value="Pyramid">Pyramid</button>
@@ -94,11 +94,23 @@
                         <div class="accordion">
                             <legend class="accordion-hl enhanced">Tiles</legend>
                             <div class="accordion-content">
-
                                 <p>
                                     <label for="Isomer-grid-unit">Density <small class="watch"></small></label>
                                     <br>
                                     <input id="Isomer-grid-unit" min="5" max="35" type="range">
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <div class="accordion">
+                            <legend class="accordion-hl enhanced">Scale</legend>
+                            <div class="accordion-content">
+                                <p>
+                                    <label for="Isomer-objects-yScale">Height <small class="watch"></small></label>
+                                    <br>
+                                    <input id="Isomer-objects-yScale" type="range" max="100" min="0">
                                 </p>
                             </div>
                         </div>
