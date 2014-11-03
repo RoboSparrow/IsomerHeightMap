@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Testing module integration</title>
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasmine/2.0.0/jasmine.css">
+    <style>
+        #Init{position:absolute; top: -999em;}
+        .appended canvas{margin-right: 1em; border: 1px dotted grey;}
+        .appended table{display: inline-block; margin-right: 1em;}
+        table{display:inline-block; margin-right:1em;}
+        td{width: 1.5em; height: 1.5em;text-align:center;}
+    </style>
+</head>
+
+<body>
+    <div id="Init" class="init">
+        <canvas id="Canvas"></canvas>
+        <div class="wrapper"></div>
+    </div>
+    <div id="Test"></div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jasmine/2.0.0/jasmine.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jasmine/2.0.0/jasmine-html.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jasmine/2.0.0/boot.js"></script>
+
+    <!-- include source files here... -->
+    <script type="text/javascript" src="./image-heightmap.src.js"></script>
+    <script type="text/javascript" src="../image-heightmap.js"></script>
+    <script type="text/javascript" src="./MockModule.js"></script>
+    
+    <!-- include spec files here... -->
+    <script type="text/javascript" src="./module.spec.js"></script>
+</body>
+</html>
