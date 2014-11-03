@@ -16,7 +16,7 @@ function IsomerHeightMap(element, libPath, options){
     
     // module defaults, @see Shape.js
     this.extend('objects', {
-        geometry: 'Prism',
+        geometry: 'Cube',
         greyscale: false,
         invert: false,
         size: 1,
@@ -38,8 +38,8 @@ IsomerHeightMap.prototype.onRender = function() {
  */
 IsomerHeightMap.prototype.display = function(options, filters) {
     // options and filters
-    var filters = this.merge('objects', filters);
     var options = this.merge('isomer', options);
+    var filters = this.merge('objects', filters);
 
     // isomer instance
     this.isomer = new Isomer(this.target, options);
@@ -64,7 +64,7 @@ IsomerHeightMap.prototype.display = function(options, filters) {
     // canvas dimensions
     var dim = canvas(this.grid, this.isomer, filters);
     this.target.width = Math.ceil(dim.box.width);
-    this.target.height = Math.ceil(dim.box.height + (3 * filters.yScale * options.scale) + (filters.baseHeight * this.isomer.scale));
+    this.target.height = Math.ceil(dim.box.height + (3 * filters.yScale * options.scale) + (filters.baseHeight * options.scale));
 
     // isomer origins
     this.isomer.originX = Math.ceil(dim.origin.left);//place left edge on 0
@@ -120,6 +120,10 @@ IsomerHeightMap.prototype.heightMapTile = function(x, y, rgba, filters) {
         case 'Cylinder':
             this.isomer.add(Isomer.Shape.Cylinder(new Isomer.Point(x, y, 0), filters.size/2, 15, height), colour);
             break;
+        case 'Prism':
+            this.isomer.add(Isomer.Shape.Cylinder(new Isomer.Point(x, y, 0), filters.size/2, 3, height), colour);
+            break;
+        case 'Cube':
         default:
             this.isomer.add(Isomer.Shape.Prism(new Isomer.Point(x, y, 0), filters.size, filters.size , height), colour);
     }

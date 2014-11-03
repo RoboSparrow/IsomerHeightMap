@@ -96,7 +96,15 @@ body {
 .ihm-grid-left{
     text-align: left;
 }
-
+a{
+    color: #0078e7;
+    text-decoration: none;
+    cursor: pointer;
+}
+a:hover{
+    color: #0078e7;
+    text-decoration: underline;
+}
 /**
  * target
  */
@@ -195,10 +203,8 @@ label:after {
     display:block;
     clear: both;
 }
+
 /**
  * Menus
  */
  
-.ihm-top-nav a *{
-    vertical-align: middle;
-}

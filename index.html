@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
     <!--<![endif]-->
 
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="./page/vendor/octicons/octicons.css" rel="stylesheet">
     <link rel="stylesheet" href="./page/css/styles.css">
 
     <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
@@ -41,7 +41,7 @@
                                 <li><a href="#">Three.js</a></li>
                                 <li class="pure-menu-selected"><a href="#">Isomer</a></li>
                                 <li><a href="#IHM-About" class="offcanvas-toggle">What is this?</a></li>
-                                <li><a href="#">Github <img alt="Mark" src="./page/images/GitHub-Mark-32px.png" class="github-logo"></a></li>
+                                <li><a href="#"><span class="octicon octicon-mark-github"></span> Github</a></li>
                             </ul>
 
                         </div>
@@ -58,7 +58,7 @@
                 <!-- off screen form left -->
                 <div id="IHM-Form" class="offcanvas offcanvas-left">
                     <section class="text-right">
-                        <a class="offcanvas-toggle pure-button pure-button-primary small" href="#IHM-Form"><i class="fa fa-times-circle"></i> Close</a>
+                        <p><a href="#IHM-Form"><span class="octicon octicon-x"></span> close</a></p>
                     </section>
                     
                     <section>
@@ -66,9 +66,12 @@
                             <legend class="accordion-hl enhanced">Shapes</legend>
                             <div class="accordion-content">
                                 <p class="text-center">
-                                    <button id="Isomer-objects-geometry-Prism" class="pure-button small isomer-geometry" value="Prism">Prism</button>
+                                    <button id="Isomer-objects-geometry-Cube" class="pure-button small isomer-geometry" value="Cube">Cube</button>
                                     <button id="Isomer-objects-geometry-Cylinder" class="pure-button small isomer-geometry" value="Cylinder">Cylinder</button>
+                                </p>
+                                <p class="text-center">
                                     <button id="Isomer-objects-geometry-Pyramid" class="pure-button  small isomer-geometry" value="Pyramid">Pyramid</button>
+                                    <button id="Isomer-objects-geometry-Prism" class="pure-button small isomer-geometry" value="Prism">Prism</button>
                                 </p>
                             </div>
                         </div>
@@ -92,12 +95,17 @@
                     
                     <section>
                         <div class="accordion">
-                            <legend class="accordion-hl enhanced">Tiles</legend>
+                            <legend class="accordion-hl enhanced">Grid</legend>
                             <div class="accordion-content">
                                 <p>
-                                    <label for="Isomer-grid-unit">Density <small class="watch"></small></label>
+                                    <label for="Isomer-grid-unit">Tile Density <small class="watch"></small></label>
                                     <br>
-                                    <input id="Isomer-grid-unit" min="5" max="35" type="range">
+                                    <input id="Isomer-grid-unit" min="5" max="35" type="range" step="1">
+                                </p>
+                                <p>
+                                    <label for="Isomer-objects-gap">Tile Gaps <small class="watch"></small></label>
+                                    <br>
+                                    <input id="Isomer-objects-gap" min="0" max="1" type="range" step="0.1">
                                 </p>
                             </div>
                         </div>
@@ -110,10 +118,25 @@
                                 <p>
                                     <label for="Isomer-objects-yScale">Height <small class="watch"></small></label>
                                     <br>
-                                    <input id="Isomer-objects-yScale" type="range" max="100" min="0">
+                                    <input id="Isomer-objects-yScale" type="range" max="10" min="0" step="0.01">
+                                </p>
+                                <p>
+                                    <label for="Isomer-isomer-scale">Scale Grid <small class="watch"></small></label>
+                                    <br>
+                                    <input id="Isomer-isomer-scale" min="1" max="50" type="range" step="1">
+                                </p>
+                                <p>
+                                    <label for="Isomer-objects-baseHeight">Base Height <small class="watch"></small></label>
+                                    <br>
+                                    <input id="Isomer-objects-baseHeight" min="0" max="5" type="range" step="0.1">
                                 </p>
                             </div>
                         </div>
+                    </section>
+                    <section>
+                        <p class="text-right">
+                            <a id="IHM-Filter-reset">Reset to defaults</a>
+                        </p>
                     </section>
                 </div>
 
@@ -121,7 +144,7 @@
                 <div id="IHM-About" class="offcanvas offcanvas-left">
                     <section>
                         <p class="text-right">
-                            <a class="offcanvas-toggle pure-button small" href="#IHM-About"><i class="fa fa-times-circle"></i> Close</a>
+                            <a class="offcanvas-toggle pure-button small" href="#IHM-About"><span class="octicon octicon-x"></span> Close</a>
                         </p>
                         <p>
                             Create isometric heightmaps from images using jdan's excellent <strong><a href="https://github.com/jdan/isomer" target="_blank">Isomer library.</a></strong>
@@ -146,9 +169,9 @@
                     <div id="ImageSourcePreview"></div>
                     <label class="ihm-upload file-button pure-button pure-button-primary" for="IHM-Controls-image">
                         <input id="IHM-Controls-image" class="upload" type="file">
-                        <i class="fa fa-upload"></i> New image
+                        <span class="mega-octicon octicon-arrow-up"></span> New image
                     </label>
-                    <a class="pure-button offcanvas-toggle" href="#IHM-Form"><i class="fa fa-cog"></i> Edit</a>
+                    <a class="pure-button offcanvas-toggle" href="#IHM-Form"><span class="octicon octicon-gear"></span> Edit</a>
                 </div>
 
                 <!-- IsomerHeightMap canvas -->

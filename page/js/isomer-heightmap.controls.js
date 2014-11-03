@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     img.onload = function() {
         document.getElementById('ImageSourcePreview').innerHTML = '<img class="pure-img" src="' + this.src + '" alt="image source" />';
         IHM.image(this);
-        IHM.render();
+         IHM.render();
     };
 
     // Form: Select new img
@@ -33,14 +33,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 image.onload = function() {
                     document.getElementById('ImageSourcePreview').innerHTML = '<img src="' + image.src + '" alt="image source " />';
                     IHM.image(image);
-                    IHM.render();
+                    IHM.render(n);
                 };
             };
             reader.readAsDataURL(this.files[0]);
         }
     });
 
-    // Form: Greyscale
+    // Objects: Greyscale
     var el = 'Isomer-objects-greyscale';
     IHMui.controls[el] = new IHMui.controlElement(el);
     IHMui.controls[el].init(
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return el.checked;
         }
     );
-    // Form: Invert
+    // Objects: Invert
     var el = 'Isomer-objects-invert';
     IHMui.controls[el] = new IHMui.controlElement(el);
     IHMui.controls[el].init(
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     );
 
-    // Form: Geometry
+    // Objects: Geometry
     var btns = document.querySelectorAll('button.isomer-geometry');
 
     for(var i = 0; i < btns .length; i++){
@@ -89,6 +89,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             function(el){
                 if(el.value == IHM.options.objects.geometry){
                     el.setAttribute('disabled', 'disabled');
+                }else{
+                    el.removeAttribute('disabled');
                 }
             }
         );
@@ -107,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
         );
     }
-    // Form: units
+    // Grid: unit
     var el = 'Isomer-grid-unit';
     IHMui.controls[el] = new IHMui.controlElement(el);
     IHMui.controls[el].init(
@@ -126,79 +128,90 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return el.value;
         }
     );
-    // Form: yScale
-    var el = 'Isomer-objects-yScale';
+    // Objects: gap
+    var el = 'Isomer-objects-gap';
     IHMui.controls[el] = new IHMui.controlElement(el);
     IHMui.controls[el].init(
         function(el){
-            el.value = IHM.options.objects.yScale * 100;
+            el.value = IHM.options.objects.gap;
         }
     );
     IHMui.controls[el].trigger(
         function(el){
-            filter = el.value/100;
+            filter = parseFloat(el.value);
+            IHM.display(null, {gap: filter});
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.value;
+        }
+    );
+    // Objects: yScale
+    var el = 'Isomer-objects-yScale';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.value = IHM.options.objects.yScale;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            filter = parseFloat(el.value);
             IHM.display(null, {yScale: filter});
         }
     );
     IHMui.controls[el].watch(
         function(el){
-            return el.value/100;
+            return el.value;
+        }
+    );
+    // Isomer: scale
+    var el = 'Isomer-isomer-scale';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.value = IHM.options.isomer.scale;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            filter = parseFloat(el.value);
+            IHM.display({scale: filter});
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.value;
+        }
+    );
+    // Objects: baseHeight
+    var el = 'Isomer-objects-baseHeight';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.value = IHM.options.objects.baseHeight;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            filter = parseFloat(el.value);
+            IHM.display(null, {baseHeight: filter});
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.value;
         }
     );
     
- //----------old
-
-    
-    // Form: yScale tile objects
-    var el = document.getElementById('IHM-Filter-yScale');
+    var el = document.getElementById('IHM-Filter-reset');
     if(el){
-        el.value = IHM.options.objects.yScale * 100;
-        el.addEventListener("mouseup", function() {
-            filter = this.value/100;
-            IHM.display(null, {yScale: filter});
-        });
-    }
-
-    // Form: scale isomer
-    var el = document.getElementById('IHM-Filter-scale');
-    if(el){
-        el.value = IHM.options.isomer.scale;
-        el.addEventListener("mouseup", function() {
-            var filter = parseInt(this.value);
-            IHM.display({scale: filter});
-        });
-    }
-
-    // Form: gap
-    var el = document.getElementById('IHM-Filter-gap');
-    if(el){
-        el.value = IHM.options.objects.gap * 100;
-        el.addEventListener("mouseup", function() {
-            filter = this.value/100;
-            IHM.display(null, {gap: filter});
-        });
-    }
-
-
-
-    // Form: baseHeight
-    var el = document.getElementById('IHM-Filter-baseHeight');
-    if(el){
-        el.value = IHM.options.objects.baseHeight * 10;
-        el.addEventListener("mouseup", function() {
-            filter = this.value/10;
-            IHM.display(null, {baseHeight: filter});
-        });
-    }
-    
-    // Reset all options to default
-    if(el){
-        var el = document.getElementById('IHM-Filter-reset');
         el.addEventListener("click", function(e) {
             e.preventDefault();
             IHM.reset();
-            IHM.display();
+            IHM.render();
         });
     }
-   
+
 });
