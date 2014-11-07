@@ -7,7 +7,7 @@
     window.IHMui = window.IHMui || {};
     
     /**
-     * DOM element class manipulation
+     * DOM element class attribute utils
      */
     IHMui.classes = {
             toggle: function(element, name) {
@@ -57,7 +57,7 @@
         };
         
     /**
-      * Primitive accordion
+     * Simple accordion
      */
     IHMui.accordion = function (accordions) {
         for (i = 0; i < accordions.length; i++) {
@@ -80,6 +80,9 @@
         }
     }
     
+    /**
+     * Form control element events
+     */
     IHMui.controlElement = function(id){
         this.element = document.getElementById(id);
         this.watchElement = document.querySelector('[for=' + id + '] .watch');
@@ -163,10 +166,9 @@
 
     
     /**
-     * Init
+     * Init ui
      */    
     document.addEventListener("DOMContentLoaded", function(event) {
-        
         // form controls stroage
         IHMui.controls = {};
         

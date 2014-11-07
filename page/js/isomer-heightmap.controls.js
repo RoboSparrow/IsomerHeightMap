@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return el.checked;
         }
     );
+    
     // Objects: Invert
     var el = 'Isomer-objects-invert';
     IHMui.controls[el] = new IHMui.controlElement(el);
@@ -109,6 +110,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
         );
     }
+    
     // Grid: unit
     var el = 'Isomer-grid-unit';
     IHMui.controls[el] = new IHMui.controlElement(el);
@@ -128,6 +130,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return el.value;
         }
     );
+    
     // Objects: gap
     var el = 'Isomer-objects-gap';
     IHMui.controls[el] = new IHMui.controlElement(el);
@@ -147,6 +150,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return el.value;
         }
     );
+    
     // Objects: yScale
     var el = 'Isomer-objects-yScale';
     IHMui.controls[el] = new IHMui.controlElement(el);
@@ -166,6 +170,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return el.value;
         }
     );
+    
     // Isomer: scale
     var el = 'Isomer-isomer-scale';
     IHMui.controls[el] = new IHMui.controlElement(el);
@@ -185,6 +190,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return el.value;
         }
     );
+    
     // Objects: baseHeight
     var el = 'Isomer-objects-baseHeight';
     IHMui.controls[el] = new IHMui.controlElement(el);
@@ -205,6 +211,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     );
     
+    // reset
     var el = document.getElementById('IHM-Filter-reset');
     if(el){
         el.addEventListener("click", function(e) {

@@ -114,14 +114,14 @@ a:hover{
 .ihm-content{
 }
 .ihm-target-wrapper{
- text-align: left;
- margin: 0 auto;
- background: #000000;
- color: #ffffff;
+    text-align: left;
+    margin: 0 auto;
+    background: #000000;
+    color: #ffffff;
 }
 .ihm-target-wrapper canvas{
-    display:block;
-    margin:0 auto;
+    display: block;
+    margin: 0 auto;
     background: inherit;
 }
 
@@ -135,7 +135,7 @@ a:hover{
     width: 15%;
     min-width: 150px;
     height: 15%;
-    text-align:center;
+    text-align: center;
 }
 #ImageSourcePreview img{
     max-width: 100%;
@@ -143,10 +143,6 @@ a:hover{
 .ihm-preview .pure-button{
     display: block;
     margin-top: 3px;
-}
-.ihm-preview .pure-button-primary{
-    padding-top: 1em;
-    padding-bottom: 1em;
 }
 .ihm-upload input[type="file"] {
     position: fixed;
@@ -168,12 +164,12 @@ a:hover{
     padding: .5em;
 }
 .accordion-hl:hover {
-    cursor:pointer;
+    cursor: pointer;
     background-color: #363535;
 }
 .accordion.active .indicator,
 .accordion:hover .indicator{
-    color:#0078e7;
+    color: #0078e7;
 }
 .accordion .indicator span::before {
     content: '+';
@@ -197,12 +193,12 @@ label input[type="file"] {
 
 label .watch{
     color: #999999;
-    float:right;
+    float: right;
 }
 
 label:after {
-    content:'';
-    display:block;
+    content: '';
+    display: block;
     clear: both;
 }
 
@@ -211,5 +207,5 @@ label:after {
  */
 .pure-menu-heading span.api{
     color: #000000;
-    font-weight:bold;
+    font-weight: bold;
 }
