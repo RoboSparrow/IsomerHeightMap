@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 image.onload = function() {
                     document.getElementById('ImageSourcePreview').innerHTML = '<img src="' + image.src + '" alt="image source " />';
                     IHM.image(image);
-                    IHM.render(n);
+                    IHM.render();
                 };
             };
             reader.readAsDataURL(this.files[0]);
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     );
 
     // Objects: Geometry
-    var btns = document.querySelectorAll('button.isomer-geometry');
+    var btns = document.querySelectorAll('button.geometry');
 
     for(var i = 0; i < btns .length; i++){
         var el = btns[i].id;
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         IHMui.controls[el].trigger(
             function(el, e){
                 e.preventDefault();
-                var btns = document.querySelectorAll('button.isomer-geometry');
+                var btns = document.querySelectorAll('button.geometry');
                 for (var k = 0; k < btns.length; k++) {
                     if(btns[k].hasAttribute('disabled')){
                         btns[k].removeAttribute("disabled");
