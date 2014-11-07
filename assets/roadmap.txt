@@ -42,12 +42,13 @@
  - responsive viewports
  - text about
  x offcanvas mask
- - utils namespace
+ x utils namespace
  - form adapt to multi modules
- 
-  - new repo?
-  -redirect 
-- new name
+ -cleanup files
+ - mater
+ - new repo?
+ - redirect 
+ - new name
    
  RC
  --
