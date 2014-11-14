@@ -7,7 +7,7 @@
     window.IHMui = window.IHMui || {};
     
     /**
-     * DOM element class attribute utils
+     * DOM element class manipulation
      */
     IHMui.classes = {
             toggle: function(element, name) {
@@ -57,7 +57,7 @@
         };
         
     /**
-     * Simple accordion
+      * Primitive accordion
      */
     IHMui.accordion = function (accordions) {
         for (i = 0; i < accordions.length; i++) {
@@ -163,13 +163,69 @@
             });
         }
     };
-
     
     /**
-     * Init ui
+     * Simple Router
+     * inspired by http://joakimbeng.eu01.aws.af.cm/a-javascript-router-in-20-lines/
+     */
+    IHMui.router = {};
+    IHMui.router.items = {};
+        
+    IHMui.router.register = function(hash, wrapper, template, preloader, controller){
+        wrapper = wrapper  || document.body;
+        wrapper = (typeof wrapper === 'string') ? document.querySelector(wrapper) : wrapper;
+        template = template || null;
+        preloader = preloader || null;
+        if(wrapper){
+            this.items[hash] = {
+                wrapper: wrapper,
+                template: template,
+                controller: controller || function(){},
+                preloader: preloader
+            };
+        }
+    };
+    
+    IHMui.router.route = function(){
+        var hash = location.hash;
+        if(!hash || hash == '#'){
+            hash = '#Home';
+        }
+        if(!IHMui.router.items.hasOwnProperty(hash)){
+            return false;
+        }
+        var item = IHMui.router.items[hash];
+        if(item.preloader){
+            item.wrapper.innerHTML = item.preloader;
+        }
+        IHMui.router.load(item.template, function(html){
+            item.wrapper.innerHTML = html;
+            item.controller(item.wrapper);
+        });
+    };
+    
+    IHMui.router.load = function(template, callback){
+        var self = this;
+        var xhr = new XMLHttpRequest();
+        callback = callback || function(){};
+        xhr.open('GET', template);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4){
+                if(xhr.status == 200 || xhr.status == 304){
+                    callback(xhr.responseText);
+                }
+            }
+        }
+        xhr.send();
+    };
+
+
+    /**
+     * Init
      */    
     document.addEventListener("DOMContentLoaded", function(event) {
-        // form controls stroage
+        
+        // form controls storage
         IHMui.controls = {};
         
         // acordion
@@ -207,5 +263,26 @@
             });
         }
         
+        //routers
+        IHMui.router.register('#Home', '#ControlsForm .content', './page/templates/isomer-controls.hmtl', '<div class="spin"></div>', function(node){
+            IHMui.accordion(node.querySelectorAll('.accordion'));
+            IsomerControls();
+        });
+        IHMui.router.register('#Isomer', '#ControlsForm .content', './page/templates/isomer-controls.hmtl', '<div class="spin"></div>', function(node){
+            IHMui.accordion(node.querySelectorAll('.accordion'));
+            IsomerControls();
+        });
+        IHMui.router.register('#Three', '#ControlsForm .content', './page/templates/three-controls.hmtl', '<div class="spin"></div>', function(node){
+            IHMui.accordion(node.querySelectorAll('.accordion'));
+            ThreeControls();
+        });
+        
+        // router init
+        location.hash = '#';
+        window.addEventListener('hashchange', IHMui.router.route); 
+
     });
+    
+
+    
 }(this, this.document));

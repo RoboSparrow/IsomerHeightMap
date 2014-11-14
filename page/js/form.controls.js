@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     img.onload = function() {
         document.getElementById('ImageSourcePreview').innerHTML = '<img class="pure-img" src="' + this.src + '" alt="image source" />';
         IHM.image(this);
-         IHM.render();
+        IHM.render();
     };
 
     // Form: Select new img
@@ -40,6 +40,28 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     });
 
+});
+
+/**
+ * Default Controls
+ */
+function IHMControls(){
+    var el = document.getElementById('IHM-Filter-reset');
+    if(el){
+        el.addEventListener("click", function(e) {console.log(3);
+            e.preventDefault();
+            IHM.reset();
+            IHM.render();
+        });
+    }
+}
+
+/**
+ * IsomerHeightMap Controls
+ */
+function IsomerControls(){
+    // Default controls
+    IHMControls();
     // Objects: Greyscale
     var el = 'Isomer-objects-greyscale';
     IHMui.controls[el] = new IHMui.controlElement(el);
@@ -81,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     );
 
     // Objects: Geometry
-    var btns = document.querySelectorAll('button.geometry');
+    var btns = document.querySelectorAll('button.isomer-geometry');
 
     for(var i = 0; i < btns .length; i++){
         var el = btns[i].id;
@@ -98,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         IHMui.controls[el].trigger(
             function(el, e){
                 e.preventDefault();
-                var btns = document.querySelectorAll('button.geometry');
+                var btns = document.querySelectorAll('button.isomer-geometry');
                 for (var k = 0; k < btns.length; k++) {
                     if(btns[k].hasAttribute('disabled')){
                         btns[k].removeAttribute("disabled");
@@ -210,15 +232,176 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return el.value;
         }
     );
-    
-    // reset
-    var el = document.getElementById('IHM-Filter-reset');
-    if(el){
-        el.addEventListener("click", function(e) {
-            e.preventDefault();
-            IHM.reset();
-            IHM.render();
-        });
-    }
+}
 
-});
+/**
+ * ThreeHeightMap Controls
+ */
+function ThreeControls(){
+    // Default controls
+    IHMControls();
+    // Objects: Greyscale
+    var el = 'Three-objects-greyscale';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.checked = IHM.options.objects.greyscale;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            var filter = (el.checked) ? true : false;
+            IHM.display(null, {greyscale: filter});
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.checked;
+        }
+    );
+    // Objects: Invert
+    var el = 'Three-objects-invert';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.checked = IHM.options.objects.invert;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            var filter = (el.checked) ? true : false;
+            IHM.display(null, {invert: filter});
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.checked;
+        }
+    );
+
+    // Objects: Geometry
+    var btns = document.querySelectorAll('button.isomer-geometry');
+
+    for(var i = 0; i < btns .length; i++){
+        var el = btns[i].id;
+        IHMui.controls[el] = new IHMui.controlElement(el);
+        IHMui.controls[el].init(
+            function(el){
+                if(el.value == IHM.options.objects.geometry){
+                    el.setAttribute('disabled', 'disabled');
+                }else{
+                    el.removeAttribute('disabled');
+                }
+            }
+        );
+        IHMui.controls[el].trigger(
+            function(el, e){
+                e.preventDefault();
+                var btns = document.querySelectorAll('button.isomer-geometry');
+                for (var k = 0; k < btns.length; k++) {
+                    if(btns[k].hasAttribute('disabled')){
+                        btns[k].removeAttribute("disabled");
+                    }
+                }
+                el.setAttribute('disabled', 'disabled');
+                var filter =  el.value;
+                IHM.display(null, {geometry: filter});
+            }
+        );
+    }
+    // Grid: unit
+    var el = 'Three-grid-unit';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.value = IHM.options.grid.unit;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            filter = parseInt(el.value);
+            IHM.render({unit: filter});
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.value;
+        }
+    );
+    // Objects: gap
+    var el = 'Three-objects-gap';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.value = IHM.options.objects.gap;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            filter = parseFloat(el.value);
+            IHM.display(null, {gap: filter});
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.value;
+        }
+    );
+    // Objects: yScale
+    var el = 'Three-objects-yScale';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.value = IHM.options.objects.yScale;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            filter = parseFloat(el.value);
+            IHM.display(null, {yScale: filter});
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.value;
+        }
+    );
+    // Isomer: scale
+    var el = 'Three-isomer-scale';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.value = IHM.options.isomer.scale;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            filter = parseFloat(el.value);
+            IHM.display({scale: filter});
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.value;
+        }
+    );
+    // Objects: baseHeight
+    var el = 'Three-objects-baseHeight';
+    IHMui.controls[el] = new IHMui.controlElement(el);
+    IHMui.controls[el].init(
+        function(el){
+            el.value = IHM.options.objects.baseHeight;
+        }
+    );
+    IHMui.controls[el].trigger(
+        function(el){
+            filter = parseFloat(el.value);
+            IHM.display(null, {baseHeight: filter});
+        }
+    );
+    IHMui.controls[el].watch(
+        function(el){
+            return el.value;
+        }
+    );
+}

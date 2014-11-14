@@ -1,0 +1,77 @@
+<section>
+    <div class="accordion active">
+        <legend class="accordion-hl enhanced">Shapes</legend>
+        <div class="accordion-content">
+            <p class="text-center">
+                <button id="Three-objects-geometry-Cube" class="pure-button small isomer-geometry" value="Cube">Cube</button>
+                <button id="Three-objects-geometry-Cylinder" class="pure-button small isomer-geometry" value="Cylinder">Cylinder</button>
+            </p>
+            <p class="text-center">
+                <button id="Three-objects-geometry-Pyramid" class="pure-button  small isomer-geometry" value="Pyramid">Pyramid</button>
+                <button id="Three-objects-geometry-Prism" class="pure-button small isomer-geometry" value="Prism">Prism</button>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="accordion">
+        <legend class="accordion-hl enhanced">Effects</legend>
+        <div class="accordion-content">
+            <p>
+                <input type="checkbox" id="Three-objects-invert" value="" />
+                &nbsp;&nbsp;<label for="Three-objects-invert">Invert Mapping <small class="watch"></small></label>
+            </p>
+            <p>
+                <input type="checkbox" id="Three-objects-greyscale" value="" />
+                &nbsp;&nbsp;<label for="Three-objects-greyscale">Greyscale <small class="watch"></small></label>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="accordion">
+        <legend class="accordion-hl enhanced">Grid</legend>
+        <div class="accordion-content">
+            <p>
+                <label for="Three-grid-unit">Tile Density <small class="watch"></small></label>
+                <br>
+                <input id="Three-grid-unit" min="5" max="35" type="range" step="1">
+            </p>
+            <p>
+                <label for="Three-objects-gap">Tile Gaps <small class="watch"></small></label>
+                <br>
+                <input id="Three-objects-gap" min="0" max="1" type="range" step="0.1">
+            </p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="accordion">
+        <legend class="accordion-hl enhanced">Scale</legend>
+        <div class="accordion-content">
+            <p>
+                <label for="Three-objects-yScale">Height <small class="watch"></small></label>
+                <br>
+                <input id="Three-objects-yScale" type="range" max="10" min="0" step="0.01">
+            </p>
+            <p>
+                <label for="Three-isomer-scale">Scale Grid <small class="watch"></small></label>
+                <br>
+                <input id="Three-isomer-scale" min="1" max="50" type="range" step="1">
+            </p>
+            <p>
+                <label for="Three-objects-baseHeight">Base Height <small class="watch"></small></label>
+                <br>
+                <input id="Three-objects-baseHeight" min="0" max="5" type="range" step="0.1">
+            </p>
+        </div>
+    </div>
+</section>
+<section>
+    <p class="text-right">
+        <a id="IHM-Filter-reset">Reset to defaults</a>
+    </p>
+</section>
