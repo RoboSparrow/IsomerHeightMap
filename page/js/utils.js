@@ -262,27 +262,7 @@
                 }
             });
         }
-        
-        //routers
-        IHMui.router.register('#Home', '#ControlsForm .content', './page/templates/isomer-controls.hmtl', '<div class="spin"></div>', function(node){
-            IHMui.accordion(node.querySelectorAll('.accordion'));
-            IsomerControls();
-        });
-        IHMui.router.register('#Isomer', '#ControlsForm .content', './page/templates/isomer-controls.hmtl', '<div class="spin"></div>', function(node){
-            IHMui.accordion(node.querySelectorAll('.accordion'));
-            IsomerControls();
-        });
-        IHMui.router.register('#Three', '#ControlsForm .content', './page/templates/three-controls.hmtl', '<div class="spin"></div>', function(node){
-            IHMui.accordion(node.querySelectorAll('.accordion'));
-            ThreeControls();
-        });
-        
-        // router init
-        location.hash = '#';
-        window.addEventListener('hashchange', IHMui.router.route); 
 
     });
-    
 
-    
 }(this, this.document));

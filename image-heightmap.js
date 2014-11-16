@@ -285,7 +285,7 @@ ImageHeightMap.prototype.export = function(){
  * @returns {void}
  */
 ImageHeightMap.prototype.import = function(json){
-    try {
+    try{
         var imp = JSON.parse(json);
     }catch(e) {
         alert(e);
