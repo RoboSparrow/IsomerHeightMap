@@ -5,7 +5,7 @@
 /**
  * Default Controls
  */
-function IHMControls(){
+function IHMControls(prefix){
     
     // Form: Select new img
     document.getElementById('IHM-Controls-image').addEventListener("change", function() {
@@ -27,7 +27,7 @@ function IHMControls(){
     
     var el = document.getElementById('IHM-Filter-reset');
     if(el){
-        el.addEventListener("click", function(e) {console.log(3);
+        el.addEventListener("click", function(e) {
             e.preventDefault();
             IHM.reset();
             IHM.render();
@@ -35,7 +35,7 @@ function IHMControls(){
     }
     
     // Objects: Greyscale
-    var el = 'Isomer-objects-greyscale';
+    var el = prefix + '-objects-greyscale';
     IHMui.controls[el] = new IHMui.controlElement(el);
     IHMui.controls[el].init(
         function(el){
@@ -55,7 +55,7 @@ function IHMControls(){
     );
     
     // Objects: Invert
-    var el = 'Isomer-objects-invert';
+    var el = prefix + '-objects-invert';
     IHMui.controls[el] = new IHMui.controlElement(el);
     IHMui.controls[el].init(
         function(el){
@@ -75,7 +75,7 @@ function IHMControls(){
     );
 
    // Objects: Geometry
-    var btns = document.querySelectorAll('button.isomer-geometry');
+    var btns = document.querySelectorAll('#' + prefix + '-geometry button');
 
     for(var i = 0; i < btns .length; i++){
         var el = btns[i].id;
@@ -92,7 +92,7 @@ function IHMControls(){
         IHMui.controls[el].trigger(
             function(el, e){
                 e.preventDefault();
-                var btns = document.querySelectorAll('button.isomer-geometry');
+                var btns = document.querySelectorAll('button.' + prefix + '-geometry');
                 for (var k = 0; k < btns.length; k++) {
                     if(btns[k].hasAttribute('disabled')){
                         btns[k].removeAttribute("disabled");
@@ -107,7 +107,7 @@ function IHMControls(){
 
     
     // Grid: unit
-    var el = 'Isomer-grid-unit';
+    var el = prefix + '-grid-unit';
     IHMui.controls[el] = new IHMui.controlElement(el);
     IHMui.controls[el].init(
         function(el){
@@ -127,7 +127,7 @@ function IHMControls(){
     );
     
     // Objects: gap
-    var el = 'Isomer-objects-gap';
+    var el = prefix + '-objects-gap';
     IHMui.controls[el] = new IHMui.controlElement(el);
     IHMui.controls[el].init(
         function(el){
@@ -147,7 +147,7 @@ function IHMControls(){
     );
     
     // Objects: yScale
-    var el = 'Isomer-objects-yScale';
+    var el = prefix + '-objects-yScale';
     IHMui.controls[el] = new IHMui.controlElement(el);
     IHMui.controls[el].init(
         function(el){
@@ -168,7 +168,7 @@ function IHMControls(){
     
     
     // Objects: baseHeight
-    var el = 'Isomer-objects-baseHeight';
+    var el = prefix + '-objects-baseHeight';
     IHMui.controls[el] = new IHMui.controlElement(el);
     IHMui.controls[el].init(
         function(el){
@@ -193,7 +193,7 @@ function IHMControls(){
  */
 function IsomerControls(){
     // Default controls
-    IHMControls();
+    IHMControls('Isomer');
 
     // Isomer: scale
     var el = 'Isomer-isomer-scale';
@@ -222,5 +222,5 @@ function IsomerControls(){
  */
 function ThreeControls(){
     // Default controls
-    IHMControls();
+    IHMControls('Three');
 }

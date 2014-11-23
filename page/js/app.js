@@ -9,25 +9,23 @@ var IHM;
 document.addEventListener("DOMContentLoaded", function(event) {
     
     //routers
-    IHMui.router.register('#Home', '#ControlsForm .content', './page/templates/isomer-controls.hmtl', '<div class="spin"></div>', function(node){
-        IHMui.accordion(node.querySelectorAll('.accordion'));
+    IHMui.router.register('#Home', '#ControlsForm .content', './page/templates/isomer-controls.html', '<div class="spin"></div>', function(node){
         appInit('Isomer');
-        IsomerControls();
-    });
-    IHMui.router.register('#Isomer', '#ControlsForm .content', './page/templates/isomer-controls.hmtl', '<div class="spin"></div>', function(node){
         IHMui.accordion(node.querySelectorAll('.accordion'));
+    });
+    IHMui.router.register('#Isomer', '#ControlsForm .content', './page/templates/isomer-controls.html', '<div class="spin"></div>', function(node){
         appInit('Isomer');
-        IsomerControls();
-    });
-    IHMui.router.register('#Three', '#ControlsForm .content', './page/templates/three-controls.hmtl', '<div class="spin"></div>', function(node){
         IHMui.accordion(node.querySelectorAll('.accordion'));
+        
+    });
+    IHMui.router.register('#Three', '#ControlsForm .content', './page/templates/three-controls.html', '<div class="spin"></div>', function(node){
         appInit('Three');
-        ThreeControls();
+        IHMui.accordion(node.querySelectorAll('.accordion'));    
     });
     
     // router init
     window.addEventListener('hashchange', IHMui.router.route); 
-    appInit('Isomer');
+    IHMui.router.route();
     
     function appInit(api){
         
@@ -38,10 +36,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         switch(api){
             case 'Three':
                 IHM = new ThreeHeightMap(target);
+                ThreeControls();
             break;
             
             default:
                 IHM = new IsomerHeightMap(target);
+                IsomerControls();
         }
         
         // Init: image
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             IHM.image(this);
             IHM.render();
         };
-        
+
     }
 
 });
