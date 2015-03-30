@@ -6,7 +6,7 @@ Create isometric heightmaps from images using @jdan's excellent [Isomer library]
 
 **[Check out the demo](http://robosparrow.github.io/IsomerHeightMap)**
  
-![An example | height = 100px ](./assets/kittenheightmap.jpg)
+![An example](./assets/kittenheightmap.jpg)
 
 ## How to use ##
 
