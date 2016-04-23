@@ -3,21 +3,23 @@
 // License: MIT
 (function () {
     
-    /**
-    * FileReader API
-    * canvas
-    * webworker
-    * querySelector
-    */
+    ////
+    // ES5 requirements:
+    //  - FileReader API
+    //  - canvas
+    //  - webworker
+    //  - querySelector
+    //// 
+    
     'use strict';
     
     /**
-    * Write Image to offCanvas and provide image data
-    * @constructor
-    * @param {string} canvasSelector Selecor for target canvas node.
-    * @param {object} options Global options. Currently not used
-    * @returns {void}
-    */
+     * Write Image to offCanvas and provide image data
+     * @constructor
+     * @param {string} canvasSelector Selecor for target canvas node.
+     * @param {object} options Global options. Currently not used
+     * @returns {void}
+     */
     var IsomerHeightMap = function(canvasSelector, libPath, options) {
     
         options = options || {};
@@ -113,11 +115,11 @@
     };
     
     /**
-    * Write Image to offCanvas and provide image data
-    * @param {object} image JavaScript Image object.
-    * @param {object} options offCanvas options (this.options.image).
-    * @returns {void}
-    */
+     * Write Image to offCanvas and provide image data
+     * @param {object} image JavaScript Image object.
+     * @param {object} options offCanvas options (this.options.image).
+     * @returns {void}
+     */
     IsomerHeightMap.prototype.image = function(img, options) {
     
         options = this.merge(this.options.image, options);
@@ -142,12 +144,12 @@
     };
     
     /**
-    * Compute grid from offCanvas and render isomer
-    * @param {object} options Set grid options (this.options.grid)
-    * @param {object} isomerOptions Isomer instance options (this.options.isomer). Passed on to the isomer renderer
-    * @param {object} shapeFilters Isomer shape options (this.options.shape). Passed on to the isomer renderer
-    * @returns {void}
-    */
+     * Compute grid from offCanvas and render isomer
+     * @param {object} options Set grid options (this.options.grid)
+     * @param {object} isomerOptions Isomer instance options (this.options.isomer). Passed on to the isomer renderer
+     * @param {object} shapeFilters Isomer shape options (this.options.shape). Passed on to the isomer renderer
+     * @returns {void}
+     */
     IsomerHeightMap.prototype.render = function(options, isomerOptions, shapeFilters) {
     
         options = this.merge(this.options.grid, options);
@@ -192,11 +194,11 @@
     };
     
     /**
-    * Render heightmap row-by-row
-    * @param {object} options Isomer instance options (this.options.isomer).
-    * @param {object} filters Isomer shape options (this.options.shape). Passed on to the isomer renderer
-    * @returns {void}
-    */
+     * Render heightmap row-by-row
+     * @param {object} options Isomer instance options (this.options.isomer).
+     * @param {object} filters Isomer shape options (this.options.shape). Passed on to the isomer renderer
+     * @returns {void}
+     */
     IsomerHeightMap.prototype.heightMap = function(options, filters) {
     
         // init event
@@ -254,12 +256,12 @@
     };
     
     /**
-    * Render heightmap tile
-    * @param {number} x Tile x pos (this.grid > column)
-    * @param {number} y Tile y pos (this.grid > row)
-    * @param {array} average Average color for this tile: [r, g, b, a].
-    * @param {object} filters Isomer shape options (this.options.shape).
-    * @returns {void}
+     * Render heightmap tile
+     * @param {number} x Tile x pos (this.grid > column)
+     * @param {number} y Tile y pos (this.grid > row)
+     * @param {array} average Average color for this tile: [r, g, b, a].
+     * @param {object} filters Isomer shape options (this.options.shape).
+     * @returns {void}
     */
     IsomerHeightMap.prototype.heightMapTile = function(x, y, average, filters) {
         var colour;
@@ -301,10 +303,10 @@
     };
     
     /**
-    * Exports current grid and settings
-    * @returns {string} json
-    */
-    IsomerHeightMap.prototype.export = function(){
+     * Exports current grid and settings
+     * @returns {string} json
+     */
+    IsomerHeightMap.prototype.exports = function(){
     
         var ex = {};
         ex.options = this.options || null;
@@ -315,11 +317,11 @@
     };
     
     /**
-    * Import grid and settings fom json
-    * @param {string} json
-    * @returns {void}
+     * Import grid and settings fom json
+     * @param {string} json
+     * @returns {void}
     */
-    IsomerHeightMap.prototype.import = function(json){
+    IsomerHeightMap.prototype.imports = function(json){
         var imp;
         
         try {
