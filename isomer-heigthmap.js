@@ -23,7 +23,7 @@
         options = options || {};
     
         // base path (webworker)
-        var libPath = libPath || './';
+        libPath = libPath || './';
     
         // private defaults
         var defaults = {
@@ -53,10 +53,10 @@
         };
     
         // declarations
-        this.isomer;
-        this.imageData;
-        this.grid;
-        this.options;
+        this.isomer = null;
+        this.imageData = null;
+        this.grid = null;
+        this.options = {};
     
         //canvas
         this.canvas = document.querySelector(canvasSelector);
@@ -84,7 +84,7 @@
         // create this.options from defaults (init, reset)
         this.defaults = function() {
             this.options = JSON.parse(JSON.stringify(defaults));
-        }
+        };
     
         // helpers
         this.utils = {};
@@ -100,12 +100,12 @@
             }
             return rgb;
     
-        }
+        };
     
         // get libPath
-        this.utils.libPath= function (){
+        this.utils.libPath = function (){
             return libPath;
-        }
+        };
     
         // init
         this.defaults();
@@ -139,7 +139,7 @@
         context.drawImage(img, 0, 0, this.offCanvas.width, this.offCanvas.height);
         this.imageData = context.getImageData(0, 0, this.offCanvas.width, this.offCanvas.height);
     
-    }
+    };
     
     /**
     * Compute grid from offCanvas and render isomer
@@ -203,8 +203,8 @@
         var event = new CustomEvent("IHM-Render-Finished");
     
         // options and filters
-        var filters = this.merge(this.options.shape, filters);
-        var options = this.merge(this.options.isomer, options);
+        filters = this.merge(this.options.shape, filters);
+        options = this.merge(this.options.isomer, options);
     
         // isomer instance
         this.isomer = new Isomer(this.canvas, options);
@@ -215,14 +215,16 @@
             var elementBaseW = Math.cos(isomer.angle) * (isomer.scale * (filters.size + filters.gap));
             var elementBaseH = Math.sin(isomer.angle) * (isomer.scale * (filters.size + filters.gap));
             dim = {};
+            
             dim.origin = {
                 left: elementBaseW * grid.length,    //rows
                 right: elementBaseW * grid[0].length //columns
-            }
+            };
+            
             dim.box = {
                 width: dim.origin.left + dim.origin.right,
                 height: (elementBaseH * grid.length) + (elementBaseH * grid[0].length)//row + cols
-            }
+            };
             return dim;
         }
     
@@ -249,7 +251,7 @@
     
         // trigger event
         this.canvas.dispatchEvent(event);
-    }
+    };
     
     /**
     * Render heightmap tile
@@ -260,22 +262,23 @@
     * @returns {void}
     */
     IsomerHeightMap.prototype.heightMapTile = function(x, y, average, filters) {
-    
+        var colour;
+        var height;
         average = this.utils.normalizeRGBAlpha(average);
     
         // filter: greyscale
         if (filters.greyscale) {
             var brightness = 0.34 * average[0] + 0.5 * average[1] + 0.16 * average[2];
-            var colour = new Isomer.Color(brightness, brightness, brightness);
+            colour = new Isomer.Color(brightness, brightness, brightness);
         } else {
-            var colour = new Isomer.Color(average[0], average[1], average[2]);
+            colour = new Isomer.Color(average[0], average[1], average[2]);
         }
     
         // filter: invert
         if (filters.invert) {
-            var height = (average[0] + average[1] + average[2]) / 255;
+            height = (average[0] + average[1] + average[2]) / 255;
         } else {
-            var height = ((3 * 255) - (average[0] + average[1] + average[2])) / 255;
+            height = ((3 * 255) - (average[0] + average[1] + average[2])) / 255;
         }
     
         // dimensions @TODO: move to parent (performance)
@@ -306,10 +309,10 @@
         var ex = {};
         ex.options = this.options || null;
         ex.grid = this.grid || null;
-        ex.timestamp = new Date().toISOString()
+        ex.timestamp = new Date().toISOString();
         return JSON.stringify(ex);
     
-    }
+    };
     
     /**
     * Import grid and settings fom json
@@ -317,9 +320,10 @@
     * @returns {void}
     */
     IsomerHeightMap.prototype.import = function(json){
-    
+        var imp;
+        
         try {
-            var imp = JSON.parse(json);
+            imp = JSON.parse(json);
         }catch(e) {
             alert(e);
             return;
@@ -337,8 +341,9 @@
             this.grid = imp.grid;
         }
     
-    }
+    };
     
+    // expose
     window.IsomerHeightMap = IsomerHeightMap;
     
 }(window, Isomer));
