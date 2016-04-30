@@ -1,5 +1,8 @@
+bower_components/*
+node_modules/*
+
 _Dev/*
-*.log
+_Backup/*
 
 # test suite
 jasmine-*/

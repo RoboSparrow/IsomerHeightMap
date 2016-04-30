@@ -1,12 +1,14 @@
-// IsomerHeightMap v0.1.2 - Create isometric heightmaps from images. Based on jdan's excellent Isomer library: http://jdan.github.io/isomer/
-// Copyright (c) 2014 Joerg Boeselt - https://github.com/RoboSparrow/IsomerHeightMap
-// License: MIT
+/* global ThreeHeightMap */
+/* global IsomerHeightMap */
+/* global IHMui */
+/* global ThreeControls */
+/* global IsomerControls */
 
 // Cute kitten image by Ozan Kili, Creative Commons Attribution 2.0, source: http://www.freestockphotos.biz/stockphoto/9343
 
 var IHM;
 
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function() {
     
     //routers
     IHMui.router.register('#Home', '#ControlsForm .content', './page/templates/isomer-controls.html', '<div class="spin"></div>', function(node){

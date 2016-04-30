@@ -15,6 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "isomer": "jdan/isomer#~0.2.4"
+    "isomer": "jdan/isomer#~0.2.4",
+    "threejs": "r76"
   }
 }

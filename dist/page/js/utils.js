@@ -3,8 +3,8 @@
 // License: MIT
 
 
-(function (window, document) {
-    window.IHMui = window.IHMui || {};
+(function () {
+    var IHMui = {};
     
     /**
      * DOM element class manipulation
@@ -14,10 +14,10 @@
                 var classes = element.className.split(/\s+/);
                 var length = classes.length;
                 for(var i = 0; i < length; i++) {
-                if (classes[i] === name) {
-                    classes.splice(i, 1);
-                    break;
-                }
+                    if (classes[i] === name) {
+                        classes.splice(i, 1);
+                        break;
+                    }
                 }
                 if (length === classes.length) {
                     classes.push(name);
@@ -59,26 +59,28 @@
     /**
       * Primitive accordion
      */
+    var accordion = function(){
+        var acc = document.querySelectorAll('.accordion-hl');
+        for (var k = 0; k < acc.length; k++) {
+            if(acc[k].isEqualNode(this)){
+                if(this.parentNode.className.indexOf('active') > 0 ){
+                    this.parentNode.className = 'accordion';
+                }else{
+                    this.parentNode.className = 'accordion active';
+                }
+                continue;
+            }
+            acc[k].parentNode.className = 'accordion';
+        }
+    };
+    
     IHMui.accordion = function (accordions) {
-        for (i = 0; i < accordions.length; i++) {
+        for (var i = 0; i < accordions.length; i++) {
             var hl = accordions[i].querySelector('.accordion-hl');
             hl.insertAdjacentHTML('afterbegin', '<span class="indicator"><span></span></span> ');
-            hl.addEventListener('click', function() {
-                var acc = document.querySelectorAll('.accordion-hl');
-                for (k = 0; k < acc.length; k++) {
-                    if(acc[k].isEqualNode(this)){
-                        if(this.parentNode.className.indexOf('active') > 0 ){
-                            this.parentNode.className = 'accordion';
-                        }else{
-                            this.parentNode.className = 'accordion active';
-                        }
-                        continue;
-                    }
-                    acc[k].parentNode.className = 'accordion';
-                }
-            }, false);
+            hl.addEventListener('click', accordion, false);
         }
-    }
+    };
     
     /**
      * Form control element events
@@ -93,49 +95,60 @@
         };
         
         function setTriggerEvent(element){
+            var state = false;
             if(!element){
-                return false;
-            };
-            switch(element.tagName.toLowerCase()){
+                state = false;
+            }
+            switch(element.tagName.toLowerCase()){ 
                 case 'button':
-                    return 'click';
+                    state = 'click';
+                break;
                 case 'input':
+                    state = 'change';
+                break;
                 default:
-                    return 'change';
+                    state = 'change';
             } 
+            return state;
         }
         
         function setWatchEvent(element, watchElement){
+            var state = false;
             if(!element){
-                return false;
-            };
+                state = false;
+            }
             if(!watchElement){
-                return false;
-            };
+                state = false;
+            }
+            
             switch(element.tagName.toLowerCase()){
                 case 'select':
-                    return 'change';
+                    state = 'change';
+                break;
                 case 'input':
                     if (element.type.toLowerCase() == 'checkbox'){
-                        return 'change';
+                        state = 'change';
                     }
                     if (element.type.toLowerCase() == 'radio'){
-                        return 'change';
+                        state = 'change';
                     }
                     if (element.type.toLowerCase() == 'range'){
-                        return 'change';
+                        state = 'change';
                     }
-                    return 'keydown';
+                    state = 'keydown';
+                break;
                 case 'button':
-                    return 'click';
+                    state = 'click';
+                break;
                 default:
-                    return 'change';
+                    state = 'change';
             } 
+            return state;
         }
         
         this.init = function(callback){
             callback(this.element);
-        }
+        };
           
         this.watch = function(callback){
             if(!this.events.watch){
@@ -143,7 +156,7 @@
             }
             if(!this.watchElement){
                 return;
-            };
+            }
             // init;
             this.watchElement.innerHTML = callback(this.element);
             // event
@@ -151,7 +164,7 @@
             this.element.addEventListener(self.events.watch, function(e) {
                 self.watchElement.innerHTML = callback(e.target, e);
             });
-        }
+        };
         
         this.trigger = function(callback){
             if(!this.events.trigger){
@@ -161,7 +174,7 @@
             this.element.addEventListener(self.events.trigger, function(e) {
                 callback(e.target, e);
             });
-        }
+        };
     };
     
     /**
@@ -205,7 +218,6 @@
     };
     
     IHMui.router.load = function(template, callback){
-        var self = this;
         var xhr = new XMLHttpRequest();
         callback = callback || function(){};
         xhr.open('GET', template);
@@ -215,7 +227,7 @@
                     callback(xhr.responseText);
                 }
             }
-        }
+        };
         xhr.send();
     };
 
@@ -223,7 +235,7 @@
     /**
      * Init
      */    
-    document.addEventListener("DOMContentLoaded", function(event) {
+    document.addEventListener("DOMContentLoaded", function() {
         
         // form controls storage
         IHMui.controls = {};
@@ -243,14 +255,14 @@
         });
         
         // offscreen
-        var toggleLinks = document.querySelectorAll('.offcanvas-toggle');
-        for (var i = 0; i < toggleLinks.length; i++){
-            toggleLinks[i].addEventListener("click", function(e){
+        var toggle = function(el){
+            el.addEventListener("click", function(e){
+                var targ;
                 e.preventDefault();
                 if(e.target.hasAttribute('href')){
-                    var targ = document.getElementById(e.target.getAttribute('href').substring(1));
+                    targ = document.getElementById(e.target.getAttribute('href').substring(1));
                 }else{
-                    var targ  = document.querySelector(e.target.dataset.target);
+                    targ  = document.querySelector(e.target.dataset.target);
                 }
                 if(targ){
                     IHMui.classes.toggle(targ, 'active');
@@ -261,8 +273,14 @@
                     }
                 }
             });
+        };
+        var toggleLinks = document.querySelectorAll('.offcanvas-toggle');
+        for (var i = 0; i < toggleLinks.length; i++){
+            toggle(toggleLinks[i]);
         }
 
     });
-
-}(this, this.document));
+    
+    window.IHMui = IHMui;
+    
+}(window, document));

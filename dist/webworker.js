@@ -1,6 +1,4 @@
-// IsomerHeightMap v0.1.2 - Create isometric heightmaps from images. Based on jdan's excellent Isomer library.
-// Copyright (c) 2014 Joerg Boeselt - https://github.com/RoboSparrow/IsomerHeightMap
-// License: MIT
+/* jshint worker: true */
 
 /**
  * ImageData to row/tiles array, compute average color [r,g,b,a(0-255)]
@@ -8,8 +6,11 @@
  * @param {object} meta Settings
  * @return {array}
  */
+ 
 function pixelate(pixels, meta) {
-
+    
+    'use strict';
+    
     //line by line
     var result = [];
     var max = [];
@@ -57,6 +58,7 @@ function pixelate(pixels, meta) {
     function getTile(index){
         var r = {};
         var pixel = (index * 0.25);//normalize
+        var lineX;
 
         r.line = Math.floor(pixel/meta.width);
         r.row = Math.floor(r.line/(meta.height/meta.rows));

@@ -8,14 +8,9 @@
     <meta name="description" content="Create isometric heightmaps from images using jdan's excellent Isomer library.">
 
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
-    <!--[if lte IE 8]>
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
-    <![endif]-->
-    <!--[if gt IE 8]><!-->
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
-    <!--<![endif]-->
 
-    <link href="./page/vendor/octicons/octicons.css" rel="stylesheet">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./page/css/styles.css">
 
     <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
@@ -41,7 +36,7 @@
                                 <li><a href="#Three">Three.js</a></li>
                                 <li class="pure-menu-selected"><a href="#Isomer">Isomer</a></li>
                                 <li><a href="#IHM-About" class="offcanvas-toggle">What is this?</a></li>
-                                <li><a href="#"><span class="octicon octicon-mark-github"></span> Github</a></li>
+                                <li><a href="https://github.com/RoboSparrow/IsomerHeightMap"><i class="fa fa-github" aria-hidden="true"></i> Github</a></li>
                             </ul>
 
                         </div>
@@ -58,7 +53,7 @@
                 <!-- off screen form left -->
                 <div id="ControlsForm" class="offcanvas offcanvas-left">
                     <section class="text-right">
-                        <p><a href="#ControlsForm" class="offcanvas-toggle"><span class="octicon octicon-x"></span> close</a></p>
+                        <p><a href="#ControlsForm" class="offcanvas-toggle"><i class="fa fa-times" aria-hidden="true"></i> close</a></p>
                     </section>
                     <div class="content">
                     </div>
@@ -67,7 +62,7 @@
                 <!-- off screen about left -->
                 <div id="IHM-About" class="offcanvas offcanvas-left">
                     <section class="text-right">
-                        <p><a href="#IHM-About" class="offcanvas-toggle"><span class="octicon octicon-x"></span> close</a></p>
+                        <p><a href="#IHM-About" class="offcanvas-toggle"><i class="fa fa-times" aria-hidden="true"></i> close</a></p>
                     </section>
                     <section>
                         <p>
@@ -93,9 +88,9 @@
                     <div id="ImageSourcePreview"></div>
                     <label class="ihm-upload file-button pure-button pure-button-primary" for="IHM-Controls-image">
                         <input id="IHM-Controls-image" class="upload" type="file">
-                        <span class="mega-octicon octicon-arrow-up"></span> New image
+                        <i class="fa fa-arrow-up" aria-hidden="true"></i> New image
                     </label>
-                    <a class="pure-button offcanvas-toggle" href="#ControlsForm"><span class="octicon octicon-gear"></span> Edit</a>
+                    <a class="pure-button offcanvas-toggle" href="#ControlsForm"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
                 </div>
 
                 <!-- IsomerHeightMap canvas -->

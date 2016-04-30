@@ -1,0 +1,238 @@
+/*
+ * http://codepen.io/scottb/pen/javhr
+ * http://www.sitepoint.com/pure-css-off-screen-navigation-menu/
+ */
+
+/* Navigation Menu - Background */
+.offcanvas-wrapper {
+    position: relative;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    overflow: hidden;
+}
+
+.offcanvas-left{
+
+    position: absolute;
+    z-index: 20;
+    overflow: hidden;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+
+    top: 0;
+    width: 300px;
+    height: 100%;
+}
+.offcanvas-left {
+    left: -400px
+}
+
+.offcanvas-left.active {
+    left: 0
+}
+
+.offcanvas-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 15;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* make it sexy */
+.offcanvas{
+    overflow-y: auto;
+    background-color: #191818;
+    opacity: .95;
+    color: white;
+    border-right: 1px solid #666666;
+}
+.offcanvas section,
+.offcanvas .section{
+    padding: 0 .5em;
+    margin-top: .5em;
+}
+
+/**
+ * --Custom styles
+ */
+body {
+    font-family: ‘Ubuntu’, Helvetica, Arial, serif;
+}
+
+/**
+ * utilities
+ */
+ 
+.text-right {
+    text-align: right;
+}
+.text-center {
+    text-align: center;
+}
+.x-small{
+    font-size: 70%;
+}
+.small{
+    font-size: 85%;
+}
+.ihm-grid-right{
+    text-align: right;
+}
+.ihm-grid-centered{
+    text-align: center;
+}
+.ihm-grid-left{
+    text-align: left;
+}
+a{
+    color: #0078e7;
+    text-decoration: none;
+    cursor: pointer;
+}
+a:hover{
+    color: #0078e7;
+    text-decoration: underline;
+}
+
+
+/**
+ * target
+ */
+ 
+.ihm-content{
+}
+.ihm-target-wrapper{
+    text-align: left;
+    margin: 0 auto;
+    background: #000000;
+    color: #ffffff;
+}
+.ihm-target-wrapper canvas{
+    display: block;
+    margin: 0 auto;
+    background: inherit;
+}
+
+/**
+ * image preview
+ */
+.ihm-preview{
+    position: absolute;
+    left: .5em;
+    top: .5em;
+    width: 15%;
+    min-width: 150px;
+    height: 15%;
+    text-align: center;
+}
+#ImageSourcePreview img{
+    max-width: 100%;
+}
+.ihm-preview .pure-button{
+    display: block;
+    margin-top: 3px;
+}
+.ihm-upload input[type="file"] {
+    position: fixed;
+    top: -1000px;
+}
+
+/**
+ * Accordion (utils.js)
+ */
+ 
+.accordion-content {
+    display: none;
+}
+.accordion.active .accordion-content {
+    display: block;
+}
+.accordion-hl {
+    background-color: #262525;
+    padding: .5em;
+}
+.accordion-hl:hover {
+    cursor: pointer;
+    background-color: #363535;
+}
+.accordion.active .indicator,
+.accordion:hover .indicator{
+    color: #0078e7;
+}
+.accordion .indicator span::before {
+    content: '+';
+}
+.accordion.active .indicator span::before {
+    content: '-';
+}
+
+
+/**
+ * Form
+ */
+.pure-button.small {
+    font-size: 80%;
+}
+
+label input[type="file"] {
+    position: fixed;
+    top: -1000px;
+}
+
+label .watch{
+    color: #999999;
+    float: right;
+}
+
+label:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+/**
+ * Preloaders
+ * @see http://tobiasahlin.com/spinkit/
+ */
+ 
+.spin {
+  width: 40px;
+  height: 40px;
+  margin: 25% auto;
+  background-color: #666666;
+
+  border-radius: 100%;  
+  -webkit-animation: scaleout 1.0s infinite ease-in-out;
+  animation: scaleout 1.0s infinite ease-in-out;
+}
+
+@-webkit-keyframes scaleout {
+  0% { -webkit-transform: scale(0.0) }
+  100% {
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
+@keyframes scaleout {
+  0% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 100% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+}
