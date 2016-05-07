@@ -13,7 +13,29 @@ function pixelate(pixels, meta) {
     //line by line
     var result = [];
     var max = [];
+    
+    function getTile(index){
+        var r = {};
+        var pixel = (index * 0.25);//normalize
 
+        r.line = Math.floor(pixel/meta.width);
+        r.row = Math.floor(r.line/(meta.height/meta.rows));
+        lineX = pixel - (r.line * meta.width);
+        r.col = Math.floor(lineX/meta.tile.width);
+
+        return r;
+    }
+
+    function averagePrimary(col, range){
+        if(col < range[0]){
+            range[0] = col;
+        }
+        if(col > range[1]){
+            range[1] = col;
+        }
+        return range;
+    }
+    
     for(var i = 0; i < pixels.length; i+=4){
         // map pixel to tile
         var index = getTile(i);
@@ -53,29 +75,7 @@ function pixelate(pixels, meta) {
             result[row][col][3] = (mm[3][0] + mm[3][1]) / 2;
         }
     }
-
-    function getTile(index){
-        var r = {};
-        var pixel = (index * 0.25);//normalize
-
-        r.line = Math.floor(pixel/meta.width);
-        r.row = Math.floor(r.line/(meta.height/meta.rows));
-        lineX = pixel - (r.line * meta.width);
-        r.col = Math.floor(lineX/meta.tile.width);
-
-        return r;
-    }
-
-    function averagePrimary(col, range){
-        if(col < range[0]){
-            range[0] = col;
-        }
-        if(col > range[1]){
-            range[1] = col;
-        }
-        return range;
-    }
-
+    
     return result;
 }
 
